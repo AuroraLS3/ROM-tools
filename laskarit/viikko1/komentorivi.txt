@@ -1,0 +1,24 @@
+kurssit
+└── otm2018
+    └── viikko1
+        └── Unicafe
+            ├── pom.xml
+            └── src
+                ├── main
+                │   ├── java
+                │   │   └── com
+                │   │       └── mycompany
+                │   │           └── unicafe
+                │   │               ├── Kassapaate.java
+                │   │               ├── Maksukortti.java
+                │   │               └── Paaohjelma.java
+                │   └── resources
+                └── test
+                    └── java
+                        └── com
+                            └── mycompany
+                                └── unicafe
+                                    └── MaksukorttiTest.java
+
+15 directories, 5 files
+
