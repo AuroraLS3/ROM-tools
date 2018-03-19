@@ -33,3 +33,4 @@ This program will only have one user role because it is a desktop application fo
   - PSX
     - Converting .emc to .bin and .cue files
     - Generating missing .cue files for .bin files, without generating multiples for [Disk 1] [Disk 2]
+- Undo functionality
