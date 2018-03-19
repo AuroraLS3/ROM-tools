@@ -10,7 +10,7 @@ This program will only have one user role because it is a desktop application fo
 
 ## User Interface Sketch
 
-![UI Sketch](UI Sketch.jpg)
+![UI Sketch](https://github.com/Rsl1122/ROM-tools/blob/master/documentation/UI%20Sketch.jpg)
 
 ## Basic functionality
 
