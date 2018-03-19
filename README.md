@@ -10,6 +10,8 @@ Managing downloaded games can be a lot of unnecessary work - Extracting zips, re
 
 [Requirements Analysis](documentation/req.md)
 
+[Hours used](documentation/hours.md)
+
 ## Laskarit
 
 ### VK1
