@@ -14,7 +14,11 @@ Managing downloaded games can be a lot of unnecessary work - Extracting zips, re
 
 ## Laskarit
 
-### VK1
+**VK1**
 
 - [komentorivi.txt](laskarit/viikko1/komentorivi.txt)
 - [gitlog](laskarit/viikko1/gitlog.md)
+
+**VK2**
+
+- [viikko2](laskarit/viikko2)
