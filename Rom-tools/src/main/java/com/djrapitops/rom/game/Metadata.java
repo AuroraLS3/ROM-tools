@@ -10,7 +10,7 @@ import com.djrapitops.rom.util.Verify;
 public class Metadata {
 
     String name;
-    String console;
+    Console console;
 
     public static Factory create() {
         return new Factory();
@@ -31,7 +31,7 @@ public class Metadata {
             return this;
         }
 
-        public Factory setConsole(String console) {
+        public Factory setConsole(Console console) {
             metadata.console = console;
             return this;
         }

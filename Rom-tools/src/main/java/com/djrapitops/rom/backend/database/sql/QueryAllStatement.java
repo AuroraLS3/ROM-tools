@@ -11,7 +11,7 @@ import java.sql.SQLException;
  */
 public abstract class QueryAllStatement<T> extends QueryStatement<T> {
     public QueryAllStatement(String sql) {
-        super(sql);
+        this(sql, 10);
     }
 
     public QueryAllStatement(String sql, int fetchSize) {
