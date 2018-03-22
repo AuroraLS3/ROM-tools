@@ -6,5 +6,6 @@ Date | Hours used | Description
 19.03.18 | 0.5 | Week 2 exercises 
 19.03.18 | 1.5 | Initial project structure
 21.03.18 | 1 | More work on the project
+22.03.18 | 2 | Tests for currently implemented backend & utility functionality, new utils
  | | 
 Total | 3 | 
