@@ -25,8 +25,7 @@ public class ZipExtractorTest {
     private File contentsFile;
 
     private File getFile(String resourceName) {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(resourceName).getFile());
+        File file = new File("src/test/resources", resourceName);
         assertNotNull(file);
         return file;
     }
