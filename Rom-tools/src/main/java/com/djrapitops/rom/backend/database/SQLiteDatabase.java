@@ -77,7 +77,9 @@ public class SQLiteDatabase extends SQLDatabase {
     public void close() {
         try {
             connection.close();
-        } catch (SQLException e) {/* Ignored, closing */}
+        } catch (SQLException ignored) {
+            /* Ignored, closing */
+        }
     }
 
     private Connection getConnection() throws BackendException {
