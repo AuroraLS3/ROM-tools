@@ -8,15 +8,12 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class ZipExtractorTest {
+public class ZipExtractorTest extends FileTest {
 
     @ClassRule
     public static TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -24,17 +21,6 @@ public class ZipExtractorTest {
     private File sourceFile;
     private File contentsFile;
 
-    private File getFile(String resourceName) {
-        File file = new File("src/test/resources", resourceName);
-        assertNotNull(file);
-        return file;
-    }
-
-    private List<String> lines(File file) throws IOException {
-        try (Stream<String> lines = Files.lines(file.toPath())) {
-            return lines.collect(Collectors.toList());
-        }
-    }
 
     @Before
     public void setUp() {
