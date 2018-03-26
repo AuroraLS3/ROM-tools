@@ -7,5 +7,7 @@ Date | Hours used | Description
 19.03.18 | 1.5 | Initial project structure
 21.03.18 | 1 | More work on the project
 22.03.18 | 2 | Tests for currently implemented backend & utility functionality, new utils
+26.03.18 | 1 | Week 3 exercises
+26.03.18 | 1 | Database tables & initialization
  | | 
-Total | 3 | 
+Total | 7 | 

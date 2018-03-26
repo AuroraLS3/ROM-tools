@@ -2,6 +2,7 @@ package com.djrapitops.rom.backend.database;
 
 import com.djrapitops.rom.backend.database.sql.ExecuteStatement;
 import com.djrapitops.rom.backend.database.sql.QueryStatement;
+import com.djrapitops.rom.backend.database.table.SQLTables;
 import com.djrapitops.rom.backend.operations.FetchOperations;
 import com.djrapitops.rom.backend.operations.SaveOperations;
 import com.djrapitops.rom.exceptions.BackendException;
@@ -18,12 +19,22 @@ import java.sql.SQLException;
  */
 public class SQLiteDatabase extends SQLDatabase {
 
+    private final SQLTables tables;
+
     private Connection connection;
+
+    private final File databaseFile;
 
     private boolean open;
 
     public SQLiteDatabase() {
+        this(new File("games.db"));
+    }
+
+    public SQLiteDatabase(File databaseFile) {
+        this.databaseFile = databaseFile;
         this.open = false;
+        tables = new SQLTables(this);
     }
 
     @Override
@@ -66,6 +77,8 @@ public class SQLiteDatabase extends SQLDatabase {
     @Override
     public void open() throws BackendException {
         connection = getNewConnection();
+        tables.createTables();
+        open = true;
     }
 
     @Override
@@ -79,6 +92,8 @@ public class SQLiteDatabase extends SQLDatabase {
             connection.close();
         } catch (SQLException ignored) {
             /* Ignored, closing */
+        } finally {
+            open = false;
         }
     }
 
@@ -102,5 +117,10 @@ public class SQLiteDatabase extends SQLDatabase {
         } catch (ClassNotFoundException | SQLException e) {
             throw new BackendException("Failed to open a new database connection", e);
         }
+    }
+
+    @Override
+    public SQLTables getTables() {
+        return tables;
     }
 }

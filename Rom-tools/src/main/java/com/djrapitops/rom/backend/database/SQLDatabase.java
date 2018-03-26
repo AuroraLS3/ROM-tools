@@ -53,4 +53,5 @@ public abstract class SQLDatabase implements GameBackend {
         }
     }
 
+    public abstract Tables getTables();
 }
