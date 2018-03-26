@@ -38,7 +38,7 @@ public class SQLiteDatabase extends SQLDatabase {
     @Override
     public void execute(ExecuteStatement statement) throws BackendException {
         try {
-            getConnection().prepareStatement(statement.getSql()).execute();
+            statement.execute(getConnection().prepareStatement(statement.getSql()));
         } catch (SQLException e) {
             throw new BackendException("Failed to execute statement: " + statement.getSql(), e);
         }
@@ -47,7 +47,7 @@ public class SQLiteDatabase extends SQLDatabase {
     @Override
     public void executeBatch(ExecuteStatement statement) throws BackendException {
         try {
-            getConnection().prepareStatement(statement.getSql()).executeBatch();
+            statement.executeBatch(getConnection().prepareStatement(statement.getSql()));
         } catch (SQLException e) {
             throw new BackendException("Failed to execute batch statement: " + statement.getSql(), e);
         }
