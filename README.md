@@ -25,4 +25,4 @@ Managing downloaded games can be a lot of unnecessary work - Extracting zips, re
 
 **VK3**
 
--[Viikko 3](https://github.com/Rsl1122/ROM-tools/blob/master/laskarit/viikko3/README.md)
+- [Viikko 3](https://github.com/Rsl1122/ROM-tools/blob/master/laskarit/viikko3/README.md)
