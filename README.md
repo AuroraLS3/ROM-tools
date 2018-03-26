@@ -21,4 +21,8 @@ Managing downloaded games can be a lot of unnecessary work - Extracting zips, re
 
 **VK2**
 
-- [viikko2](laskarit/viikko2)
+- [Viikko 2](laskarit/viikko2)
+
+**VK3**
+
+-[Viikko 3](https://github.com/Rsl1122/ROM-tools/blob/master/laskarit/viikko3/README.md)
