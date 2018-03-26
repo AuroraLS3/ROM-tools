@@ -3,32 +3,29 @@ package com.djrapitops.rom.backend.processes;
 import com.djrapitops.rom.backend.GameBackend;
 import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.game.Game;
-import com.djrapitops.rom.util.Callback;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * Loads required data from backend and sends it to the frontend.
  *
  * @author Rsl1122
  */
-public class GameLoadingProcess implements Runnable {
+public class GameLoadingProcess implements Callable<List<Game>> {
 
     private final GameBackend backend;
-    private final Callback<List<Game>> callback;
 
-    public GameLoadingProcess(GameBackend backend, Callback<List<Game>> callback) {
+    public GameLoadingProcess(GameBackend backend) {
         this.backend = backend;
-        this.callback = callback;
     }
 
     @Override
-    public void run() {
+    public List<Game> call() {
         try {
-            List<Game> games = backend.fetch().getGames();
-            callback.result(games);
+            return backend.fetch().getGames();
         } catch (BackendException e) {
-            // TODO Interrupt main program with error message
+            throw new IllegalStateException(e);
         }
     }
 }
