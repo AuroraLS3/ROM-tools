@@ -19,8 +19,6 @@ import java.sql.SQLException;
  */
 public class SQLiteDatabase extends SQLDatabase {
 
-    private final SQLTables tables;
-
     private Connection connection;
 
     private final File databaseFile;
@@ -76,14 +74,14 @@ public class SQLiteDatabase extends SQLDatabase {
 
     @Override
     public void open() throws BackendException {
-        connection = getNewConnection();
+        connection = getConnection();
         tables.createTables();
         open = true;
     }
 
     @Override
     public boolean isOpen() {
-        return open;
+        return tables != null && open;
     }
 
     @Override
@@ -108,13 +106,13 @@ public class SQLiteDatabase extends SQLDatabase {
         try {
             Class.forName("org.sqlite.JDBC");
 
-            String dbFilePath = new File("games.db").getAbsolutePath();
+            String dbFilePath = databaseFile.getAbsolutePath();
 
             Connection newConnection = DriverManager.getConnection("jdbc:sqlite:" + dbFilePath + "?journal_mode=WAL");
             newConnection.setAutoCommit(false);
 
             return newConnection;
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException | SQLException | RuntimeException e) {
             throw new BackendException("Failed to open a new database connection", e);
         }
     }

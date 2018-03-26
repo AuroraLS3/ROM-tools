@@ -3,6 +3,7 @@ package com.djrapitops.rom.backend.database;
 import com.djrapitops.rom.backend.GameBackend;
 import com.djrapitops.rom.backend.database.sql.ExecuteStatement;
 import com.djrapitops.rom.backend.database.sql.QueryStatement;
+import com.djrapitops.rom.backend.database.table.SQLTables;
 import com.djrapitops.rom.exceptions.BackendException;
 
 import java.sql.PreparedStatement;
@@ -13,6 +14,8 @@ import java.sql.PreparedStatement;
  * @author Rsl1122
  */
 public abstract class SQLDatabase implements GameBackend {
+
+    protected SQLTables tables;
 
     /**
      * Executes an ExecuteStatement in the Database.
