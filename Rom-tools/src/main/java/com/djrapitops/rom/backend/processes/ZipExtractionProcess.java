@@ -1,5 +1,6 @@
 package com.djrapitops.rom.backend.processes;
 
+import com.djrapitops.rom.util.TimeStamp;
 import com.djrapitops.rom.util.Wrapper;
 import com.djrapitops.rom.util.file.ZipExtractor;
 import net.lingala.zip4j.exception.ZipException;
@@ -16,8 +17,6 @@ import java.util.concurrent.Callable;
  */
 public class ZipExtractionProcess implements Callable<List<File>> {
 
-    private final long extractTime;
-
     private final File zipFile;
     private final File destinationFolder;
     private final Wrapper<String> password;
@@ -25,10 +24,9 @@ public class ZipExtractionProcess implements Callable<List<File>> {
     public ZipExtractionProcess(File zipFile, File destinationFolder, Wrapper<String> password) {
         this.zipFile = zipFile;
 
-        extractTime = System.currentTimeMillis();
+        long extractTime = System.currentTimeMillis();
 
-        // TODO Format timestamp
-        this.destinationFolder = new File(destinationFolder, "" + extractTime);
+        this.destinationFolder = new File(destinationFolder, new TimeStamp(extractTime).toFormatted());
         this.password = password;
     }
 
