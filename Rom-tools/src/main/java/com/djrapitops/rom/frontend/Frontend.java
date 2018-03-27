@@ -6,5 +6,4 @@ package com.djrapitops.rom.frontend;
  * @author Rsl1122
  */
 public interface Frontend {
-
 }

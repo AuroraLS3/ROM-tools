@@ -3,8 +3,6 @@ package com.djrapitops.rom.backend.database;
 import com.djrapitops.rom.backend.database.sql.ExecuteStatement;
 import com.djrapitops.rom.backend.database.sql.QueryStatement;
 import com.djrapitops.rom.backend.database.table.SQLTables;
-import com.djrapitops.rom.backend.operations.FetchOperations;
-import com.djrapitops.rom.backend.operations.SaveOperations;
 import com.djrapitops.rom.exceptions.BackendException;
 
 import java.io.File;
@@ -60,16 +58,6 @@ public class SQLiteDatabase extends SQLDatabase {
         } catch (SQLException e) {
             throw new BackendException("Failed to query statement: " + statement.getSql(), e);
         }
-    }
-
-    @Override
-    public SaveOperations save() {
-        return null; // TODO SQLSaveOperations
-    }
-
-    @Override
-    public FetchOperations fetch() {
-        return null; // TODO SQLFetchOperations
     }
 
     @Override

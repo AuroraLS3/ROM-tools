@@ -1,9 +1,12 @@
 package com.djrapitops.rom.backend.database;
 
 import com.djrapitops.rom.backend.GameBackend;
+import com.djrapitops.rom.backend.database.operations.SQLFetchOps;
 import com.djrapitops.rom.backend.database.sql.ExecuteStatement;
 import com.djrapitops.rom.backend.database.sql.QueryStatement;
 import com.djrapitops.rom.backend.database.table.SQLTables;
+import com.djrapitops.rom.backend.operations.FetchOperations;
+import com.djrapitops.rom.backend.operations.SaveOperations;
 import com.djrapitops.rom.exceptions.BackendException;
 
 import java.sql.PreparedStatement;
@@ -16,6 +19,22 @@ import java.sql.PreparedStatement;
 public abstract class SQLDatabase implements GameBackend {
 
     protected SQLTables tables;
+    private final SQLFetchOps fetchOps;
+
+    public SQLDatabase() {
+        fetchOps = new SQLFetchOps(this);
+    }
+
+    @Override
+    public FetchOperations fetch() {
+        return fetchOps;
+    }
+
+    @Override
+    public SaveOperations save() {
+        return null; // TODO SQLSaveOperations
+    }
+
 
     /**
      * Executes an ExecuteStatement in the Database.
