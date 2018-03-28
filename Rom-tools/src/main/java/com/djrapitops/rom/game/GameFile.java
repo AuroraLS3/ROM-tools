@@ -32,6 +32,10 @@ public class GameFile {
         return getFile().exists();
     }
 
+    public String getAbsolutePath() {
+        return filePath;
+    }
+
     public String getFileName() {
         return getFile().getName();
     }
@@ -39,5 +43,13 @@ public class GameFile {
     public boolean matchesHash() {
         // TODO Implement
         return exists();
+    }
+
+    public FileExtension getExtension() {
+        return extension;
+    }
+
+    public String getHash() {
+        return binaryHash;
     }
 }

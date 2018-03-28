@@ -1,8 +1,7 @@
 package com.djrapitops.rom.game;
 
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * Represents a game
@@ -11,28 +10,55 @@ import java.util.Set;
  */
 public class Game {
 
-    private final Set<GameFile> gameFiles;
-    private final Metadata metadata;
+    private final String name;
+    private Collection<GameFile> gameFiles;
+    private Metadata metadata;
 
-    public Game(Metadata metadata) {
-        gameFiles = new HashSet<>();
+    public Game(String fileName) {
+        this.name = fileName;
+    }
+
+    public Collection<GameFile> getGameFiles() {
+        return gameFiles;
+    }
+
+    public void setGameFiles(Collection<GameFile> gameFiles) {
+        this.gameFiles = gameFiles;
+    }
+
+    public Metadata getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(Metadata metadata) {
         this.metadata = metadata;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Game game = (Game) o;
-        return Objects.equals(metadata, game.metadata);
+        return Objects.equals(metadata, game.metadata) &&
+                Objects.equals(name, game.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(metadata);
+
+        return Objects.hash(metadata, name);
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "gameFiles=" + gameFiles +
+                ", metadata=" + metadata +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+    public String getName() {
+        return name;
     }
 }

@@ -2,6 +2,8 @@ package com.djrapitops.rom.game;
 
 import com.djrapitops.rom.util.Verify;
 
+import java.util.Objects;
+
 /**
  * Container for game related metadata.
  *
@@ -14,6 +16,37 @@ public class Metadata {
 
     public static Factory create() {
         return new Factory();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Console getConsole() {
+        return console;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Metadata metadata = (Metadata) o;
+        return Objects.equals(name, metadata.name) &&
+                console == metadata.console;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name, console);
+    }
+
+    @Override
+    public String toString() {
+        return "Metadata{" +
+                "name='" + name + '\'' +
+                ", console=" + console +
+                '}';
     }
 
     /**

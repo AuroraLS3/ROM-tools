@@ -30,7 +30,6 @@ public class SQLiteDatabase extends SQLDatabase {
     public SQLiteDatabase(File databaseFile) {
         this.databaseFile = databaseFile;
         this.open = false;
-        tables = new SQLTables(this);
     }
 
     @Override

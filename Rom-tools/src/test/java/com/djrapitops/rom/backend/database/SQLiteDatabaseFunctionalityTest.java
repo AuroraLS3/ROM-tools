@@ -57,14 +57,20 @@ public class SQLiteDatabaseFunctionalityTest {
     @Test
     public void executeSucceeds() throws BackendException {
         String sql = "INSERT INTO " + FileTable.TABLE_NAME + " (" +
-                FileTable.Col.FILE_PATH +
-                ") VALUES (?)";
+                FileTable.Col.GAME_ID + ", " +
+                FileTable.Col.CHECKSUM + ", " +
+                FileTable.Col.FILE_PATH + ", " +
+                FileTable.Col.EXTENSION +
+                ") VALUES (?, ?, ?, ?)";
         String expected = "Test";
 
         db.execute(new ExecuteStatement(sql) {
             @Override
             public void prepare(PreparedStatement statement) throws SQLException {
-                statement.setString(1, expected);
+                statement.setInt(1, 1);
+                statement.setString(2, "not expected");
+                statement.setString(3, expected);
+                statement.setString(4, "not expected");
             }
         });
 
@@ -80,14 +86,20 @@ public class SQLiteDatabaseFunctionalityTest {
     @Test
     public void executeBatchSucceeds() throws BackendException {
         String sql = "INSERT INTO " + FileTable.TABLE_NAME + " (" +
-                FileTable.Col.FILE_PATH +
-                ") VALUES (?)";
+                FileTable.Col.GAME_ID + ", " +
+                FileTable.Col.CHECKSUM + ", " +
+                FileTable.Col.FILE_PATH + ", " +
+                FileTable.Col.EXTENSION +
+                ") VALUES (?, ?, ?, ?)";
         String expected = "Test";
 
         db.executeBatch(new ExecuteStatement(sql) {
             @Override
             public void prepare(PreparedStatement statement) throws SQLException {
-                statement.setString(1, expected);
+                statement.setInt(1, 1);
+                statement.setString(2, "not expected");
+                statement.setString(3, expected);
+                statement.setString(4, "not expected");
                 statement.addBatch();
             }
         });

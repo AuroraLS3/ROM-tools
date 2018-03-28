@@ -13,7 +13,6 @@ public class SQLTables implements Tables {
 
     private final FileTable fileTable;
     private final GameTable gameTable;
-    private final GamesToFilesTable gamesToFilesTable;
     private final MetadataTable metadataTable;
 
     private final VersionTable versionTable;
@@ -22,17 +21,26 @@ public class SQLTables implements Tables {
         versionTable = new VersionTable(database);
         fileTable = new FileTable(database);
         gameTable = new GameTable(database);
-        gamesToFilesTable = new GamesToFilesTable(database);
         metadataTable = new MetadataTable(database);
     }
 
     @Override
     public void createTables() throws BackendException {
+        int newestSchemaVersion = 1;
+        boolean newDatabase = versionTable.isNewDatabase();
+
         fileTable.createTable();
         gameTable.createTable();
-        gamesToFilesTable.createTable();
         metadataTable.createTable();
         versionTable.createTable();
+
+        if (newDatabase) {
+            versionTable.setVersion(newestSchemaVersion);
+        }
+        // Future schema changes go here.
+        if (versionTable.getVersion() < newestSchemaVersion) {
+            throw new BackendException("Failed to update database schema version");
+        }
     }
 
     @Override
@@ -43,11 +51,6 @@ public class SQLTables implements Tables {
     @Override
     public GameTable getGameTable() {
         return gameTable;
-    }
-
-    @Override
-    public GamesToFilesTable getGamesToFilesTable() {
-        return gamesToFilesTable;
     }
 
     @Override

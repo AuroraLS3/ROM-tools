@@ -2,6 +2,7 @@ package com.djrapitops.rom.backend.database;
 
 import com.djrapitops.rom.backend.GameBackend;
 import com.djrapitops.rom.backend.database.operations.SQLFetchOps;
+import com.djrapitops.rom.backend.database.operations.SQLSaveOps;
 import com.djrapitops.rom.backend.database.sql.ExecuteStatement;
 import com.djrapitops.rom.backend.database.sql.QueryStatement;
 import com.djrapitops.rom.backend.database.table.SQLTables;
@@ -20,9 +21,12 @@ public abstract class SQLDatabase implements GameBackend {
 
     protected SQLTables tables;
     private final SQLFetchOps fetchOps;
+    private final SQLSaveOps saveOps;
 
     public SQLDatabase() {
+        tables = new SQLTables(this);
         fetchOps = new SQLFetchOps(this);
+        saveOps = new SQLSaveOps(this);
     }
 
     @Override
@@ -32,7 +36,7 @@ public abstract class SQLDatabase implements GameBackend {
 
     @Override
     public SaveOperations save() {
-        return null; // TODO SQLSaveOperations
+        return saveOps;
     }
 
 
