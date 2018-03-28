@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 /**
- * Represents a game
+ * Represents a game.
  *
  * @author Rsl1122
  */

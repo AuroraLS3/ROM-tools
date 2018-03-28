@@ -1,6 +1,7 @@
 package com.djrapitops.rom.frontend.javafx;
 
 import com.djrapitops.rom.Backend;
+import com.djrapitops.rom.backend.processes.FileVerificationProcess;
 import com.djrapitops.rom.backend.processes.GameLoadingProcess;
 import com.djrapitops.rom.frontend.Frontend;
 import com.djrapitops.rom.frontend.javafx.scenes.ErrorScene;
@@ -41,6 +42,8 @@ public class JavaFXFrontend extends Application implements Frontend {
 
             Future<List<Game>> gameLoadingTask = backend.submitTask(new GameLoadingProcess(backend.getGameBackend()));
             List<Game> games = gameLoadingTask.get();
+            Future<List<Game>> fileVerificationTask = backend.submitTask(new FileVerificationProcess(games));
+
             gamesScene = new GamesScene(primaryStage);
             primaryStage.setScene(gamesScene);
         } catch (Exception e) {
@@ -48,4 +51,8 @@ public class JavaFXFrontend extends Application implements Frontend {
         }
     }
 
+    @Override
+    public void stop() {
+        Backend.getInstance().close();
+    }
 }

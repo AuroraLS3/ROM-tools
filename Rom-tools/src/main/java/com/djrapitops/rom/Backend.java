@@ -65,4 +65,9 @@ public class Backend {
     public void open() throws BackendException {
         gameBackend.open();
     }
+
+    public void close() {
+        gameBackend.close();
+        executorService.shutdown();
+    }
 }
