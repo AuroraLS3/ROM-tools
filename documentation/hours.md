@@ -10,5 +10,6 @@ Date | Hours used | Description
 27.03.18 | 1 | Started implementing JavaFX classes
 28.03.18 | 1 | Database storage & some more file operations, tests for database storage
 28.03.18 | 1 | Work on Class diagram
+31.03.18 | 0.5 | Unnecessary work
  | | 
-Total | 11 | 
+Total | 11.5 | 
