@@ -7,9 +7,9 @@ package com.djrapitops.rom.frontend.javafx;
  */
 public class Variables {
 
-    public static int WIDTH = 500;
-    public static int HEIGHT = 750;
+    public static final int WIDTH = 500;
+    public static final int HEIGHT = 750;
 
-    public static int LOADING_HEIGHT = 200;
+    public static final int LOADING_HEIGHT = 200;
 
 }
