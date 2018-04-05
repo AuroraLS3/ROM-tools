@@ -5,6 +5,9 @@ import com.djrapitops.rom.backend.database.SQLiteDatabase;
 import com.djrapitops.rom.backend.database.cache.GameCache;
 import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.exceptions.ExceptionHandler;
+import com.djrapitops.rom.game.Console;
+import com.djrapitops.rom.game.Game;
+import com.djrapitops.rom.game.Metadata;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -21,7 +24,7 @@ public class Backend {
     private final GameBackend gameStorage;
     private final GameBackend gameBackend;
 
-    private final ExecutorService executorService;
+    private final ExecutorService taskService;
 
     private ExceptionHandler exceptionHandler;
 
@@ -29,7 +32,7 @@ public class Backend {
         gameStorage = new SQLiteDatabase();
         gameBackend = new GameCache(gameStorage);
 
-        executorService = Executors.newFixedThreadPool(1);
+        taskService = Executors.newFixedThreadPool(1);
 
         // Dummy Exception handler that logs to console if frontend doesn't set one.
         exceptionHandler = (level, throwable) -> {
@@ -43,7 +46,7 @@ public class Backend {
     }
 
     public <V> Future<V> submitTask(Callable<V> task) {
-        return executorService.submit(task);
+        return taskService.submit(task);
     }
 
     public GameBackend getGameStorage() {
@@ -64,10 +67,13 @@ public class Backend {
 
     public void open() throws BackendException {
         gameBackend.open();
+        Game fakeGame = new Game("Fakegame");
+        fakeGame.setMetadata(Metadata.create().setName("Fake Game").setConsole(Console.GAMECUBE).build());
+        gameBackend.save().saveGame(fakeGame);
     }
 
     public void close() {
         gameBackend.close();
-        executorService.shutdown();
+        taskService.shutdown();
     }
 }

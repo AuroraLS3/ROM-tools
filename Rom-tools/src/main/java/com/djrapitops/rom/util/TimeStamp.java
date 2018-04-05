@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
  */
 public class TimeStamp {
 
-    private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyyMMdd-HH:mm:ss");
+    private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyy_MM_dd-HH:mm:ss");
     private final long epochMs;
 
     public TimeStamp(long epochMs) {

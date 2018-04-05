@@ -1,6 +1,7 @@
 package com.djrapitops.rom.game;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 
 /**
@@ -16,6 +17,7 @@ public class Game {
 
     public Game(String fileName) {
         this.name = fileName;
+        gameFiles = Collections.EMPTY_LIST;
     }
 
     public Collection<GameFile> getGameFiles() {
