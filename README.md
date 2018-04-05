@@ -12,17 +12,14 @@ Managing downloaded games can be a lot of unnecessary work - Extracting zips, re
 
 [Hours used](documentation/hours.md)
 
-## Laskarit
+### Using the software
 
-**VK1**
+**Build Rom-tools.jar** to Rom-tools/target
+```
+mvn install
+```
 
-- [komentorivi.txt](laskarit/viikko1/komentorivi.txt)
-- [gitlog](laskarit/viikko1/gitlog.md)
-
-**VK2**
-
-- [Viikko 2](laskarit/viikko2)
-
-**VK3**
-
-- [Viikko 3](https://github.com/Rsl1122/ROM-tools/blob/master/laskarit/viikko3/README.md)
+**Run the program** (This will be improved later)
+```
+mvn compile exec:java -Dexec.mainClass=com.djrapitops.rom.Main
+```

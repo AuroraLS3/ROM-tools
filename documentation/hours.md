@@ -9,6 +9,8 @@ Date | Hours used | Description
 26.03.18 | 2.5 | Database tables & initialization, Callback -> Callable change
 27.03.18 | 1 | Started implementing JavaFX classes
 28.03.18 | 1 | Database storage & some more file operations, tests for database storage
+28.03.18 | 1 | Work on Class diagram
+31.03.18 | 0.5 | Unnecessary work
 05.04.18 | 2 | UI Update ExecutorService and other related work
  | | 
-Total | 12 | 
+Total | 13.5 | 

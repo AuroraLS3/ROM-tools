@@ -155,11 +155,13 @@ public class SQLiteDatabaseFunctionalityTest {
         thrown.expect(BackendException.class);
         thrown.expectMessage("Failed to query statement: " + sql);
 
-        String result = db.query(new QueryAllStatement<String>(sql) {
+        db.query(new QueryAllStatement<String>(sql) {
             @Override
             public String processResults(ResultSet set) throws SQLException {
                 return set.getString(FileTable.Col.FILE_PATH);
             }
         });
     }
+
+
 }

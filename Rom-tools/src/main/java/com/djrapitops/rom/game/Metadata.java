@@ -28,8 +28,12 @@ public class Metadata {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Metadata metadata = (Metadata) o;
         return Objects.equals(name, metadata.name) &&
                 console == metadata.console;

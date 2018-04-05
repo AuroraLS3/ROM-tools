@@ -10,10 +10,10 @@ import javafx.scene.text.FontWeight;
  */
 public class Variables {
 
-    public static int WIDTH = 500;
-    public static int HEIGHT = 750;
+    public static final int WIDTH = 500;
+    public static final int HEIGHT = 750;
 
-    public static int LOADING_HEIGHT = 200;
+    public static final int LOADING_HEIGHT = 200;
 
     public static Font FONT_TITLE = Font.font("Verdana", FontWeight.BOLD, 14);
 
