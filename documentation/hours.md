@@ -12,5 +12,6 @@ Date | Hours used | Description
 28.03.18 | 1 | Work on Class diagram
 31.03.18 | 0.5 | Unnecessary work
 05.04.18 | 2 | UI Update ExecutorService and other related work
+08.04.18 | 1 | Added Travis CI and SonarCloud integration, fixed Code smells given by SonarCloud
  | | 
 Total | 13.5 | 
