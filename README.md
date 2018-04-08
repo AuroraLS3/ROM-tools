@@ -1,7 +1,7 @@
 # ROM-tools
 
 [![Build Status](https://travis-ci.org/Rsl1122/ROM-tools.svg?branch=master)](https://travis-ci.org/Rsl1122/ROM-tools)
-[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=com.djrapitops%3APlan)](https://sonarcloud.io/dashboard?id=com.djrapitops%3APlan)
+[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=com.djrapitops%3Arom-tools)](https://sonarcloud.io/dashboard?id=com.djrapitops%3Arom-tools)
 
 Toolkit for managing ROMs for different emulators.  
 
