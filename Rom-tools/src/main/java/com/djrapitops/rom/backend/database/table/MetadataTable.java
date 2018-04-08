@@ -85,5 +85,9 @@ public class MetadataTable extends Table {
         public static final String GAME_ID = "game_id";
         public static final String NAME = "name";
         public static final String CONSOLE = "console";
+
+        private Col() {
+            /* Should not be constructed */
+        }
     }
 }

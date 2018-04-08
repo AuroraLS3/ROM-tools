@@ -9,15 +9,16 @@ import java.text.SimpleDateFormat;
  */
 public class TimeStamp {
 
-    private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyy_MM_dd-HH:mm:ss");
+    private final SimpleDateFormat formatter;
     private final long epochMs;
 
     public TimeStamp(long epochMs) {
         this.epochMs = epochMs;
+        formatter = new SimpleDateFormat("yyyy_MM_dd-HH:mm:ss");
     }
 
     public String toFormatted() {
-        return FORMATTER.format(epochMs);
+        return formatter.format(epochMs);
     }
 
     @Override

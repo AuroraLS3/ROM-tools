@@ -1,5 +1,6 @@
 package com.djrapitops.rom;
 
+import com.djrapitops.rom.backend.Backend;
 import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
 
 /**

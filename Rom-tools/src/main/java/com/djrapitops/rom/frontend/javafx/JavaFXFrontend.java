@@ -1,6 +1,6 @@
 package com.djrapitops.rom.frontend.javafx;
 
-import com.djrapitops.rom.Backend;
+import com.djrapitops.rom.backend.Backend;
 import com.djrapitops.rom.backend.processes.FileVerificationProcess;
 import com.djrapitops.rom.backend.processes.GameLoadingProcess;
 import com.djrapitops.rom.frontend.Frontend;
@@ -14,6 +14,7 @@ import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.util.Verify;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -77,13 +78,17 @@ public class JavaFXFrontend extends Application implements Frontend {
         Verify.notNull(primaryStage, () -> new IllegalStateException("Application has not been started yet."));
 
         Platform.runLater(() -> {
-            switch (view) {
-                case GAMES:
-                    primaryStage.setScene(gamesScene);
-                default:
-                    primaryStage.setScene(new ErrorScene(new IllegalArgumentException("View not defined")));
-            }
+            primaryStage.setScene(getView(view));
         });
+    }
+
+    private Scene getView(Views view) {
+        switch (view) {
+            case GAMES:
+                return gamesScene;
+            default:
+                return new ErrorScene(new IllegalArgumentException("View not defined"));
+        }
     }
 
     @Override

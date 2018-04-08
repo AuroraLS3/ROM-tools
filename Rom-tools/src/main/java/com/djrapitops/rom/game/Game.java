@@ -17,7 +17,7 @@ public class Game {
 
     public Game(String fileName) {
         this.name = fileName;
-        gameFiles = Collections.EMPTY_LIST;
+        gameFiles = Collections.emptyList();
     }
 
     public Collection<GameFile> getGameFiles() {

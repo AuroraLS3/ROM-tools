@@ -53,7 +53,7 @@ public enum FileExtension {
 
     public static FileExtension getExtensionFor(String extension) {
         for (FileExtension ext : values()) {
-            if (ext.extension.equals(extension.toLowerCase())) {
+            if (ext.extension.equalsIgnoreCase(extension)) {
                 return ext;
             }
         }

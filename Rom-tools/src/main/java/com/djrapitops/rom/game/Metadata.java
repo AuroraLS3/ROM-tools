@@ -83,7 +83,7 @@ public class Metadata {
          * @return Finished Metadata object.
          * @throws IllegalStateException If object is incomplete, for example a field is missing.
          */
-        public Metadata build() throws IllegalStateException {
+        public Metadata build() {
             Verify.notNull(metadata.name, () -> new IllegalStateException("Name was not specified"));
             Verify.notNull(metadata.console, () -> new IllegalStateException("Console was not specified"));
 

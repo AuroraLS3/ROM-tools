@@ -72,6 +72,7 @@ public abstract class SQLDatabase implements GameBackend {
             execute(new ExecuteStatement(sql) {
                 @Override
                 public void prepare(PreparedStatement statement) {
+                    /* No preparing required */
                 }
             });
         } catch (BackendException e) {

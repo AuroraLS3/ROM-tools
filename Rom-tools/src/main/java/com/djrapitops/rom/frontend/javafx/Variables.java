@@ -15,6 +15,10 @@ public class Variables {
 
     public static final int LOADING_HEIGHT = 200;
 
-    public static Font FONT_TITLE = Font.font("Verdana", FontWeight.BOLD, 14);
+    public static final Font FONT_TITLE = Font.font("Verdana", FontWeight.BOLD, 14);
+
+    private Variables() {
+        /* Not supposed to be created */
+    }
 
 }

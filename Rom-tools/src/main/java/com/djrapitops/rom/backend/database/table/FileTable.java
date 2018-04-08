@@ -90,5 +90,9 @@ public class FileTable extends Table {
         public static final String EXTENSION = "file_extension";
         public static final String FILE_PATH = "file_path";
         public static final String CHECKSUM = "md5_checksum";
+
+        private Col() {
+            /* Should not be constructed */
+        }
     }
 }

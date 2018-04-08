@@ -1,6 +1,6 @@
 package com.djrapitops.rom.exceptions;
 
-import com.djrapitops.rom.Backend;
+import com.djrapitops.rom.backend.Backend;
 
 /**
  * Interface for handling exceptions in the program.

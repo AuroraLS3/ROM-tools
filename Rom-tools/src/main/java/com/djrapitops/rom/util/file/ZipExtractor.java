@@ -28,7 +28,7 @@ public class ZipExtractor {
      * @param password          Wrapper to get password in case zip is password protected
      * @throws IllegalArgumentException If not null value is null or folder is not a directory.
      */
-    public ZipExtractor(File sourceFile, File destinationFolder, Wrapper<String> password) throws IllegalArgumentException {
+    public ZipExtractor(File sourceFile, File destinationFolder, Wrapper<String> password) {
         Verify.notNull(sourceFile, () -> new IllegalArgumentException("Source file was null"));
         Verify.notNull(destinationFolder, () -> new IllegalArgumentException("Destination folder was null"));
 

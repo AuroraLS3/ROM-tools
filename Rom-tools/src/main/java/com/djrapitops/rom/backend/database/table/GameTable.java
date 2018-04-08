@@ -91,5 +91,9 @@ public class GameTable extends Table {
     public static class Col {
         public static final String ID = "id";
         public static final String NAME = "name";
+
+        private Col() {
+            /* Should not be constructed */
+        }
     }
 }

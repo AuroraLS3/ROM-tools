@@ -1,6 +1,6 @@
-package com.djrapitops.rom;
+package com.djrapitops.rom.backend;
 
-import com.djrapitops.rom.backend.GameBackend;
+import com.djrapitops.rom.Main;
 import com.djrapitops.rom.backend.database.SQLiteDatabase;
 import com.djrapitops.rom.backend.database.cache.GameCache;
 import com.djrapitops.rom.exceptions.BackendException;
@@ -13,6 +13,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Main backend class in charge of initialization and management of other backend related objects and processes.
@@ -36,8 +38,7 @@ public class Backend {
 
         // Dummy Exception handler that logs to console if frontend doesn't set one.
         exceptionHandler = (level, throwable) -> {
-            System.out.println("ERROR: " + level);
-            throwable.printStackTrace();
+            Logger.getGlobal().log(Level.SEVERE, "ERROR: " + level, throwable);
         };
     }
 

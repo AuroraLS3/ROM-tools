@@ -18,14 +18,16 @@ import java.sql.SQLException;
  */
 public class VersionTable extends Table {
 
+    private static final String VERSION_COL = "version";
+
     public VersionTable(SQLDatabase db) {
-        super(db, "version");
+        super(db, VERSION_COL);
     }
 
     @Override
     public void createTable() throws BackendException {
         createTable(TableSQLParser.createTable(tableName)
-                .column("version", "integer").notNull()
+                .column(VERSION_COL, "integer").notNull()
                 .toString()
         );
     }
@@ -54,7 +56,7 @@ public class VersionTable extends Table {
             public Integer processResults(ResultSet set) throws SQLException {
                 int version = 0;
                 if (set.next()) {
-                    version = set.getInt("version");
+                    version = set.getInt(VERSION_COL);
                 }
                 return version;
             }
@@ -62,7 +64,7 @@ public class VersionTable extends Table {
     }
 
     public void setVersion(int version) throws BackendException {
-        String sql = "REPLACE INTO " + tableName + " (version) VALUES (?)";
+        String sql = "REPLACE INTO " + tableName + " (" + VERSION_COL + ") VALUES (?)";
 
         execute(new ExecuteStatement(sql) {
             @Override
