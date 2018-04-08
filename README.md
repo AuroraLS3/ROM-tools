@@ -1,5 +1,7 @@
 # ROM-tools
 
+[![Build Status](https://travis-ci.org/Rsl1122/ROM-tools.svg?branch=master)](https://travis-ci.org/Rsl1122/ROM-tools)
+
 Toolkit for managing ROMs for different emulators.  
 
 Goal of this program is to aid in managing games for emulated systems, such as Atari 2600, Sega Megadrive, PSX, NES, etc.  
