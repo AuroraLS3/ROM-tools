@@ -2,13 +2,14 @@ package com.djrapitops.rom.exceptions;
 
 import com.djrapitops.rom.backend.Backend;
 
+import java.util.logging.Level;
+
 /**
  * Interface for handling exceptions in the program.
  * <p>
  * Implementation is UI framework specific.
  *
  * @author Rsl1122
- * @see Level
  */
 public interface ExceptionHandler {
 

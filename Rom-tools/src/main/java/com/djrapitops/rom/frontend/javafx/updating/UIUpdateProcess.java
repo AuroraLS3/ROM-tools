@@ -1,12 +1,12 @@
 package com.djrapitops.rom.frontend.javafx.updating;
 
 import com.djrapitops.rom.exceptions.ExceptionHandler;
-import com.djrapitops.rom.exceptions.Level;
 import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
 
 /**
  * Process that is run periodically to update the UI components after tasks have finished.

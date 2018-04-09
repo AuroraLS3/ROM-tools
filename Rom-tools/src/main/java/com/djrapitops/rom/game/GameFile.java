@@ -1,11 +1,11 @@
 package com.djrapitops.rom.game;
 
 import com.djrapitops.rom.exceptions.ExceptionHandler;
-import com.djrapitops.rom.exceptions.Level;
 import com.djrapitops.rom.util.file.MD5CheckSum;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
 
 /**
  * Object that contains information about a file that stores the game.

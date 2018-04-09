@@ -16,9 +16,9 @@ import java.util.Arrays;
  *
  * @author Rsl1122
  */
-public class ErrorScene extends Scene {
+public class FatalErrorScene extends Scene {
 
-    public ErrorScene(Throwable e) {
+    public FatalErrorScene(Throwable e) {
         super(getText(e));
     }
 
@@ -40,19 +40,21 @@ public class ErrorScene extends Scene {
 
         Throwable cause = e.getCause();
         while (cause != null) {
-            stackBuilder.append("caused by: ").append(cause.toString());
+            stackBuilder.append("\ncaused by: ").append(cause.toString());
             addStackTrace(stackBuilder, cause.getStackTrace());
             cause = cause.getCause();
         }
 
-        children.add(new TextArea(stackBuilder.toString()));
+        TextArea stackTraceArea = new TextArea(stackBuilder.toString());
+        stackTraceArea.setPrefHeight(400.0);
+        children.add(stackTraceArea);
 
         return stackTrace;
     }
 
     private static void addStackTrace(StringBuilder stackBuilder, StackTraceElement[] trace) {
         Arrays.stream(trace)
-                .map(element -> "\n  " + element.toString())
+                .map(element -> "\n    " + element.toString())
                 .forEach(stackBuilder::append);
     }
 }

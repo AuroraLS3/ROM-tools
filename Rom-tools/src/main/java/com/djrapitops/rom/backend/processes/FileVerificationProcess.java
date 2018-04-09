@@ -1,7 +1,6 @@
 package com.djrapitops.rom.backend.processes;
 
 import com.djrapitops.rom.exceptions.ExceptionHandler;
-import com.djrapitops.rom.exceptions.Level;
 import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.game.GameFile;
 
@@ -10,6 +9,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.logging.Level;
 
 /**
  * Verifies the games exist and that the files have not changed.
