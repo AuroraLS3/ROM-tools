@@ -3,11 +3,8 @@ package com.djrapitops.rom.frontend.javafx.components;
 import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
 import com.djrapitops.rom.frontend.javafx.scenes.Views;
 import com.djrapitops.rom.frontend.javafx.updating.Updatable;
-import javafx.collections.ObservableList;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.BorderPane;
 
 import java.util.Arrays;
 
@@ -16,7 +13,7 @@ import java.util.Arrays;
  *
  * @author Rsl1122
  */
-public class MainNavigation extends HBox implements Updatable<Views> {
+public class MainNavigation extends BorderPane implements Updatable<Views> {
 
     private static final String ACTIVE_STYLE = "-fx-background-color: '#ccc'";
     private static final String INACTIVE_STYLE = "-fx-background-color: '#fff'";
@@ -25,8 +22,6 @@ public class MainNavigation extends HBox implements Updatable<Views> {
     private final Button settingsButton;
 
     public MainNavigation(JavaFXFrontend frontend) {
-        setAlignment(Pos.CENTER);
-
         gamesButton = new Button("Games");
         toolsButton = new Button("Tools");
         settingsButton = new Button("Settings");
@@ -35,10 +30,9 @@ public class MainNavigation extends HBox implements Updatable<Views> {
         toolsButton.setOnAction(e -> frontend.changeView(Views.TOOLS));
         settingsButton.setOnAction(e -> frontend.changeView(Views.SETTINGS));
 
-        ObservableList<Node> children = getChildren();
-        children.add(gamesButton);
-        children.add(toolsButton);
-        children.add(settingsButton);
+        setLeft(gamesButton);
+        setCenter(toolsButton);
+        setRight(settingsButton);
 
         update(frontend.getCurrentView());
     }

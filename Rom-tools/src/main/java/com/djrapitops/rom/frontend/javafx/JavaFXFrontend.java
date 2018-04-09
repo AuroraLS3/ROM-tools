@@ -3,17 +3,17 @@ package com.djrapitops.rom.frontend.javafx;
 import com.djrapitops.rom.backend.Backend;
 import com.djrapitops.rom.exceptions.ExceptionHandler;
 import com.djrapitops.rom.frontend.Frontend;
-import com.djrapitops.rom.frontend.javafx.scenes.FatalErrorScene;
-import com.djrapitops.rom.frontend.javafx.scenes.GamesScene;
-import com.djrapitops.rom.frontend.javafx.scenes.LoadingScene;
-import com.djrapitops.rom.frontend.javafx.scenes.Views;
+import com.djrapitops.rom.frontend.javafx.components.MainNavigation;
+import com.djrapitops.rom.frontend.javafx.scenes.*;
 import com.djrapitops.rom.frontend.javafx.updating.UIUpdateProcess;
 import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.util.Verify;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -35,11 +35,20 @@ public class JavaFXFrontend extends Application implements Frontend {
 
     private Views currentView;
 
+    // Shared components
+    private MainNavigation mainNavigation;
+
+    private BorderPane mainContainer;
+
     // Scenes
-    private GamesScene gamesScene;
+    private GamesView gamesView;
+    private ToolsView toolsView;
+    private SettingsView settingsView;
 
     public JavaFXFrontend() {
         uiUpdateService = Executors.newSingleThreadScheduledExecutor();
+        currentView = Views.TOOLS;
+        mainNavigation = new MainNavigation(this);
     }
 
     public static void start(String[] args) {
@@ -61,12 +70,18 @@ public class JavaFXFrontend extends Application implements Frontend {
             primaryStage.setScene(new LoadingScene());
             primaryStage.show();
 
-            gamesScene = new GamesScene(this);
+            mainContainer = new BorderPane();
+            gamesView = new GamesView(this);
+            toolsView = new ToolsView(this);
+            settingsView = new SettingsView(this);
+
+            mainContainer.setTop(mainNavigation);
 
             Backend backend = Backend.getInstance();
             backend.open(this);
 
-            changeView(Views.GAMES);
+            changeView(currentView);
+            primaryStage.setScene(new Scene(mainContainer, Variables.WIDTH, Variables.HEIGHT));
         } catch (Exception e) {
             primaryStage.setScene(new FatalErrorScene(e));
         }
@@ -77,18 +92,23 @@ public class JavaFXFrontend extends Application implements Frontend {
         Verify.notNull(primaryStage, () -> new IllegalStateException("Application has not been started yet."));
 
         Platform.runLater(() -> {
-            primaryStage.setScene(getView(view));
             currentView = view;
+            mainNavigation.update(view);
+            mainContainer.setCenter(getView(view));
         });
     }
 
-    private Scene getView(Views view) {
+    private Node getView(Views view) {
         switch (view) {
             case GAMES:
-                return gamesScene;
+                return gamesView;
+            case TOOLS:
+                return toolsView;
+            case SETTINGS:
+                return settingsView;
             default:
                 ExceptionHandler.handle(Level.WARNING, new IllegalArgumentException("View not defined"));
-                return primaryStage.getScene();
+                return mainContainer.getCenter();
         }
     }
 
@@ -107,8 +127,12 @@ public class JavaFXFrontend extends Application implements Frontend {
         return currentView;
     }
 
+    public MainNavigation getMainNavigation() {
+        return mainNavigation;
+    }
+
     @Override
     public void update(List<Game> with) {
-        gamesScene.update(with);
+        gamesView.update(with);
     }
 }

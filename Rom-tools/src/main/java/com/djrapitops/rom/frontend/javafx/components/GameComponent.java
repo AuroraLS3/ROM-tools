@@ -43,15 +43,18 @@ public class GameComponent extends VBox {
         VBox left = new VBox();
         ObservableList<Node> children = left.getChildren();
 
-        Text title = new Text(game.getName());
+        Text title = new Text(game.getMetadata().getName());
         title.setFont(Variables.FONT_TITLE);
         children.add(title);
 
         Insets leftPadding = new Insets(0, 0, 0, 8);
 
-        Text metadata = new Text(game.getMetadata().getName());
-        VBox.setMargin(metadata, leftPadding);
-        children.add(metadata);
+        game.getGameFiles().stream().map(file -> {
+            Text metadata = new Text(file.getFileName());
+            VBox.setMargin(metadata, leftPadding);
+            return metadata;
+        }).forEach(children::add);
+
         return left;
     }
 }

@@ -74,7 +74,9 @@ public class SQLiteDatabase extends SQLDatabase {
     @Override
     public void close() {
         try {
-            connection.close();
+            if (connection != null) {
+                connection.close();
+            }
         } catch (SQLException ignored) {
             /* Ignored, closing */
         } finally {
