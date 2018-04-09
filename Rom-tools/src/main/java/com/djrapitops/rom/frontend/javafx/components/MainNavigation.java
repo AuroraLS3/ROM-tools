@@ -52,6 +52,8 @@ public class MainNavigation extends BorderPane implements Updatable<Views> {
             case SETTINGS:
                 settingsButton.setStyle(ACTIVE_STYLE);
                 break;
+            default:
+                break;
         }
     }
 }
