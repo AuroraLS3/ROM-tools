@@ -47,7 +47,7 @@ public class JavaFXFrontend extends Application implements Frontend {
 
     public JavaFXFrontend() {
         uiUpdateService = Executors.newSingleThreadScheduledExecutor();
-        currentView = Views.TOOLS;
+        currentView = Views.GAMES;
         mainNavigation = new MainNavigation(this);
     }
 

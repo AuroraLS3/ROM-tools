@@ -44,4 +44,8 @@ public class UIUpdateProcess implements Runnable {
             }
         });
     }
+
+    public int tasksLeft() {
+        return tasks.size();
+    }
 }

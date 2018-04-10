@@ -17,8 +17,16 @@ public class Main {
         JavaFXFrontend.start(args);
     }
 
-
     public static Backend getBackend() {
         return backend;
+    }
+
+    /**
+     * Method for testing.
+     *
+     * @param backend Backend.
+     */
+    public static void setBackend(Backend backend) {
+        Main.backend = backend;
     }
 }
