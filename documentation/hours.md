@@ -14,5 +14,6 @@ Date | Hours used | Description
 05.04.18 | 2 | UI Update ExecutorService and other related work
 08.04.18 | 1 | Added Travis CI and SonarCloud integration, fixed Code smells given by SonarCloud
 09.04.18 | 2 | Work on UI components and views
+10.04.18 | 0.5 | Couple tests for Backend class
  | | 
-Total | 16.5 | 
+Total | 17 | 
