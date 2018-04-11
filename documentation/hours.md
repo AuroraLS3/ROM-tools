@@ -15,5 +15,6 @@ Date | Hours used | Description
 08.04.18 | 1 | Added Travis CI and SonarCloud integration, fixed Code smells given by SonarCloud
 09.04.18 | 2 | Work on UI components and views
 10.04.18 | 0.5 | Couple tests for Backend class
+11.04.18 | 1 | JFoenix library, Frontend styling
  | | 
-Total | 17 | 
+Total | 18 | 
