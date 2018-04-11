@@ -1,10 +1,14 @@
 package com.djrapitops.rom.frontend.javafx.components;
 
 import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
+import com.djrapitops.rom.frontend.javafx.Style;
 import com.djrapitops.rom.frontend.javafx.scenes.Views;
 import com.djrapitops.rom.frontend.javafx.updating.Updatable;
+import com.jfoenix.controls.JFXButton;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 import java.util.Arrays;
 
@@ -13,26 +17,39 @@ import java.util.Arrays;
  *
  * @author Rsl1122
  */
-public class MainNavigation extends BorderPane implements Updatable<Views> {
+public class MainNavigation extends HBox implements Updatable<Views> {
 
-    private static final String ACTIVE_STYLE = "-fx-background-color: '#ccc'";
-    private static final String INACTIVE_STYLE = "-fx-background-color: '#fff'";
-    private final Button gamesButton;
-    private final Button toolsButton;
-    private final Button settingsButton;
+    private static final String ACTIVE_STYLE = Style.BG_DARK_GREEN + Style.BUTTON_SQUARE;
+    private static final String INACTIVE_STYLE = Style.BG_GREEN + Style.BUTTON_SQUARE;
 
-    public MainNavigation(JavaFXFrontend frontend) {
-        gamesButton = new Button("Games");
-        toolsButton = new Button("Tools");
-        settingsButton = new Button("Settings");
+    private final JFXButton gamesButton;
+    private final JFXButton toolsButton;
+    private final JFXButton settingsButton;
+
+    public MainNavigation(JavaFXFrontend frontend, Stage primaryStage) {
+        gamesButton = new JFXButton("Games");
+        toolsButton = new JFXButton("Tools");
+        settingsButton = new JFXButton("Settings");
+
+        gamesButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        toolsButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        settingsButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+
+        prefWidthProperty().bind(primaryStage.widthProperty());
+        gamesButton.prefWidthProperty().bind(this.widthProperty());
+        toolsButton.prefWidthProperty().bind(this.widthProperty());
+        settingsButton.prefWidthProperty().bind(this.widthProperty());
 
         gamesButton.setOnAction(e -> frontend.changeView(Views.GAMES));
         toolsButton.setOnAction(e -> frontend.changeView(Views.TOOLS));
         settingsButton.setOnAction(e -> frontend.changeView(Views.SETTINGS));
 
-        setLeft(gamesButton);
-        setCenter(toolsButton);
-        setRight(settingsButton);
+        getChildren().add(gamesButton);
+        getChildren().add(toolsButton);
+        getChildren().add(settingsButton);
+
+        setAlignment(Pos.TOP_CENTER);
+//        setMaxWidth(Double.MAX_VALUE);
 
         update(frontend.getCurrentView());
     }

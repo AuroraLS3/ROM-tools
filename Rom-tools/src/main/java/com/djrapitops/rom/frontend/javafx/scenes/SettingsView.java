@@ -13,8 +13,9 @@ public class SettingsView extends BorderPane implements Updatable<Integer> {
 
     private final JavaFXFrontend frontend;
 
-    public SettingsView(JavaFXFrontend frontend) {
+    public SettingsView(JavaFXFrontend frontend, BorderPane mainContainer) {
         this.frontend = frontend;
+        prefWidthProperty().bind(mainContainer.widthProperty());
     }
 
     /**

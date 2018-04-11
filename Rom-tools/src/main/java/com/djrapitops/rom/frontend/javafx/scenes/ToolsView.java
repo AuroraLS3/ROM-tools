@@ -14,8 +14,9 @@ public class ToolsView extends BorderPane implements Updatable<Integer> {
 
     private final JavaFXFrontend frontend;
 
-    public ToolsView(JavaFXFrontend frontend) {
+    public ToolsView(JavaFXFrontend frontend, BorderPane mainContainer) {
         this.frontend = frontend;
+        prefWidthProperty().bind(mainContainer.widthProperty());
     }
 
     /**

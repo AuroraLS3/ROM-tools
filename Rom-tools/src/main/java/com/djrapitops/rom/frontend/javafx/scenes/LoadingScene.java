@@ -1,6 +1,7 @@
 package com.djrapitops.rom.frontend.javafx.scenes;
 
 import com.djrapitops.rom.frontend.javafx.Variables;
+import com.jfoenix.controls.JFXSpinner;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -19,7 +20,14 @@ public class LoadingScene extends Scene {
 
     private static Parent createRoot() {
         BorderPane borderPane = new BorderPane();
-        borderPane.setCenter(new Text("Loading.."));
+
+        JFXSpinner spinner = new JFXSpinner();
+        spinner.setRadius(50);
+        borderPane.setCenter(spinner);
+
+        Text text = new Text("Loading..");
+        borderPane.setBottom(text);
+
         return borderPane;
     }
 }

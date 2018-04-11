@@ -1,5 +1,6 @@
 package com.djrapitops.rom.frontend.javafx;
 
+import com.djrapitops.rom.Main;
 import com.djrapitops.rom.backend.Backend;
 import com.djrapitops.rom.exceptions.ExceptionHandler;
 import com.djrapitops.rom.frontend.Frontend;
@@ -10,6 +11,7 @@ import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.util.Verify;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -48,7 +50,6 @@ public class JavaFXFrontend extends Application implements Frontend {
     public JavaFXFrontend() {
         uiUpdateService = Executors.newSingleThreadScheduledExecutor();
         currentView = Views.GAMES;
-        mainNavigation = new MainNavigation(this);
     }
 
     public static void start(String[] args) {
@@ -70,10 +71,13 @@ public class JavaFXFrontend extends Application implements Frontend {
             primaryStage.setScene(new LoadingScene());
             primaryStage.show();
 
+            mainNavigation = new MainNavigation(this, primaryStage);
             mainContainer = new BorderPane();
-            gamesView = new GamesView(this);
-            toolsView = new ToolsView(this);
-            settingsView = new SettingsView(this);
+            mainContainer.prefWidthProperty().bind(primaryStage.widthProperty());
+
+            gamesView = new GamesView(this, mainContainer);
+            toolsView = new ToolsView(this, mainContainer);
+            settingsView = new SettingsView(this, mainContainer);
 
             mainContainer.setTop(mainNavigation);
 
@@ -81,7 +85,13 @@ public class JavaFXFrontend extends Application implements Frontend {
             backend.open(this);
 
             changeView(currentView);
-            primaryStage.setScene(new Scene(mainContainer, Variables.WIDTH, Variables.HEIGHT));
+            Scene scene = new Scene(mainContainer, Variables.WIDTH, Variables.HEIGHT);
+            ObservableList<String> stylesheets = scene.getStylesheets();
+            stylesheets.addAll(
+                    Main.class.getResource("/css/jfoenix-fonts.css").toExternalForm(),
+                    Main.class.getResource("/css/jfoenix-design.css").toExternalForm()
+            );
+            primaryStage.setScene(scene);
         } catch (Exception e) {
             primaryStage.setScene(new FatalErrorScene(e));
         }
