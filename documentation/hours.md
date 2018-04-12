@@ -17,5 +17,6 @@ Date | Hours used | Description
 10.04.18 | 0.5 | Couple tests for Backend class
 11.04.18 | 1 | JFoenix library, Frontend styling
 12.04.18 | 0.5 | Class diagram colors + UI classes
+12.04.18 | 1.5 | More Processes written for the program
  | | 
-Total | 18.5 | 
+Total | 20 | 
