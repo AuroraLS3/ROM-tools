@@ -11,9 +11,11 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class SQLiteDatabaseStorageTest {
 
@@ -45,6 +47,16 @@ public class SQLiteDatabaseStorageTest {
 
         Game result = games.get(0);
         assertEquals(expected, result);
+    }
+
+    @Test
+    public void removeGamesSuccessfully() throws BackendException {
+        savesGamesSuccessfully();
+
+        db.remove().games(Collections.singleton(createGame()));
+
+        List<Game> games = db.fetch().getGames();
+        assertTrue(games.isEmpty());
     }
 
     private Game createGame() {

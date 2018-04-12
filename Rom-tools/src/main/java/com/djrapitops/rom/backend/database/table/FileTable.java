@@ -84,6 +84,20 @@ public class FileTable extends Table {
         });
     }
 
+    public void removeFiles(List<Integer> gameIDs) throws BackendException {
+        String sql = "DELETE FROM " + tableName + " WHERE " + Col.GAME_ID + "=?";
+
+        executeBatch(new ExecuteStatement(sql) {
+            @Override
+            public void prepare(PreparedStatement statement) throws SQLException {
+                for (Integer gameId : gameIDs) {
+                    statement.setInt(1, gameId);
+                    statement.addBatch();
+                }
+            }
+        });
+    }
+
     public static class Col {
         public static final String ID = "id";
         public static final String GAME_ID = "game_id";

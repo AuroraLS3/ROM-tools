@@ -1,4 +1,4 @@
-package com.djrapitops.rom.frontend.javafx.updating;
+package com.djrapitops.rom.frontend.updating;
 
 import com.djrapitops.rom.exceptions.ExceptionHandler;
 import javafx.application.Platform;

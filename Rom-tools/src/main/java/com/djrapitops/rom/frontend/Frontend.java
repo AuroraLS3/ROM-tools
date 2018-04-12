@@ -1,7 +1,7 @@
 package com.djrapitops.rom.frontend;
 
-import com.djrapitops.rom.frontend.javafx.updating.UIUpdateProcess;
-import com.djrapitops.rom.frontend.javafx.updating.Updatable;
+import com.djrapitops.rom.frontend.updating.UIUpdateProcess;
+import com.djrapitops.rom.frontend.updating.Updatable;
 import com.djrapitops.rom.game.Game;
 
 import java.util.List;

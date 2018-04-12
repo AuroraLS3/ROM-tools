@@ -1,8 +1,8 @@
 package com.djrapitops.rom.backend;
 
 import com.djrapitops.rom.Main;
+import com.djrapitops.rom.backend.cache.GameCache;
 import com.djrapitops.rom.backend.database.SQLiteDatabase;
-import com.djrapitops.rom.backend.database.cache.GameCache;
 import com.djrapitops.rom.backend.processes.StartProcess;
 import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.exceptions.ExceptionHandler;

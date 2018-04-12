@@ -1,4 +1,4 @@
-package com.djrapitops.rom.frontend.javafx.updating;
+package com.djrapitops.rom.frontend.updating;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;

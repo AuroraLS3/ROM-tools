@@ -1,4 +1,4 @@
-package com.djrapitops.rom.backend.database.cache;
+package com.djrapitops.rom.backend.cache;
 
 import com.djrapitops.rom.backend.GameBackend;
 import com.djrapitops.rom.backend.operations.FetchOperations;

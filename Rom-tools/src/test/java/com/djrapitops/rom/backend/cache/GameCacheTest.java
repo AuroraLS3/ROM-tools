@@ -1,4 +1,4 @@
-package com.djrapitops.rom.backend.database.cache;
+package com.djrapitops.rom.backend.cache;
 
 import com.djrapitops.rom.backend.GameBackend;
 import com.djrapitops.rom.backend.operations.FetchOperations;
@@ -56,6 +56,14 @@ public class GameCacheTest {
 
         // See TestGameBackend return value
         assertNull(cache.save());
+    }
+
+    @Test
+    public void removingFromMainBackend() {
+        GameCache cache = new GameCache(testGameBackend);
+
+        // See TestGameBackend return value
+        assertNull(cache.remove());
     }
 
     @Test

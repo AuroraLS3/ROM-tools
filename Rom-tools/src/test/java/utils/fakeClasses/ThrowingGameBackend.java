@@ -2,6 +2,7 @@ package utils.fakeClasses;
 
 import com.djrapitops.rom.backend.GameBackend;
 import com.djrapitops.rom.backend.operations.FetchOperations;
+import com.djrapitops.rom.backend.operations.RemoveOperations;
 import com.djrapitops.rom.backend.operations.SaveOperations;
 import com.djrapitops.rom.exceptions.BackendException;
 
@@ -16,6 +17,11 @@ public class ThrowingGameBackend implements GameBackend {
 
     @Override
     public FetchOperations fetch() {
+        return null;
+    }
+
+    @Override
+    public RemoveOperations remove() {
         return null;
     }
 

@@ -2,11 +2,13 @@ package com.djrapitops.rom.backend.database;
 
 import com.djrapitops.rom.backend.GameBackend;
 import com.djrapitops.rom.backend.database.operations.SQLFetchOps;
+import com.djrapitops.rom.backend.database.operations.SQLRemoveOps;
 import com.djrapitops.rom.backend.database.operations.SQLSaveOps;
 import com.djrapitops.rom.backend.database.sql.ExecuteStatement;
 import com.djrapitops.rom.backend.database.sql.QueryStatement;
 import com.djrapitops.rom.backend.database.table.SQLTables;
 import com.djrapitops.rom.backend.operations.FetchOperations;
+import com.djrapitops.rom.backend.operations.RemoveOperations;
 import com.djrapitops.rom.backend.operations.SaveOperations;
 import com.djrapitops.rom.exceptions.BackendException;
 
@@ -22,11 +24,13 @@ public abstract class SQLDatabase implements GameBackend {
     protected SQLTables tables;
     private final SQLFetchOps fetchOps;
     private final SQLSaveOps saveOps;
+    private final SQLRemoveOps removeOps;
 
     public SQLDatabase() {
         tables = new SQLTables(this);
         fetchOps = new SQLFetchOps(this);
         saveOps = new SQLSaveOps(this);
+        removeOps = new SQLRemoveOps(this);
     }
 
     @Override
@@ -39,6 +43,10 @@ public abstract class SQLDatabase implements GameBackend {
         return saveOps;
     }
 
+    @Override
+    public RemoveOperations remove() {
+        return removeOps;
+    }
 
     /**
      * Executes an ExecuteStatement in the Database.

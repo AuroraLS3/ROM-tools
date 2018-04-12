@@ -3,7 +3,7 @@ package com.djrapitops.rom.frontend.javafx.scenes;
 import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
 import com.djrapitops.rom.frontend.javafx.components.GameComponent;
 import com.djrapitops.rom.frontend.javafx.components.GamesSceneBottomNav;
-import com.djrapitops.rom.frontend.javafx.updating.Updatable;
+import com.djrapitops.rom.frontend.updating.Updatable;
 import com.djrapitops.rom.game.Game;
 import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;

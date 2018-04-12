@@ -1,7 +1,8 @@
-package com.djrapitops.rom.backend.database.cache;
+package com.djrapitops.rom.backend.cache;
 
 import com.djrapitops.rom.backend.GameBackend;
 import com.djrapitops.rom.backend.operations.FetchOperations;
+import com.djrapitops.rom.backend.operations.RemoveOperations;
 import com.djrapitops.rom.backend.operations.SaveOperations;
 import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.util.ThrowingWrapper;
@@ -45,6 +46,11 @@ public class GameCache implements GameBackend {
     @Override
     public SaveOperations save() {
         return mainBackend.save();
+    }
+
+    @Override
+    public RemoveOperations remove() {
+        return mainBackend.remove();
     }
 
     @Override

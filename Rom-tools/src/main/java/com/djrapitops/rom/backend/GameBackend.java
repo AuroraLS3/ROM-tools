@@ -1,6 +1,7 @@
 package com.djrapitops.rom.backend;
 
 import com.djrapitops.rom.backend.operations.FetchOperations;
+import com.djrapitops.rom.backend.operations.RemoveOperations;
 import com.djrapitops.rom.backend.operations.SaveOperations;
 import com.djrapitops.rom.exceptions.BackendException;
 
@@ -48,4 +49,5 @@ public interface GameBackend {
     void close();
 
 
+    RemoveOperations remove();
 }

@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -76,6 +77,20 @@ public class MetadataTable extends Table {
                     metadataMap.put(gameId, metadata);
                 }
                 return metadataMap;
+            }
+        });
+    }
+
+    public void removeMetadata(List<Integer> gameIDs) throws BackendException {
+        String sql = "DELETE FROM " + tableName + " WHERE " + Col.GAME_ID + "=?";
+
+        executeBatch(new ExecuteStatement(sql) {
+            @Override
+            public void prepare(PreparedStatement statement) throws SQLException {
+                for (Integer gameId : gameIDs) {
+                    statement.setInt(1, gameId);
+                    statement.addBatch();
+                }
             }
         });
     }

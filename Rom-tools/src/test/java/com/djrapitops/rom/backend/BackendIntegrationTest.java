@@ -2,7 +2,7 @@ package com.djrapitops.rom.backend;
 
 import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.frontend.Frontend;
-import com.djrapitops.rom.frontend.javafx.updating.UIUpdateProcess;
+import com.djrapitops.rom.frontend.updating.UIUpdateProcess;
 import com.djrapitops.rom.game.Game;
 import org.junit.Rule;
 import org.junit.Test;

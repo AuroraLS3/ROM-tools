@@ -24,6 +24,11 @@ public class FileVerificationProcess implements Callable<List<Game>> {
         this.games = games;
     }
 
+    /**
+     * Verify game files.
+     *
+     * @return games with changed or removed files.
+     */
     @Override
     public List<Game> call() {
         try {

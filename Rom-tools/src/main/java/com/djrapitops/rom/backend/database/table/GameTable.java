@@ -11,6 +11,7 @@ import com.djrapitops.rom.game.Game;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -84,6 +85,35 @@ public class GameTable extends Table {
                     games.put(gameId, new Game(name));
                 }
                 return games;
+            }
+        });
+    }
+
+    public Map<String, Integer> getGameIDMap() throws BackendException {
+        String sql = "SELECT * FROM " + tableName;
+
+        return query(new QueryAllStatement<Map<String, Integer>>(sql, 10000) {
+            @Override
+            public Map<String, Integer> processResults(ResultSet set) throws SQLException {
+                Map<String, Integer> idMap = new HashMap<>();
+                while (set.next()) {
+                    idMap.put(set.getString(Col.NAME), set.getInt(Col.ID));
+                }
+                return idMap;
+            }
+        });
+    }
+
+    public void removeGames(Collection<Game> games) throws BackendException {
+        String sql = "DELETE FROM " + tableName + " WHERE " + Col.NAME + "=?";
+
+        executeBatch(new ExecuteStatement(sql) {
+            @Override
+            public void prepare(PreparedStatement statement) throws SQLException {
+                for (Game game : games) {
+                    statement.setString(1, game.getName());
+                    statement.addBatch();
+                }
             }
         });
     }
