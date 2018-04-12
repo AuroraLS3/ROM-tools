@@ -13,6 +13,8 @@ Managing downloaded games can be a lot of unnecessary work - Extracting zips, re
 
 [Requirements Analysis](documentation/req.md)
 
+[Architecture](documentation/architecture.md)
+
 [Hours used](documentation/hours.md)
 
 ### Using the software
