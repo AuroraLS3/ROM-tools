@@ -16,5 +16,6 @@ Date | Hours used | Description
 09.04.18 | 2 | Work on UI components and views
 10.04.18 | 0.5 | Couple tests for Backend class
 11.04.18 | 1 | JFoenix library, Frontend styling
+12.04.18 | 0.5 | Class diagram colors + UI classes
  | | 
-Total | 18 | 
+Total | 18.5 | 
