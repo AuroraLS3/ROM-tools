@@ -26,6 +26,17 @@ public class GameFile {
         this.binaryHash = binaryHash;
     }
 
+    public GameFile(File file) throws IOException {
+        this.file = file;
+
+        filePath = file.getAbsolutePath();
+        String fileName = file.getName();
+        extension = FileExtension.getExtensionFor(
+                fileName.substring(fileName.lastIndexOf('.'))
+        );
+        binaryHash = new MD5CheckSum(file).toHash();
+    }
+
     private File getFile() {
         if (file == null) {
             file = new File(filePath);
@@ -60,5 +71,16 @@ public class GameFile {
 
     public String getHash() {
         return binaryHash;
+    }
+
+    public String getCleanName() {
+        String fileName = getFileName();
+
+        // Remove brackets
+        fileName = fileName.replaceAll("\\(.*\\)", "");
+        fileName = fileName.replaceAll("\\[.*\\]", "");
+        fileName = fileName.substring(0, fileName.lastIndexOf("."));
+
+        return fileName.trim();
     }
 }

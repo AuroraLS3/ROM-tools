@@ -7,6 +7,8 @@ package com.djrapitops.rom.game;
  */
 public enum Console {
 
+    ATARI_2600("Atari 2600"),
+    ATARI_7800("Atari 7800"),
     NES("Nintendo Entertainment System"),
     SNES("Super Nintendo"),
     GENESIS("Sega Genesis/Megadrive"),
@@ -26,7 +28,9 @@ public enum Console {
     PS2("Playstation 2"),
     PSP("Playstation Portable"),
     XBOX("Xbox"),
-    METADATA("Game Metadata contains console information");
+    METADATA("Game Metadata contains console information"),
+    SEGA_CD("Sega CD");
+
 
     private final String fullName;
 
@@ -36,5 +40,24 @@ public enum Console {
 
     public String getFullName() {
         return fullName;
+    }
+
+    public static Console resolveFromFilename(String fileName) {
+        FileExtension extension = FileExtension.getExtensionFor(fileName.substring(fileName.lastIndexOf(".")));
+        String name = fileName.toLowerCase();
+        if (name.contains("atari")) {
+            return Console.ATARI_2600;
+        } else if (name.contains("playstation") || name.contains("ps")) {
+            if (name.contains("ps2")) {
+                return Console.PS2;
+            } else if (name.contains("psx")) {
+                return Console.PSX;
+            } else if (name.contains("psp") || name.contains("portable") || name.contains("vita")) {
+                return Console.PSP;
+            }
+        } else if (name.contains("cd")) {
+            return Console.SEGA_CD;
+        }
+        return Console.METADATA;
     }
 }

@@ -9,6 +9,7 @@ package com.djrapitops.rom.game;
  * @author Rsl1122
  */
 public enum FileExtension {
+    A78(".a78", Console.ATARI_7800),
     NES(".nes", Console.NES),
     SMC(".smc", Console.SNES),
     SFC(".sfc", Console.SNES),
