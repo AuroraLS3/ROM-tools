@@ -31,12 +31,13 @@ public class Backend {
     private final ExecutorService taskService;
 
     private ExceptionHandler exceptionHandler;
+    private boolean open = false;
 
     public Backend() {
         gameStorage = new SQLiteDatabase();
         gameBackend = new GameCache(gameStorage);
 
-        taskService = Executors.newFixedThreadPool(1);
+        taskService = Executors.newFixedThreadPool(5);
 
         // Dummy Exception handler that logs to console if frontend doesn't set one.
         exceptionHandler = (level, throwable) -> {
@@ -95,5 +96,14 @@ public class Backend {
     public void close() {
         gameBackend.close();
         taskService.shutdown();
+        open = false;
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
     }
 }

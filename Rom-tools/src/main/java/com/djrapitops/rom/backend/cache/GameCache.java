@@ -21,11 +21,13 @@ public class GameCache implements GameBackend {
 
     private final Map<Request, Object> cache;
     private final CacheFetchOperations fetchOperations;
+    private final CacheRemoveOperations cacheRemoveOperations;
 
     public GameCache(GameBackend mainBackend) {
         this.mainBackend = mainBackend;
         cache = new EnumMap<>(Request.class);
         fetchOperations = new CacheFetchOperations(this);
+        cacheRemoveOperations = new CacheRemoveOperations(this);
     }
 
     @Override
@@ -50,7 +52,7 @@ public class GameCache implements GameBackend {
 
     @Override
     public RemoveOperations remove() {
-        return mainBackend.remove();
+        return cacheRemoveOperations;
     }
 
     @Override
@@ -70,6 +72,10 @@ public class GameCache implements GameBackend {
 
     public GameBackend getMainBackend() {
         return mainBackend;
+    }
+
+    public void clear(Request request) {
+        cache.remove(request);
     }
 
     public enum Request {

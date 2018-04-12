@@ -59,14 +59,6 @@ public class GameCacheTest {
     }
 
     @Test
-    public void removingFromMainBackend() {
-        GameCache cache = new GameCache(testGameBackend);
-
-        // See TestGameBackend return value
-        assertNull(cache.remove());
-    }
-
-    @Test
     public void testBackendUnCached() throws BackendException {
         // See TestGameBackend return value
         thrown.expect(NullPointerException.class);
@@ -83,12 +75,9 @@ public class GameCacheTest {
         List<Boolean> callsToWrapper = new ArrayList<>();
         List<String> expected = Arrays.asList("Test", "Passed");
 
-        ThrowingWrapper<List<String>, BackendException> wrapper = new ThrowingWrapper<List<String>, BackendException>() {
-            @Override
-            public List<String> get() {
-                callsToWrapper.add(true);
-                return expected;
-            }
+        ThrowingWrapper<List<String>, BackendException> wrapper = () -> {
+            callsToWrapper.add(true);
+            return expected;
         };
 
         GameCache cache = new GameCache(testGameBackend);
@@ -100,6 +89,26 @@ public class GameCacheTest {
         assertEquals(expected, cache.getOrFetch(GameCache.Request.GET_GAMES, wrapper));
         // Calls still one since request is fetched from cache.
         assertEquals(1, callsToWrapper.size());
+    }
 
+    @Test
+    public void testClearsFromCache() throws BackendException {
+        List<Boolean> callsToWrapper = new ArrayList<>();
+        List<String> expected = Arrays.asList("Test", "Passed");
+
+        ThrowingWrapper<List<String>, BackendException> wrapper = () -> {
+            callsToWrapper.add(true);
+            return expected;
+        };
+
+        GameCache cache = new GameCache(testGameBackend);
+
+        assertEquals(expected, cache.getOrFetch(GameCache.Request.GET_GAMES, wrapper));
+
+        cache.clear(GameCache.Request.GET_GAMES);
+
+        assertEquals(expected, cache.getOrFetch(GameCache.Request.GET_GAMES, wrapper));
+        // Calls are now two since request is fetched from backend.
+        assertEquals(2, callsToWrapper.size());
     }
 }

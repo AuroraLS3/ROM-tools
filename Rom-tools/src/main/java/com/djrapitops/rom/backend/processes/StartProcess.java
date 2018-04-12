@@ -1,16 +1,12 @@
 package com.djrapitops.rom.backend.processes;
 
 import com.djrapitops.rom.backend.Backend;
-import com.djrapitops.rom.exceptions.BackendException;
-import com.djrapitops.rom.exceptions.ExceptionHandler;
 import com.djrapitops.rom.frontend.Frontend;
 import com.djrapitops.rom.frontend.updating.Update;
 import com.djrapitops.rom.game.Game;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
 
 /**
  * Process that performs backend processes.
@@ -34,15 +30,10 @@ public class StartProcess implements Runnable {
 
         frontend.getUiUpdateProcess().submitTask(new Update<>(frontend, gameLoadingTask));
 
-        removeModifiedGames(fileVerificationTask);
-    }
+        backend.setOpen(true);
 
-    private void removeModifiedGames(Future<List<Game>> fileVerificationTask) {
-        try {
-            List<Game> changedGames = fileVerificationTask.get();
-            backend.getGameBackend().remove().games(changedGames);
-        } catch (InterruptedException | ExecutionException | BackendException e) {
-            ExceptionHandler.handle(Level.SEVERE, e);
-        }
+        Future<List<Game>> updatedGames = backend.submitTask(new GameRemovalProcess(fileVerificationTask));
+
+        frontend.getUiUpdateProcess().submitTask(new Update<>(frontend, updatedGames));
     }
 }

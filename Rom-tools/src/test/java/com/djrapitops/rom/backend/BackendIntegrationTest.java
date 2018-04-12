@@ -9,7 +9,10 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertEquals;
 
 public class BackendIntegrationTest {
@@ -18,7 +21,7 @@ public class BackendIntegrationTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void testOpenDoesNotThrowException() throws BackendException, InterruptedException {
+    public void testOpenDoesNotThrowException() throws BackendException {
         Backend backend = new Backend();
         UIUpdateProcess updateProcess = new UIUpdateProcess();
 
@@ -33,12 +36,16 @@ public class BackendIntegrationTest {
 
             }
         });
-        Thread.sleep(100);
-        assertEquals(1, updateProcess.tasksLeft());
+        await().atMost(1, TimeUnit.SECONDS).until(opened(backend));
+        assertEquals(2, updateProcess.tasksLeft());
+    }
+
+    private Callable<Boolean> opened(Backend backend) {
+        return backend::isOpen;
     }
 
     @Test
-    public void testOpenDoesThrowsException() throws BackendException, InterruptedException {
+    public void testOpenDoesThrowsException() throws BackendException {
         Backend backend = null;
         Backend backend2 = null;
         try {
@@ -63,7 +70,7 @@ public class BackendIntegrationTest {
             backend2 = new Backend();
             backend2.open(frontend);
 
-            Thread.sleep(100);
+            await().atMost(1, TimeUnit.SECONDS).until(opened(backend));
             assertEquals(1, updateProcess.tasksLeft());
         } finally {
             if (backend != null) {
