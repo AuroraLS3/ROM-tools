@@ -19,6 +19,6 @@ Date | Hours used | Description
 12.04.18 | 0.5 | Class diagram colors + UI classes
 12.04.18 | 1.5 | More Processes written for the program
 16.04.18 | 1 | Work that was ultimately reverted because of bad design
-16.04.18 | 2 | Refactored bad Backend design to more extensible one
+16.04.18 | 2.5 | Refactored bad Backend design to more extensible one
  | | 
-Total | 23 | 
+Total | 23.5 | 
