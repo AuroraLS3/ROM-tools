@@ -4,7 +4,6 @@ import com.djrapitops.rom.backend.database.SQLDatabase;
 import com.djrapitops.rom.backend.database.sql.ExecuteStatement;
 import com.djrapitops.rom.backend.database.sql.QueryAllStatement;
 import com.djrapitops.rom.backend.database.sql.TableSQLParser;
-import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.game.FileExtension;
 import com.djrapitops.rom.game.GameFile;
 
@@ -35,7 +34,7 @@ public class FileTable extends Table {
     }
 
     @Override
-    public void createTable() throws BackendException {
+    public void createTable() {
         String sql = TableSQLParser.createTable(tableName)
                 .primaryKeyIDColumn(Col.ID)
                 .column(Col.EXTENSION, "varchar(20)").notNull()
@@ -47,11 +46,17 @@ public class FileTable extends Table {
         createTable(sql);
     }
 
-    public void saveGameFiles(int gameId, Collection<GameFile> paths) throws BackendException {
+    /**
+     * Save a collection of game files.
+     *
+     * @param gameId Game ID in Games table.
+     * @param files  Collection of GameFiles related to a single game.
+     */
+    public void saveGameFiles(int gameId, Collection<GameFile> files) {
         executeBatch(new ExecuteStatement(insestStatement) {
             @Override
             public void prepare(PreparedStatement statement) throws SQLException {
-                for (GameFile gameFile : paths) {
+                for (GameFile gameFile : files) {
                     statement.setInt(1, gameId);
                     statement.setString(2, gameFile.getExtension().getExtension());
                     statement.setString(3, gameFile.getAbsolutePath());
@@ -62,7 +67,12 @@ public class FileTable extends Table {
         });
     }
 
-    public Map<Integer, Set<GameFile>> getPaths() throws BackendException {
+    /**
+     * Get all GameFiles.
+     *
+     * @return Map with ID, GameFile collection pairs
+     */
+    public Map<Integer, Set<GameFile>> getPaths() {
         String sql = "SELECT * FROM " + tableName;
 
         return query(new QueryAllStatement<Map<Integer, Set<GameFile>>>(sql, 30000) {
@@ -84,7 +94,12 @@ public class FileTable extends Table {
         });
     }
 
-    public void removeFiles(List<Integer> gameIDs) throws BackendException {
+    /**
+     * Removes GameFiles related to certain game IDs.
+     *
+     * @param gameIDs IDs of the Games' files to remove
+     */
+    public void removeFiles(List<Integer> gameIDs) {
         String sql = "DELETE FROM " + tableName + " WHERE " + Col.GAME_ID + "=?";
 
         executeBatch(new ExecuteStatement(sql) {

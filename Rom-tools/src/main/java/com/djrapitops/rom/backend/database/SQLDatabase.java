@@ -43,7 +43,7 @@ public abstract class SQLDatabase implements GameBackend {
      * @param statement Statement to execute.
      * @throws BackendException If the statement fails to execute.
      */
-    public abstract void execute(ExecuteStatement statement) throws BackendException;
+    public abstract void execute(ExecuteStatement statement);
 
     /**
      * Executes an ExecuteStatement (batch) in the Database.
@@ -51,8 +51,7 @@ public abstract class SQLDatabase implements GameBackend {
      * @param statement Statement to execute.
      * @throws BackendException If the statement fails to execute.
      */
-    public abstract void executeBatch(ExecuteStatement statement) throws BackendException;
-
+    public abstract void executeBatch(ExecuteStatement statement);
 
     /**
      * Queries the database with the QueryStatement.
@@ -62,9 +61,15 @@ public abstract class SQLDatabase implements GameBackend {
      * @return Result of the query
      * @throws BackendException If the statement fails to execute.
      */
-    public abstract <T> T query(QueryStatement<T> statement) throws BackendException;
+    public abstract <T> T query(QueryStatement<T> statement);
 
-    public void createTable(String sql) throws BackendException {
+    /**
+     * Create a new table using the SQL string.
+     *
+     * @param sql SQL for creating the table.
+     * @throws BackendException If there is a syntax error in the SQL.
+     */
+    public void createTable(String sql) {
         try {
             execute(new ExecuteStatement(sql) {
                 @Override

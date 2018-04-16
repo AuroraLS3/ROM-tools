@@ -49,7 +49,6 @@ public class MainNavigation extends HBox implements Updatable<Views> {
         getChildren().add(settingsButton);
 
         setAlignment(Pos.TOP_CENTER);
-//        setMaxWidth(Double.MAX_VALUE);
 
         update(frontend.getCurrentView());
     }

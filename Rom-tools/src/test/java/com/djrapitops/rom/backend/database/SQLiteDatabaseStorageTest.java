@@ -1,7 +1,6 @@
 package com.djrapitops.rom.backend.database;
 
 import com.djrapitops.rom.backend.Operations;
-import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.game.FileExtension;
 import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.game.GameFile;
@@ -39,7 +38,7 @@ public class SQLiteDatabaseStorageTest {
     }
 
     @Test
-    public void savesGamesSuccessfully() throws BackendException {
+    public void savesGamesSuccessfully() {
         Game expected = createGame();
         db.save(Operations.GAME, expected);
 
@@ -51,7 +50,7 @@ public class SQLiteDatabaseStorageTest {
     }
 
     @Test
-    public void removeGamesSuccessfully() throws BackendException {
+    public void removeGamesSuccessfully() {
         savesGamesSuccessfully();
 
         List<Game> singleton = Collections.singletonList(createGame());

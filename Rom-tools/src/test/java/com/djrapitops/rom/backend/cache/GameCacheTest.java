@@ -33,7 +33,7 @@ public class GameCacheTest {
     }
 
     @Test
-    public void mainBackendIntegration() throws BackendException {
+    public void mainBackendIntegration() {
         GameCache cache = new GameCache(testGameBackend);
         assertFalse(cache.isOpen());
         cache.open();
@@ -43,7 +43,7 @@ public class GameCacheTest {
     }
 
     @Test
-    public void mainBackendFailsToOpen() throws BackendException {
+    public void mainBackendFailsToOpen() {
         thrown.expect(BackendException.class);
         thrown.expectMessage(ThrowingGameBackend.OPEN);
 
@@ -61,7 +61,7 @@ public class GameCacheTest {
     }
 
     @Test
-    public void testBackendUnCached() throws BackendException {
+    public void testBackendUnCached() {
         // See TestGameBackend return value
         thrown.expect(BackendException.class);
         thrown.expectMessage(ThrowingGameBackend.FETCH);
@@ -72,7 +72,7 @@ public class GameCacheTest {
     }
 
     @Test
-    public void testCaching() throws BackendException {
+    public void testCaching() {
         List<Boolean> callsToWrapper = new ArrayList<>();
         List<String> expected = Arrays.asList("Test", "Passed");
 
@@ -93,7 +93,7 @@ public class GameCacheTest {
     }
 
     @Test
-    public void testClearsFromCache() throws BackendException {
+    public void testClearsFromCache() {
         List<Boolean> callsToWrapper = new ArrayList<>();
         List<String> expected = Arrays.asList("Test", "Passed");
 

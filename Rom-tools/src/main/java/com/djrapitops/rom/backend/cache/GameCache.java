@@ -41,7 +41,7 @@ public class GameCache implements GameBackend {
         clear(op.getKey());
     }
 
-    <T> T getOrFetch(Keys request, ThrowingWrapper<T, BackendException> fetch) throws BackendException {
+    <T> T getOrFetch(Keys request, ThrowingWrapper<T, BackendException> fetch) {
         Object inCache = cache.get(request);
         if (inCache != null) {
             return (T) inCache;
@@ -52,7 +52,7 @@ public class GameCache implements GameBackend {
     }
 
     @Override
-    public void open() throws BackendException {
+    public void open() {
         mainBackend.open();
     }
 

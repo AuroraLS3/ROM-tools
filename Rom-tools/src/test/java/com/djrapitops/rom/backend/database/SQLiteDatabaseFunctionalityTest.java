@@ -29,7 +29,7 @@ public class SQLiteDatabaseFunctionalityTest {
     private static SQLDatabase db;
 
     @BeforeClass
-    public static void setUpClass() throws Exception {
+    public static void setUpClass() {
         databaseFile = new File(temporaryFolder.getRoot(), "games.db");
         db = new SQLiteDatabase(databaseFile);
         db.open();
@@ -46,7 +46,7 @@ public class SQLiteDatabaseFunctionalityTest {
     }
 
     @Test
-    public void failsToOpenWhenNoSQLiteClass() throws BackendException {
+    public void failsToOpenWhenNoSQLiteClass() {
         thrown.expect(BackendException.class);
         thrown.expectMessage("Failed to open a new database connection");
 
@@ -55,7 +55,7 @@ public class SQLiteDatabaseFunctionalityTest {
     }
 
     @Test
-    public void executeSucceeds() throws BackendException {
+    public void executeSucceeds() {
         String sql = "INSERT INTO " + FileTable.TABLE_NAME + " (" +
                 FileTable.Col.GAME_ID + ", " +
                 FileTable.Col.CHECKSUM + ", " +
@@ -84,7 +84,7 @@ public class SQLiteDatabaseFunctionalityTest {
     }
 
     @Test
-    public void executeBatchSucceeds() throws BackendException {
+    public void executeBatchSucceeds() {
         String sql = "INSERT INTO " + FileTable.TABLE_NAME + " (" +
                 FileTable.Col.GAME_ID + ", " +
                 FileTable.Col.CHECKSUM + ", " +
@@ -114,7 +114,7 @@ public class SQLiteDatabaseFunctionalityTest {
     }
 
     @Test
-    public void executeFailsOnBadSQL() throws BackendException {
+    public void executeFailsOnBadSQL() {
         String sql = "INSERT INTO " + FileTable.TABLE_NAME + " (" +
                 FileTable.Col.FILE_PATH +
                 ") VALUES (?)";
@@ -130,7 +130,7 @@ public class SQLiteDatabaseFunctionalityTest {
     }
 
     @Test
-    public void executeBatchFailsOnBadSQL() throws BackendException {
+    public void executeBatchFailsOnBadSQL() {
         String sql = "INSERT INTO " + FileTable.TABLE_NAME + " (" +
                 FileTable.Col.FILE_PATH +
                 ") VALUES (?)";
@@ -147,7 +147,7 @@ public class SQLiteDatabaseFunctionalityTest {
     }
 
     @Test
-    public void queryFailsOnBadSQL() throws BackendException {
+    public void queryFailsOnBadSQL() {
         String sql = "INSERT INTO " + FileTable.TABLE_NAME + " (" +
                 FileTable.Col.FILE_PATH +
                 ") VALUES (?)";

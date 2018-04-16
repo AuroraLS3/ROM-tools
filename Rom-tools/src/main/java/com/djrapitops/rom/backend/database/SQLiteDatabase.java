@@ -33,7 +33,7 @@ public class SQLiteDatabase extends SQLDatabase {
     }
 
     @Override
-    public void execute(ExecuteStatement statement) throws BackendException {
+    public void execute(ExecuteStatement statement) {
         try {
             statement.execute(getConnection().prepareStatement(statement.getSql()));
         } catch (SQLException e) {
@@ -42,7 +42,7 @@ public class SQLiteDatabase extends SQLDatabase {
     }
 
     @Override
-    public void executeBatch(ExecuteStatement statement) throws BackendException {
+    public void executeBatch(ExecuteStatement statement) {
         try {
             statement.executeBatch(getConnection().prepareStatement(statement.getSql()));
         } catch (SQLException e) {
@@ -51,7 +51,7 @@ public class SQLiteDatabase extends SQLDatabase {
     }
 
     @Override
-    public <T> T query(QueryStatement<T> statement) throws BackendException {
+    public <T> T query(QueryStatement<T> statement) {
         try {
             return statement.executeQuery(connection.prepareStatement(statement.getSql()));
         } catch (SQLException e) {
@@ -60,7 +60,7 @@ public class SQLiteDatabase extends SQLDatabase {
     }
 
     @Override
-    public void open() throws BackendException {
+    public void open() {
         connection = getConnection();
         tables.createTables();
         open = true;
@@ -84,14 +84,14 @@ public class SQLiteDatabase extends SQLDatabase {
         }
     }
 
-    private Connection getConnection() throws BackendException {
+    private Connection getConnection() {
         if (connection == null) {
             connection = getNewConnection();
         }
         return connection;
     }
 
-    private Connection getNewConnection() throws BackendException {
+    private Connection getNewConnection() {
         try {
             Class.forName("org.sqlite.JDBC");
 

@@ -16,7 +16,7 @@ import java.util.Map;
  * @see SQLDatabase
  * @see SQLTables
  */
-public abstract class DAO<T> {
+public interface DAO<T> {
 
     /**
      * Add an object to the backend.
@@ -24,7 +24,7 @@ public abstract class DAO<T> {
      * @param obj Object to add.
      * @throws BackendException If backend fails to save.
      */
-    public abstract void add(SQLTables tables, T obj);
+    void add(SQLTables tables, T obj);
 
     /**
      * Get an object with the Filter specified.
@@ -32,11 +32,11 @@ public abstract class DAO<T> {
      * @param filter Filter to reduce the selection of the DAO Selector.
      * @return T object.
      */
-    public abstract T get(SQLTables tables, Filter filter);
+    T get(SQLTables tables, Filter filter);
 
-    public abstract void remove(SQLTables tables, T obj) throws BackendException;
+    void remove(SQLTables tables, T obj);
 
-    public interface Filter extends Wrapper<Map<Integer, Serializable>> {
+    interface Filter extends Wrapper<Map<Integer, Serializable>> {
 
     }
 }

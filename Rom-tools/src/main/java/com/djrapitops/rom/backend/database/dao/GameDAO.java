@@ -2,7 +2,6 @@ package com.djrapitops.rom.backend.database.dao;
 
 import com.djrapitops.rom.backend.database.DAO;
 import com.djrapitops.rom.backend.database.table.SQLTables;
-import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.game.Game;
 
 /**
@@ -27,7 +26,7 @@ public class GameDAO extends DAO<Game> {
     }
 
     @Override
-    public void remove(SQLTables tables, Game obj) throws BackendException {
+    public void remove(SQLTables tables, Game obj) {
         throw new UnsupportedOperationException("Not implemented");
     }
 }

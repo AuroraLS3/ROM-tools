@@ -74,7 +74,13 @@ public class Backend {
         this.exceptionHandler = exceptionHandler;
     }
 
-    public void open(Frontend frontend) throws BackendException {
+    /**
+     * Open the Backend using a specific Frontend.
+     *
+     * @param frontend Frontend to use for updates.
+     * @throws BackendException If Backend fails to open.
+     */
+    public void open(Frontend frontend) {
         try {
             gameBackend.open();
             Game fakeGame = new Game("Fakegame");

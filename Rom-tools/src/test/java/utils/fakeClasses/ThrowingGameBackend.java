@@ -27,7 +27,7 @@ public class ThrowingGameBackend implements GameBackend {
     }
 
     @Override
-    public void open() throws BackendException {
+    public void open() {
         throw new BackendException(OPEN);
     }
 

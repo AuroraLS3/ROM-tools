@@ -22,7 +22,7 @@ public class BackendIntegrationTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void testOpenDoesNotThrowException() throws BackendException {
+    public void testOpenDoesNotThrowException() {
         Backend backend = new Backend();
         Main.setBackend(backend);
         UIUpdateProcess updateProcess = new UIUpdateProcess();
@@ -47,7 +47,7 @@ public class BackendIntegrationTest {
     }
 
     @Test
-    public void testOpenDoesThrowsException() throws BackendException {
+    public void testOpenDoesThrowsException() {
         Backend backend = null;
         Backend backend2 = null;
         try {

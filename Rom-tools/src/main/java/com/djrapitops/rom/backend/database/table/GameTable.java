@@ -30,7 +30,7 @@ public class GameTable extends Table {
     }
 
     @Override
-    public void createTable() throws BackendException {
+    public void createTable() {
         String sql = TableSQLParser.createTable(tableName)
                 .primaryKeyIDColumn(Col.ID)
                 .column(Col.NAME, "varchar(500)").notNull().unique()
@@ -45,7 +45,7 @@ public class GameTable extends Table {
      * @return ID of the new column, or ID of the existing column with this name.
      * @throws BackendException If an error occurs executing or querying the database.
      */
-    public int saveGame(Game game) throws BackendException {
+    public int saveGame(Game game) {
         String sql = "REPLACE INTO " + tableName + " (" +
                 Col.NAME +
                 ") VALUES (?)";
@@ -72,7 +72,13 @@ public class GameTable extends Table {
         });
     }
 
-    public Map<Integer, Game> getGames() throws BackendException {
+    /**
+     * Get All games in the database.
+     *
+     * @return Map with ID, Game - key, value pair
+     * @throws BackendException If operation fails.
+     */
+    public Map<Integer, Game> getGames() {
         String sql = "SELECT * FROM " + tableName;
 
         return query(new QueryAllStatement<Map<Integer, Game>>(sql, 10000) {
@@ -89,7 +95,13 @@ public class GameTable extends Table {
         });
     }
 
-    public Map<String, Integer> getGameIDMap() throws BackendException {
+    /**
+     * Get game ID map from the database.
+     *
+     * @return Map with Game name, ID - key, value pair
+     * @throws BackendException If operation fails.
+     */
+    public Map<String, Integer> getGameIDMap() {
         String sql = "SELECT * FROM " + tableName;
 
         return query(new QueryAllStatement<Map<String, Integer>>(sql, 10000) {
@@ -104,7 +116,13 @@ public class GameTable extends Table {
         });
     }
 
-    public void removeGames(Collection<Game> games) throws BackendException {
+    /**
+     * Removes specific games from the database.
+     *
+     * @param games Games to remove.
+     * @throws BackendException If the operation fails.
+     */
+    public void removeGames(Collection<Game> games) {
         String sql = "DELETE FROM " + tableName + " WHERE " + Col.NAME + "=?";
 
         executeBatch(new ExecuteStatement(sql) {

@@ -2,7 +2,6 @@ package utils.fakeClasses;
 
 import com.djrapitops.rom.backend.database.DAO;
 import com.djrapitops.rom.backend.database.table.SQLTables;
-import com.djrapitops.rom.exceptions.BackendException;
 
 public class FakeDAO<T> extends DAO<T> {
 
@@ -17,7 +16,7 @@ public class FakeDAO<T> extends DAO<T> {
     }
 
     @Override
-    public void remove(SQLTables tables, T obj) throws BackendException {
+    public void remove(SQLTables tables, T obj) {
 
     }
 }

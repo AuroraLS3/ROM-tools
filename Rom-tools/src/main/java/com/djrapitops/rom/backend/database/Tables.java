@@ -16,7 +16,12 @@ public interface Tables {
 
     GameTable getGameTable();
 
-    void createTables() throws BackendException;
+    /**
+     * Creates all tables.
+     *
+     * @throws BackendException If can't make tables.
+     */
+    void createTables();
 
     MetadataTable getMetadataTable();
 }

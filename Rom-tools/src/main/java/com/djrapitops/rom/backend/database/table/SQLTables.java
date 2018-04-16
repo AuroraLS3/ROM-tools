@@ -25,7 +25,7 @@ public class SQLTables implements Tables {
     }
 
     @Override
-    public void createTables() throws BackendException {
+    public void createTables() {
         int newestSchemaVersion = 1;
         boolean newDatabase = versionTable.isNewDatabase();
 

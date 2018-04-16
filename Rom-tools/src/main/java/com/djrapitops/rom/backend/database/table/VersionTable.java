@@ -25,14 +25,20 @@ public class VersionTable extends Table {
     }
 
     @Override
-    public void createTable() throws BackendException {
+    public void createTable() {
         createTable(TableSQLParser.createTable(tableName)
                 .column(VERSION_COL, "integer").notNull()
                 .toString()
         );
     }
 
-    public boolean isNewDatabase() throws BackendException {
+    /**
+     * Check if the database was just created.
+     *
+     * @return true/false
+     * @throws BackendException If operation fails.
+     */
+    public boolean isNewDatabase() {
         String sql = "SELECT tbl_name FROM sqlite_master WHERE tbl_name=?";
 
         return query(new QueryStatement<Boolean>(sql) {
@@ -48,7 +54,13 @@ public class VersionTable extends Table {
         });
     }
 
-    public int getVersion() throws BackendException {
+    /**
+     * Get the Database schema version.
+     *
+     * @return version in version table.
+     * @throws BackendException If operation fails.
+     */
+    public int getVersion() {
         String sql = "SELECT * FROM " + tableName;
 
         return query(new QueryAllStatement<Integer>(sql) {
@@ -63,7 +75,12 @@ public class VersionTable extends Table {
         });
     }
 
-    public void setVersion(int version) throws BackendException {
+    /**
+     * Set the Database schema version.
+     *
+     * @param version version in version table.
+     */
+    public void setVersion(int version) {
         String sql = "REPLACE INTO " + tableName + " (" + VERSION_COL + ") VALUES (?)";
 
         execute(new ExecuteStatement(sql) {

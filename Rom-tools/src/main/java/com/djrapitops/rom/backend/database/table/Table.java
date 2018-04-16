@@ -3,7 +3,6 @@ package com.djrapitops.rom.backend.database.table;
 import com.djrapitops.rom.backend.database.SQLDatabase;
 import com.djrapitops.rom.backend.database.sql.ExecuteStatement;
 import com.djrapitops.rom.backend.database.sql.QueryStatement;
-import com.djrapitops.rom.exceptions.BackendException;
 
 /**
  * Abstract representation of a database table.
@@ -24,21 +23,21 @@ public abstract class Table {
         return table.tableName + "." + column;
     }
 
-    public abstract void createTable() throws BackendException;
+    public abstract void createTable();
 
-    protected void createTable(String sql) throws BackendException {
+    protected void createTable(String sql) {
         db.createTable(sql);
     }
 
-    protected <T> T query(QueryStatement<T> query) throws BackendException {
+    protected <T> T query(QueryStatement<T> query) {
         return db.query(query);
     }
 
-    protected void execute(ExecuteStatement execute) throws BackendException {
+    protected void execute(ExecuteStatement execute) {
         db.execute(execute);
     }
 
-    protected void executeBatch(ExecuteStatement execute) throws BackendException {
+    protected void executeBatch(ExecuteStatement execute) {
         db.executeBatch(execute);
     }
 }

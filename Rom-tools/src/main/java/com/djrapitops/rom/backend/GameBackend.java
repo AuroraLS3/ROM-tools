@@ -26,9 +26,9 @@ public interface GameBackend {
     /**
      * Performs actions necessary to open the backend.
      *
-     * @throws BackendException If the operation fails.
+     * @throws BackendException If the backend fails to open.
      */
-    void open() throws BackendException;
+    void open();
 
     /**
      * Check if backend is available.

@@ -4,7 +4,6 @@ import com.djrapitops.rom.backend.database.SQLDatabase;
 import com.djrapitops.rom.backend.database.sql.ExecuteStatement;
 import com.djrapitops.rom.backend.database.sql.QueryAllStatement;
 import com.djrapitops.rom.backend.database.sql.TableSQLParser;
-import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.game.Console;
 import com.djrapitops.rom.game.Metadata;
 
@@ -30,7 +29,7 @@ public class MetadataTable extends Table {
     }
 
     @Override
-    public void createTable() throws BackendException {
+    public void createTable() {
         String sql = TableSQLParser.createTable(tableName)
                 .primaryKeyIDColumn(Col.ID)
                 .column(Col.NAME, "varchar(500)").notNull()
@@ -41,7 +40,7 @@ public class MetadataTable extends Table {
         createTable(sql);
     }
 
-    public void saveMetadata(int gameId, Metadata metadata) throws BackendException {
+    public void saveMetadata(int gameId, Metadata metadata) {
         String sql = "INSERT INTO " + tableName + "(" +
                 Col.GAME_ID + ", " +
                 Col.NAME + ", " +
@@ -58,7 +57,7 @@ public class MetadataTable extends Table {
         });
     }
 
-    public Map<Integer, Metadata> getMetadata() throws BackendException {
+    public Map<Integer, Metadata> getMetadata() {
         String sql = "SELECT * FROM " + tableName;
 
         return query(new QueryAllStatement<Map<Integer, Metadata>>(sql, 10000) {
@@ -81,7 +80,7 @@ public class MetadataTable extends Table {
         });
     }
 
-    public void removeMetadata(List<Integer> gameIDs) throws BackendException {
+    public void removeMetadata(List<Integer> gameIDs) {
         String sql = "DELETE FROM " + tableName + " WHERE " + Col.GAME_ID + "=?";
 
         executeBatch(new ExecuteStatement(sql) {
