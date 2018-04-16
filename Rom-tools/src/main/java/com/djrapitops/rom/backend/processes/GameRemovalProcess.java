@@ -1,7 +1,7 @@
 package com.djrapitops.rom.backend.processes;
 
 import com.djrapitops.rom.backend.Backend;
-import com.djrapitops.rom.backend.GameBackend;
+import com.djrapitops.rom.backend.Operations;
 import com.djrapitops.rom.game.Game;
 
 import java.util.List;
@@ -23,9 +23,8 @@ public class GameRemovalProcess implements Callable<List<Game>> {
 
     @Override
     public List<Game> call() throws Exception {
+        Operations.ALL_GAMES.remove(toRemove.get());
         Backend backend = Backend.getInstance();
-        GameBackend gameBackend = backend.getGameBackend();
-        gameBackend.remove().games(toRemove.get());
-        return backend.submitTask(new GameLoadingProcess(gameBackend)).get();
+        return backend.submitTask(new GameLoadingProcess(backend.getGameBackend())).get();
     }
 }

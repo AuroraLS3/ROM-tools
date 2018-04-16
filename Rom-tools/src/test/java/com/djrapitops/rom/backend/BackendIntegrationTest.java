@@ -1,5 +1,6 @@
 package com.djrapitops.rom.backend;
 
+import com.djrapitops.rom.Main;
 import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.frontend.Frontend;
 import com.djrapitops.rom.frontend.updating.UIUpdateProcess;
@@ -23,6 +24,7 @@ public class BackendIntegrationTest {
     @Test
     public void testOpenDoesNotThrowException() throws BackendException {
         Backend backend = new Backend();
+        Main.setBackend(backend);
         UIUpdateProcess updateProcess = new UIUpdateProcess();
 
         backend.open(new Frontend() {
@@ -53,6 +55,7 @@ public class BackendIntegrationTest {
             thrown.expectMessage("Program is already running! Only one instance can run at a time.");
 
             backend = new Backend();
+            Main.setBackend(backend);
             UIUpdateProcess updateProcess = new UIUpdateProcess();
 
             Frontend frontend = new Frontend() {

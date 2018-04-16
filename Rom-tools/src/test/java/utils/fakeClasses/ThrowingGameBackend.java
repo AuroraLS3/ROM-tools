@@ -1,28 +1,29 @@
 package utils.fakeClasses;
 
 import com.djrapitops.rom.backend.GameBackend;
-import com.djrapitops.rom.backend.operations.FetchOperations;
-import com.djrapitops.rom.backend.operations.RemoveOperations;
-import com.djrapitops.rom.backend.operations.SaveOperations;
+import com.djrapitops.rom.backend.Operation;
 import com.djrapitops.rom.exceptions.BackendException;
 
 public class ThrowingGameBackend implements GameBackend {
 
     public static final String OPEN = "Open throws exception success";
+    public static final String SAVE = "Save throws exception success";
+    public static final String FETCH = "Fetch throws exception success";
+    public static final String REMOVE = "Remove throws exception success";
 
     @Override
-    public SaveOperations save() {
-        return null;
+    public <T> void save(Operation<T> op, T obj) {
+        throw new BackendException(SAVE);
     }
 
     @Override
-    public FetchOperations fetch() {
-        return null;
+    public <T> T fetch(Operation<T> op) {
+        throw new BackendException(FETCH);
     }
 
     @Override
-    public RemoveOperations remove() {
-        return null;
+    public <T> void remove(Operation<T> op, T obj) {
+        throw new BackendException(REMOVE);
     }
 
     @Override

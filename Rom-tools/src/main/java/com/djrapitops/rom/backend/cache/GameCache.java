@@ -1,9 +1,7 @@
 package com.djrapitops.rom.backend.cache;
 
 import com.djrapitops.rom.backend.GameBackend;
-import com.djrapitops.rom.backend.operations.FetchOperations;
-import com.djrapitops.rom.backend.operations.RemoveOperations;
-import com.djrapitops.rom.backend.operations.SaveOperations;
+import com.djrapitops.rom.backend.Operation;
 import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.util.ThrowingWrapper;
 
@@ -19,23 +17,31 @@ public class GameCache implements GameBackend {
 
     private final GameBackend mainBackend;
 
-    private final Map<Request, Object> cache;
-    private final CacheFetchOperations fetchOperations;
-    private final CacheRemoveOperations cacheRemoveOperations;
+    private final Map<Keys, Object> cache;
 
     public GameCache(GameBackend mainBackend) {
         this.mainBackend = mainBackend;
-        cache = new EnumMap<>(Request.class);
-        fetchOperations = new CacheFetchOperations(this);
-        cacheRemoveOperations = new CacheRemoveOperations(this);
+        cache = new EnumMap<>(Keys.class);
     }
 
     @Override
-    public FetchOperations fetch() {
-        return fetchOperations;
+    public <T> void save(Operation<T> op, T obj) {
+        mainBackend.save(op, obj);
+        clear(op.getKey());
     }
 
-    <T> T getOrFetch(Request request, ThrowingWrapper<T, BackendException> fetch) throws BackendException {
+    @Override
+    public <T> T fetch(Operation<T> op) {
+        return getOrFetch(op.getKey(), () -> mainBackend.fetch(op));
+    }
+
+    @Override
+    public <T> void remove(Operation<T> op, T obj) {
+        mainBackend.remove(op, obj);
+        clear(op.getKey());
+    }
+
+    <T> T getOrFetch(Keys request, ThrowingWrapper<T, BackendException> fetch) throws BackendException {
         Object inCache = cache.get(request);
         if (inCache != null) {
             return (T) inCache;
@@ -43,16 +49,6 @@ public class GameCache implements GameBackend {
         T result = fetch.get();
         cache.put(request, result);
         return result;
-    }
-
-    @Override
-    public SaveOperations save() {
-        return mainBackend.save();
-    }
-
-    @Override
-    public RemoveOperations remove() {
-        return cacheRemoveOperations;
     }
 
     @Override
@@ -74,11 +70,7 @@ public class GameCache implements GameBackend {
         return mainBackend;
     }
 
-    public void clear(Request request) {
+    public void clear(Keys request) {
         cache.remove(request);
-    }
-
-    public enum Request {
-        GET_GAMES
     }
 }

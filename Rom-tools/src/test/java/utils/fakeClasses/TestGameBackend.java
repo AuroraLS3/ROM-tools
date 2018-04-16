@@ -1,27 +1,28 @@
 package utils.fakeClasses;
 
 import com.djrapitops.rom.backend.GameBackend;
-import com.djrapitops.rom.backend.operations.FetchOperations;
-import com.djrapitops.rom.backend.operations.RemoveOperations;
-import com.djrapitops.rom.backend.operations.SaveOperations;
+import com.djrapitops.rom.backend.Operation;
 
 public class TestGameBackend implements GameBackend {
 
     private boolean open = false;
+    private Object lastSaved;
+    private Object lastRemoved;
+    private boolean fetched = false;
 
     @Override
-    public SaveOperations save() {
-        return null;
+    public <T> void save(Operation<T> op, T obj) {
+        lastSaved = obj;
     }
 
     @Override
-    public FetchOperations fetch() {
-        return null;
+    public <T> T fetch(Operation<T> op) {
+        return op.getDao().get(null, null);
     }
 
     @Override
-    public RemoveOperations remove() {
-        return null;
+    public <T> void remove(Operation<T> op, T obj) {
+        lastRemoved = obj;
     }
 
     @Override
@@ -37,5 +38,17 @@ public class TestGameBackend implements GameBackend {
     @Override
     public void close() {
         open = false;
+    }
+
+    public Object getLastSaved() {
+        return lastSaved;
+    }
+
+    public Object getLastRemoved() {
+        return lastRemoved;
+    }
+
+    public boolean isFetched() {
+        return fetched;
     }
 }

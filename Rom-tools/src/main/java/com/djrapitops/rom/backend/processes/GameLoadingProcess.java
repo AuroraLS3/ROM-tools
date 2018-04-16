@@ -1,6 +1,7 @@
 package com.djrapitops.rom.backend.processes;
 
 import com.djrapitops.rom.backend.GameBackend;
+import com.djrapitops.rom.backend.Operations;
 import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.game.Game;
 
@@ -23,7 +24,7 @@ public class GameLoadingProcess implements Callable<List<Game>> {
     @Override
     public List<Game> call() {
         try {
-            return backend.fetch().getGames();
+            return Operations.ALL_GAMES.get();
         } catch (BackendException e) {
             throw new IllegalStateException(e);
         }

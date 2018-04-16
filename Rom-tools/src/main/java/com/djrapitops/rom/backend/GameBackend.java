@@ -1,8 +1,5 @@
 package com.djrapitops.rom.backend;
 
-import com.djrapitops.rom.backend.operations.FetchOperations;
-import com.djrapitops.rom.backend.operations.RemoveOperations;
-import com.djrapitops.rom.backend.operations.SaveOperations;
 import com.djrapitops.rom.exceptions.BackendException;
 
 /**
@@ -15,16 +12,16 @@ public interface GameBackend {
     /**
      * Perform a Save operation.
      *
-     * @return Object to use for the operation.
+     * @param op Operation object used to do the saving.
      */
-    SaveOperations save();
+    <T> void save(Operation<T> op, T obj);
 
     /**
      * Perform a Fetch operation.
      *
-     * @return Object to use for the operation.
+     * @return Result of the operation.
      */
-    FetchOperations fetch();
+    <T> T fetch(Operation<T> op);
 
     /**
      * Performs actions necessary to open the backend.
@@ -48,6 +45,5 @@ public interface GameBackend {
      */
     void close();
 
-
-    RemoveOperations remove();
+    <T> void remove(Operation<T> op, T obj);
 }

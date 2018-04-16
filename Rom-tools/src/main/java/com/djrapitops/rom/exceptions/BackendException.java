@@ -5,7 +5,7 @@ package com.djrapitops.rom.exceptions;
  *
  * @author Rsl1122
  */
-public class BackendException extends Exception {
+public class BackendException extends RuntimeException {
 
     public BackendException(String s) {
         super(s);

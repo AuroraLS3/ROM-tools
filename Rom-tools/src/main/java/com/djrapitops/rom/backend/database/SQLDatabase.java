@@ -1,15 +1,10 @@
 package com.djrapitops.rom.backend.database;
 
 import com.djrapitops.rom.backend.GameBackend;
-import com.djrapitops.rom.backend.database.operations.SQLFetchOps;
-import com.djrapitops.rom.backend.database.operations.SQLRemoveOps;
-import com.djrapitops.rom.backend.database.operations.SQLSaveOps;
+import com.djrapitops.rom.backend.Operation;
 import com.djrapitops.rom.backend.database.sql.ExecuteStatement;
 import com.djrapitops.rom.backend.database.sql.QueryStatement;
 import com.djrapitops.rom.backend.database.table.SQLTables;
-import com.djrapitops.rom.backend.operations.FetchOperations;
-import com.djrapitops.rom.backend.operations.RemoveOperations;
-import com.djrapitops.rom.backend.operations.SaveOperations;
 import com.djrapitops.rom.exceptions.BackendException;
 
 import java.sql.PreparedStatement;
@@ -22,30 +17,24 @@ import java.sql.PreparedStatement;
 public abstract class SQLDatabase implements GameBackend {
 
     protected SQLTables tables;
-    private final SQLFetchOps fetchOps;
-    private final SQLSaveOps saveOps;
-    private final SQLRemoveOps removeOps;
 
     public SQLDatabase() {
         tables = new SQLTables(this);
-        fetchOps = new SQLFetchOps(this);
-        saveOps = new SQLSaveOps(this);
-        removeOps = new SQLRemoveOps(this);
     }
 
     @Override
-    public FetchOperations fetch() {
-        return fetchOps;
+    public <T> void save(Operation<T> op, T obj) {
+        op.getDao().add(tables, obj);
     }
 
     @Override
-    public SaveOperations save() {
-        return saveOps;
+    public <T> T fetch(Operation<T> op) {
+        return op.getDao().get(tables, op.getFilter());
     }
 
     @Override
-    public RemoveOperations remove() {
-        return removeOps;
+    public <T> void remove(Operation<T> op, T obj) {
+        op.getDao().remove(tables, obj);
     }
 
     /**

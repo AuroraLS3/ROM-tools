@@ -1,5 +1,6 @@
 package com.djrapitops.rom.backend.database;
 
+import com.djrapitops.rom.backend.Operations;
 import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.game.FileExtension;
 import com.djrapitops.rom.game.Game;
@@ -26,7 +27,7 @@ public class SQLiteDatabaseStorageTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @BeforeClass
-    public static void setUpClass() throws Exception {
+    public static void setUpClass() {
         File databaseFile = new File(temporaryFolder.getRoot(), "games.db");
         db = new SQLiteDatabase(databaseFile);
         db.open();
@@ -40,9 +41,9 @@ public class SQLiteDatabaseStorageTest {
     @Test
     public void savesGamesSuccessfully() throws BackendException {
         Game expected = createGame();
-        db.save().saveGame(expected);
+        db.save(Operations.GAME, expected);
 
-        List<Game> games = db.fetch().getGames();
+        List<Game> games = db.fetch(Operations.ALL_GAMES);
         assertEquals(1, games.size());
 
         Game result = games.get(0);
@@ -53,9 +54,10 @@ public class SQLiteDatabaseStorageTest {
     public void removeGamesSuccessfully() throws BackendException {
         savesGamesSuccessfully();
 
-        db.remove().games(Collections.singleton(createGame()));
+        List<Game> singleton = Collections.singletonList(createGame());
+        db.remove(Operations.ALL_GAMES, singleton);
 
-        List<Game> games = db.fetch().getGames();
+        List<Game> games = db.fetch(Operations.ALL_GAMES);
         assertTrue(games.isEmpty());
     }
 

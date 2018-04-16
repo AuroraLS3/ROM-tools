@@ -1,18 +1,19 @@
 package com.djrapitops.rom.backend.cache;
 
-import com.djrapitops.rom.backend.GameBackend;
-import com.djrapitops.rom.backend.operations.FetchOperations;
+import com.djrapitops.rom.backend.Operation;
 import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.util.ThrowingWrapper;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import utils.fakeClasses.FakeDAO;
 import utils.fakeClasses.TestGameBackend;
 import utils.fakeClasses.ThrowingGameBackend;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -22,8 +23,8 @@ public class GameCacheTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    private GameBackend testGameBackend;
-    private GameBackend throwingGameBackend;
+    private TestGameBackend testGameBackend;
+    private ThrowingGameBackend throwingGameBackend;
 
     @Before
     public void setUp() {
@@ -54,20 +55,20 @@ public class GameCacheTest {
     public void savingToMainBackend() {
         GameCache cache = new GameCache(testGameBackend);
 
-        // See TestGameBackend return value
-        assertNull(cache.save());
+        String expected = "Test";
+        cache.save(new Operation<String>(FakeDAO::new, () -> Collections.EMPTY_MAP, Keys.GAMES), expected);
+        assertEquals(expected, testGameBackend.getLastSaved());
     }
 
     @Test
     public void testBackendUnCached() throws BackendException {
         // See TestGameBackend return value
-        thrown.expect(NullPointerException.class);
+        thrown.expect(BackendException.class);
+        thrown.expectMessage(ThrowingGameBackend.FETCH);
 
-        GameCache cache = new GameCache(testGameBackend);
-        FetchOperations fetch = cache.fetch();
-        assertTrue(fetch instanceof CacheFetchOperations);
+        GameCache cache = new GameCache(throwingGameBackend);
 
-        fetch.getGames();
+        cache.fetch(new Operation<String>(FakeDAO::new, () -> Collections.EMPTY_MAP, Keys.GAMES));
     }
 
     @Test
@@ -83,10 +84,10 @@ public class GameCacheTest {
         GameCache cache = new GameCache(testGameBackend);
 
         assertEquals(0, callsToWrapper.size());
-        assertEquals(expected, cache.getOrFetch(GameCache.Request.GET_GAMES, wrapper));
+        assertEquals(expected, cache.getOrFetch(Keys.GAMES, wrapper));
         assertEquals(1, callsToWrapper.size());
 
-        assertEquals(expected, cache.getOrFetch(GameCache.Request.GET_GAMES, wrapper));
+        assertEquals(expected, cache.getOrFetch(Keys.GAMES, wrapper));
         // Calls still one since request is fetched from cache.
         assertEquals(1, callsToWrapper.size());
     }
@@ -103,11 +104,11 @@ public class GameCacheTest {
 
         GameCache cache = new GameCache(testGameBackend);
 
-        assertEquals(expected, cache.getOrFetch(GameCache.Request.GET_GAMES, wrapper));
+        assertEquals(expected, cache.getOrFetch(Keys.GAMES, wrapper));
 
-        cache.clear(GameCache.Request.GET_GAMES);
+        cache.clear(Keys.GAMES);
 
-        assertEquals(expected, cache.getOrFetch(GameCache.Request.GET_GAMES, wrapper));
+        assertEquals(expected, cache.getOrFetch(Keys.GAMES, wrapper));
         // Calls are now two since request is fetched from backend.
         assertEquals(2, callsToWrapper.size());
     }

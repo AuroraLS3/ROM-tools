@@ -2,6 +2,7 @@ package com.djrapitops.rom.backend;
 
 import com.djrapitops.rom.Main;
 import com.djrapitops.rom.backend.cache.GameCache;
+import com.djrapitops.rom.backend.database.SQLDatabase;
 import com.djrapitops.rom.backend.database.SQLiteDatabase;
 import com.djrapitops.rom.backend.processes.StartProcess;
 import com.djrapitops.rom.exceptions.BackendException;
@@ -25,7 +26,7 @@ import java.util.logging.Logger;
  */
 public class Backend {
 
-    private final GameBackend gameStorage;
+    private final SQLDatabase gameStorage;
     private final GameBackend gameBackend;
 
     private final ExecutorService taskService;
@@ -57,7 +58,7 @@ public class Backend {
         return taskService.submit(task);
     }
 
-    public GameBackend getGameStorage() {
+    public SQLDatabase getGameStorage() {
         return gameStorage;
     }
 
@@ -78,10 +79,10 @@ public class Backend {
             gameBackend.open();
             Game fakeGame = new Game("Fakegame");
             fakeGame.setMetadata(Metadata.create().setName("Fake Game").setConsole(Console.GAMECUBE).build());
-            gameBackend.save().saveGame(fakeGame);
+            Operations.GAME.save(fakeGame);
             Game fakeGame2 = new Game("Fakegame2");
             fakeGame2.setMetadata(Metadata.create().setName("Fake Game 2").setConsole(Console.GAMECUBE).build());
-            gameBackend.save().saveGame(fakeGame2);
+            Operations.GAME.save(fakeGame2);
 
             submitTask(new StartProcess(this, frontend));
         } catch (BackendException e) {
