@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  *
  * @author Rsl1122
  */
-public class GamesDAO extends DAO<List<Game>> {
+public class GamesDAO implements DAO<List<Game>> {
 
     @Override
     public void add(SQLTables tables, List<Game> games) {

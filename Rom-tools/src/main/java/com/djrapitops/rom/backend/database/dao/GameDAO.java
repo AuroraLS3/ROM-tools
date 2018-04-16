@@ -9,7 +9,7 @@ import com.djrapitops.rom.game.Game;
  *
  * @author Rsl1122
  */
-public class GameDAO extends DAO<Game> {
+public class GameDAO implements DAO<Game> {
 
     @Override
     public void add(SQLTables tables, Game game) {
