@@ -21,4 +21,4 @@ Date | Hours used | Description
 16.04.18 | 1 | Work that was ultimately reverted because of bad design
 16.04.18 | 2 | Refactored bad Backend design to more extensible one
  | | 
-Total | 21 | 
+Total | 23 | 
