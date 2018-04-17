@@ -11,11 +11,17 @@ import java.util.concurrent.Future;
 public class Update<K> {
 
     private final Updatable<K> updatable;
-    private final Future<K> future;
+    private Future<K> future;
+    private K result;
 
     public Update(Updatable<K> updatable, Future<K> withResult) {
         this.updatable = updatable;
         this.future = withResult;
+    }
+
+    public Update(Updatable<K> updatable, K result) {
+        this.updatable = updatable;
+        this.result = result;
     }
 
     boolean isDone() {
@@ -29,6 +35,10 @@ public class Update<K> {
      * @throws InterruptedException If program has been shut down before calling this.
      */
     void update() throws ExecutionException, InterruptedException {
-        updatable.update(future.get());
+        updatable.update(getResult());
+    }
+
+    private K getResult() throws ExecutionException, InterruptedException {
+        return result != null ? result : future.get();
     }
 }

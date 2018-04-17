@@ -43,7 +43,7 @@ public enum Console {
     }
 
     public static Console resolveFromFilename(String fileName) {
-        FileExtension extension = FileExtension.getExtensionFor(fileName.substring(fileName.lastIndexOf(".")));
+        FileExtension extension = FileExtension.getExtensionFor(fileName.substring(fileName.lastIndexOf('.')));
         String name = fileName.toLowerCase();
         if (name.contains("atari")) {
             return Console.ATARI_2600;

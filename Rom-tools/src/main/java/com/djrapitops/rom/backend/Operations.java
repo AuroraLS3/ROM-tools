@@ -16,9 +16,9 @@ import java.util.List;
 public class Operations {
 
     public static final Operation<List<Game>> ALL_GAMES =
-            new Operation<>(GamesDAO::new, () -> Collections.EMPTY_MAP, Keys.GAMES);
+            new Operation<>(GamesDAO::new, Collections::emptyMap, Keys.GAMES);
     public static final Operation<Game> GAME =
-            new Operation<>(GameDAO::new, () -> Collections.EMPTY_MAP, Keys.GAMES);
+            new Operation<>(GameDAO::new, Collections::emptyMap, Keys.GAMES);
 
     private Operations() {
         /* Hides constructor */

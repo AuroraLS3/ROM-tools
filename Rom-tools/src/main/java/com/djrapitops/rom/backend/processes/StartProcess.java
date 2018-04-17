@@ -6,7 +6,7 @@ import com.djrapitops.rom.frontend.updating.Update;
 import com.djrapitops.rom.game.Game;
 
 import java.util.List;
-import java.util.concurrent.Future;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Process that performs backend processes.
@@ -25,15 +25,18 @@ public class StartProcess implements Runnable {
 
     @Override
     public void run() {
-        Future<List<Game>> gameLoadingTask = backend.submitTask(new GameLoadingProcess(backend.getGameBackend()));
-        Future<List<Game>> fileVerificationTask = backend.submitTask(new FileVerificationProcess(gameLoadingTask));
+        CompletableFuture<List<Game>> loaded = CompletableFuture.supplyAsync(GameProcesses::loadGames);
 
-        frontend.getUiUpdateProcess().submitTask(new Update<>(frontend, gameLoadingTask));
+        loaded.thenApplyAsync(FileProcesses::verifyFiles)
+                .thenAccept(GameProcesses::removeGames)
+                .thenApply(nothing -> GameProcesses.loadGames())
+                .thenAccept(this::updateFrontendWith);
 
-        backend.setOpen(true);
+        loaded.thenAcceptAsync(this::updateFrontendWith)
+                .thenAccept(nothing -> backend.setOpen(true));
+    }
 
-        Future<List<Game>> updatedGames = backend.submitTask(new GameRemovalProcess(fileVerificationTask));
-
-        frontend.getUiUpdateProcess().submitTask(new Update<>(frontend, updatedGames));
+    private void updateFrontendWith(List<Game> loaded) {
+        frontend.getUiUpdateProcess().submitTask(new Update<>(frontend, loaded));
     }
 }

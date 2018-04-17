@@ -20,7 +20,7 @@ import java.util.Map;
  * @author Rsl1122
  * @see SQLDatabase
  */
-public class MetadataTable extends Table {
+public class MetadataTable extends GameIDTable {
 
     public static final String TABLE_NAME = "metadata";
 
@@ -81,22 +81,12 @@ public class MetadataTable extends Table {
     }
 
     public void removeMetadata(List<Integer> gameIDs) {
-        String sql = "DELETE FROM " + tableName + " WHERE " + Col.GAME_ID + "=?";
-
-        executeBatch(new ExecuteStatement(sql) {
-            @Override
-            public void prepare(PreparedStatement statement) throws SQLException {
-                for (Integer gameId : gameIDs) {
-                    statement.setInt(1, gameId);
-                    statement.addBatch();
-                }
-            }
-        });
+        removeRelatedToIDs(gameIDs);
     }
 
     public static class Col {
         public static final String ID = "id";
-        public static final String GAME_ID = "game_id";
+        public static final String GAME_ID = GameIDTable.Col.GAME_ID;
         public static final String NAME = "name";
         public static final String CONSOLE = "console";
 

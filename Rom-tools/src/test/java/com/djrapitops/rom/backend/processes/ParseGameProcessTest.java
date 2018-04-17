@@ -17,9 +17,8 @@ public class ParseGameProcessTest extends FileTest {
     public void testAtari7800Game() throws Exception {
         File file = getFile("games" + File.separator + "Ace of Aces.a78");
 
-        ParseGameProcess process = new ParseGameProcess(Collections.singletonList(file));
+        Game game = FileProcesses.parseGame(Collections.singletonList(file));
 
-        Game game = process.call();
         Metadata metadata = game.getMetadata();
 
         assertEquals("Ace of Aces", game.getName());
@@ -33,9 +32,8 @@ public class ParseGameProcessTest extends FileTest {
                 + "Pac-Man (1982) (Atari, Tod Frye - Sears) (CX2646 - 49-75185).bin"
         );
 
-        ParseGameProcess process = new ParseGameProcess(Collections.singletonList(file));
+        Game game = FileProcesses.parseGame(Collections.singletonList(file));
 
-        Game game = process.call();
         Metadata metadata = game.getMetadata();
 
         assertEquals("Pac-Man", game.getName());

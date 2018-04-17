@@ -18,7 +18,7 @@ import java.util.*;
  * @author Rsl1122
  * @see SQLDatabase
  */
-public class FileTable extends Table {
+public class FileTable extends GameIDTable {
 
     public static final String TABLE_NAME = "files";
     private String insestStatement;
@@ -100,22 +100,12 @@ public class FileTable extends Table {
      * @param gameIDs IDs of the Games' files to remove
      */
     public void removeFiles(List<Integer> gameIDs) {
-        String sql = "DELETE FROM " + tableName + " WHERE " + Col.GAME_ID + "=?";
-
-        executeBatch(new ExecuteStatement(sql) {
-            @Override
-            public void prepare(PreparedStatement statement) throws SQLException {
-                for (Integer gameId : gameIDs) {
-                    statement.setInt(1, gameId);
-                    statement.addBatch();
-                }
-            }
-        });
+        removeRelatedToIDs(gameIDs);
     }
 
     public static class Col {
         public static final String ID = "id";
-        public static final String GAME_ID = "game_id";
+        public static final String GAME_ID = GameIDTable.Col.GAME_ID;
         public static final String EXTENSION = "file_extension";
         public static final String FILE_PATH = "file_path";
         public static final String CHECKSUM = "md5_checksum";

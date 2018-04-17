@@ -41,9 +41,7 @@ public class Backend {
         taskService = Executors.newFixedThreadPool(5);
 
         // Dummy Exception handler that logs to console if frontend doesn't set one.
-        exceptionHandler = (level, throwable) -> {
-            Logger.getGlobal().log(level, throwable.getMessage(), throwable);
-        };
+        exceptionHandler = (level, throwable) -> Logger.getGlobal().log(level, throwable.getMessage(), throwable);
     }
 
     public static Backend getInstance() {
