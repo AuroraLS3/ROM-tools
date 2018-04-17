@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class GameProcesses {
 
-    public GameProcesses() {
+    private GameProcesses() {
         /* Hides constructor */
     }
 

@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class FileProcesses {
 
-    public FileProcesses() {
+    private FileProcesses() {
         /* Hides constructor */
     }
 

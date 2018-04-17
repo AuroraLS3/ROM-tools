@@ -98,7 +98,6 @@ public class JavaFXFrontend extends Application implements Frontend {
     }
 
     public void changeView(Views view) {
-        System.out.println("Change view: " + view);
         Verify.notNull(primaryStage, () -> new IllegalStateException("Application has not been started yet."));
 
         Platform.runLater(() -> {
