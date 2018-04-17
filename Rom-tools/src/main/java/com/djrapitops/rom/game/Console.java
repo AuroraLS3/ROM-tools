@@ -48,6 +48,7 @@ public enum Console {
         if (name.contains("atari")) {
             return Console.ATARI_2600;
         } else if (name.contains("playstation") || name.contains("ps")) {
+            // TODO Refine this section
             if (name.contains("ps2")) {
                 return Console.PS2;
             } else if (name.contains("psx")) {
@@ -58,6 +59,6 @@ public enum Console {
         } else if (name.contains("cd")) {
             return Console.SEGA_CD;
         }
-        return Console.METADATA;
+        return extension.getConsole();
     }
 }
