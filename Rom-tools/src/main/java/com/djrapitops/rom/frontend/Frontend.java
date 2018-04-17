@@ -1,16 +1,14 @@
 package com.djrapitops.rom.frontend;
 
-import com.djrapitops.rom.frontend.updating.UIUpdateProcess;
-import com.djrapitops.rom.frontend.updating.Updatable;
-import com.djrapitops.rom.game.Game;
-
-import java.util.List;
+import com.djrapitops.rom.frontend.state.State;
+import com.djrapitops.rom.frontend.state.Updatable;
 
 /**
  * Represents a UI implementation.
  *
  * @author Rsl1122
  */
-public interface Frontend extends Updatable<List<Game>> {
-    UIUpdateProcess getUiUpdateProcess();
+public interface Frontend extends Updatable<State> {
+
+    State getState();
 }

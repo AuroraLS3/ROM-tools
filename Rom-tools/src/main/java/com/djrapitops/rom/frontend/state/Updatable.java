@@ -1,4 +1,4 @@
-package com.djrapitops.rom.frontend.updating;
+package com.djrapitops.rom.frontend.state;
 
 /**
  * Interface for any components that can be updated using the results of Futures.

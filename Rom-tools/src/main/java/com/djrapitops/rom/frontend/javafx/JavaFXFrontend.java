@@ -2,12 +2,12 @@ package com.djrapitops.rom.frontend.javafx;
 
 import com.djrapitops.rom.Main;
 import com.djrapitops.rom.backend.Backend;
+import com.djrapitops.rom.backend.Log;
 import com.djrapitops.rom.exceptions.ExceptionHandler;
 import com.djrapitops.rom.frontend.Frontend;
 import com.djrapitops.rom.frontend.javafx.components.MainNavigation;
 import com.djrapitops.rom.frontend.javafx.scenes.*;
-import com.djrapitops.rom.frontend.updating.UIUpdateProcess;
-import com.djrapitops.rom.game.Game;
+import com.djrapitops.rom.frontend.state.State;
 import com.djrapitops.rom.util.Verify;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -18,10 +18,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 /**
@@ -31,11 +27,10 @@ import java.util.logging.Level;
  */
 public class JavaFXFrontend extends Application implements Frontend {
 
-    private final ScheduledExecutorService uiUpdateService;
     private Stage primaryStage;
-    private UIUpdateProcess uiUpdateProcess;
 
     private Views currentView;
+    private final State state;
 
     // Shared components
     private MainNavigation mainNavigation;
@@ -48,8 +43,8 @@ public class JavaFXFrontend extends Application implements Frontend {
     private SettingsView settingsView;
 
     public JavaFXFrontend() {
-        uiUpdateService = Executors.newSingleThreadScheduledExecutor();
         currentView = Views.GAMES;
+        state = new State(this);
     }
 
     public static void start(String[] args) {
@@ -60,9 +55,6 @@ public class JavaFXFrontend extends Application implements Frontend {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-
-        uiUpdateProcess = new UIUpdateProcess();
-        uiUpdateService.scheduleWithFixedDelay(uiUpdateProcess, 20, 20, TimeUnit.MILLISECONDS);
 
         try {
             primaryStage.setTitle("ROM Tools");
@@ -122,13 +114,7 @@ public class JavaFXFrontend extends Application implements Frontend {
     }
 
     @Override
-    public UIUpdateProcess getUiUpdateProcess() {
-        return uiUpdateProcess;
-    }
-
-    @Override
     public void stop() {
-        uiUpdateService.shutdownNow();
         Backend.getInstance().close();
     }
 
@@ -141,7 +127,15 @@ public class JavaFXFrontend extends Application implements Frontend {
     }
 
     @Override
-    public void update(List<Game> with) {
-        gamesView.update(with);
+    public void update(State state) {
+        Log.log("JFX: Update View");
+        gamesView.update(state.getLoadedGames());
+        mainNavigation.update(currentView);
+        mainContainer.setCenter(getView(currentView));
+    }
+
+    @Override
+    public State getState() {
+        return state;
     }
 }

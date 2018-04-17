@@ -1,7 +1,7 @@
 package com.djrapitops.rom.frontend.javafx.scenes;
 
 import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
-import com.djrapitops.rom.frontend.updating.Updatable;
+import com.djrapitops.rom.frontend.state.Updatable;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 

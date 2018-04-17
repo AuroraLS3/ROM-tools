@@ -3,7 +3,7 @@ package com.djrapitops.rom.frontend.javafx.components;
 import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
 import com.djrapitops.rom.frontend.javafx.Style;
 import com.djrapitops.rom.frontend.javafx.scenes.Views;
-import com.djrapitops.rom.frontend.updating.Updatable;
+import com.djrapitops.rom.frontend.state.Updatable;
 import com.jfoenix.controls.JFXButton;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

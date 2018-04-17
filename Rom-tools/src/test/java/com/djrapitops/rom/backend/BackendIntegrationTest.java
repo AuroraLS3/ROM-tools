@@ -3,18 +3,15 @@ package com.djrapitops.rom.backend;
 import com.djrapitops.rom.Main;
 import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.frontend.Frontend;
-import com.djrapitops.rom.frontend.updating.UIUpdateProcess;
-import com.djrapitops.rom.game.Game;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import utils.fakeClasses.FakeFrontend;
 
-import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import static org.awaitility.Awaitility.await;
-import static org.junit.Assert.assertEquals;
 
 public class BackendIntegrationTest {
 
@@ -25,21 +22,9 @@ public class BackendIntegrationTest {
     public void testOpenDoesNotThrowException() {
         Backend backend = new Backend();
         Main.setBackend(backend);
-        UIUpdateProcess updateProcess = new UIUpdateProcess();
 
-        backend.open(new Frontend() {
-            @Override
-            public UIUpdateProcess getUiUpdateProcess() {
-                return updateProcess;
-            }
-
-            @Override
-            public void update(List<Game> with) {
-
-            }
-        });
+        backend.open(new FakeFrontend());
         await().atMost(1, TimeUnit.SECONDS).until(opened(backend));
-        assertEquals(2, updateProcess.tasksLeft());
     }
 
     private Callable<Boolean> opened(Backend backend) {
@@ -56,25 +41,13 @@ public class BackendIntegrationTest {
 
             backend = new Backend();
             Main.setBackend(backend);
-            UIUpdateProcess updateProcess = new UIUpdateProcess();
 
-            Frontend frontend = new Frontend() {
-                @Override
-                public UIUpdateProcess getUiUpdateProcess() {
-                    return updateProcess;
-                }
-
-                @Override
-                public void update(List<Game> with) {
-
-                }
-            };
+            Frontend frontend = new FakeFrontend();
             backend.open(frontend);
             backend2 = new Backend();
             backend2.open(frontend);
 
             await().atMost(1, TimeUnit.SECONDS).until(opened(backend));
-            assertEquals(1, updateProcess.tasksLeft());
         } finally {
             if (backend != null) {
                 backend.close();

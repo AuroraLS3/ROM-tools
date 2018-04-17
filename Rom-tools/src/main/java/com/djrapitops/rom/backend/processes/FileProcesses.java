@@ -1,5 +1,6 @@
 package com.djrapitops.rom.backend.processes;
 
+import com.djrapitops.rom.backend.Log;
 import com.djrapitops.rom.game.*;
 import com.djrapitops.rom.util.Wrapper;
 import com.djrapitops.rom.util.file.ZipExtractor;
@@ -24,6 +25,7 @@ public class FileProcesses {
     }
 
     public static List<Game> verifyFiles(List<Game> games) {
+        Log.log("Verifying Files..");
         List<Game> gamesWithChangedFiles = new ArrayList<>();
 
         for (Game game : games) {
@@ -34,7 +36,7 @@ public class FileProcesses {
                 }
             }
         }
-
+        Log.log("Verified files of " + games.size() + " games.");
         return gamesWithChangedFiles;
     }
 

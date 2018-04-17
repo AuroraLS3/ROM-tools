@@ -1,5 +1,6 @@
 package com.djrapitops.rom.backend.processes;
 
+import com.djrapitops.rom.backend.Log;
 import com.djrapitops.rom.backend.Operations;
 import com.djrapitops.rom.game.Game;
 
@@ -18,10 +19,15 @@ public class GameProcesses {
     }
 
     public static List<Game> loadGames() {
-        return Operations.ALL_GAMES.get();
+        Log.log("Loading games..");
+        List<Game> games = Operations.ALL_GAMES.get();
+        Log.log("Loaded " + games.size() + " games.");
+        return games;
     }
 
     public static void removeGames(List<Game> games) {
+        Log.log("Removing games..");
         Operations.ALL_GAMES.remove(games);
+        Log.log("Removed " + games.size() + " games.");
     }
 }
