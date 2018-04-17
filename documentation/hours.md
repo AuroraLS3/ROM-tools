@@ -23,4 +23,4 @@ Date | Hours used | Description
 17.04.18 | 1 | Simplified processes with CompletableFuture
 17.04.18 | 2 | Simplified frontend with State object, work on "Add games" functionality
  | | 
-Total | 24.5 | 
+Total | 26.5 | 
