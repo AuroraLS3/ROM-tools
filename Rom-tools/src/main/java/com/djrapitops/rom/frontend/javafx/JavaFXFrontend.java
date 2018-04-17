@@ -138,4 +138,8 @@ public class JavaFXFrontend extends Application implements Frontend {
     public State getState() {
         return state;
     }
+
+    public Stage getStage() {
+        return primaryStage;
+    }
 }

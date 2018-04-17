@@ -10,8 +10,8 @@ import javafx.scene.text.FontWeight;
  */
 public class Variables {
 
-    public static final int WIDTH = 500;
-    public static final int HEIGHT = 750;
+    public static final int WIDTH = 950;
+    public static final int HEIGHT = 800;
 
     public static final int LOADING_HEIGHT = 200;
 

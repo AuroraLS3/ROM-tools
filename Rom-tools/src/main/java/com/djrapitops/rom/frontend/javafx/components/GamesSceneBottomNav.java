@@ -1,14 +1,29 @@
 package com.djrapitops.rom.frontend.javafx.components;
 
-import com.djrapitops.rom.frontend.Frontend;
+import com.djrapitops.rom.backend.processes.GameParsing;
+import com.djrapitops.rom.backend.processes.GameProcesses;
+import com.djrapitops.rom.exceptions.ExceptionHandler;
+import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
 import com.djrapitops.rom.frontend.javafx.scenes.GamesView;
+import com.djrapitops.rom.frontend.state.StateOperation;
+import com.djrapitops.rom.game.Game;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.logging.Level;
 
 /**
  * Bottom navigation for GamesView.
@@ -18,12 +33,15 @@ import javafx.scene.layout.VBox;
  */
 public class GamesSceneBottomNav extends VBox {
 
-    public GamesSceneBottomNav(Frontend frontend) {
-        getChildren().add(getTopDrawer(frontend));
-        getChildren().add(getBottomDrawer(frontend));
+    private final JavaFXFrontend frontend;
+
+    public GamesSceneBottomNav(JavaFXFrontend frontend) {
+        this.frontend = frontend;
+        getChildren().add(getTopDrawer());
+        getChildren().add(getBottomDrawer());
     }
 
-    public Pane getTopDrawer(Frontend frontend) {
+    public Pane getTopDrawer() {
         HBox container = new HBox();
         container.prefWidthProperty().bind(this.widthProperty());
 
@@ -44,13 +62,15 @@ public class GamesSceneBottomNav extends VBox {
         return container;
     }
 
-    public Pane getBottomDrawer(Frontend frontend) {
+    public Pane getBottomDrawer() {
         HBox container = new HBox();
         container.prefWidthProperty().bind(this.widthProperty());
 
         JFXButton addGames = new JFXButton("Add Games");
         JFXButton selectAll = new JFXButton("Select All");
         JFXButton selectWithFilters = new JFXButton("Select with Filters");
+
+        addGames.setOnAction(getAddGamesActionHandler());
 
         addGames.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         selectAll.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -65,5 +85,31 @@ public class GamesSceneBottomNav extends VBox {
         children.add(selectAll);
         children.add(selectWithFilters);
         return container;
+    }
+
+    public EventHandler<ActionEvent> getAddGamesActionHandler() {
+        return (event) -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Select Game Files");
+            List<File> chosen = fileChooser.showOpenMultipleDialog(frontend.getStage());
+
+            CompletableFuture.supplyAsync(() -> chosen)
+                    .thenApply(files -> {
+                        try {
+                            List<Game> games = GameParsing.parseGamesFromFiles(files);
+                            return games;
+                        } catch (IOException e) {
+                            ExceptionHandler.handle(Level.WARNING, e);
+                            return new ArrayList<Game>();
+                        }
+                    })
+                    .thenAccept(GameProcesses::addGames)
+                    .thenApply(nothing -> GameProcesses.loadGames())
+                    .thenAccept(games -> updateState(state -> state.setLoadedGames(games)));
+        };
+    }
+
+    private void updateState(StateOperation operation) {
+        frontend.getState().performStateChange(operation);
     }
 }

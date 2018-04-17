@@ -27,7 +27,7 @@ public class ExceptionHandlerTest {
         });
 
         // getMessage is called once in default ExceptionHandler and once in Exception#toString
-        assertEquals(2, calls.size());
+        assertEquals(1, calls.size());
     }
 
     @Test
@@ -36,12 +36,7 @@ public class ExceptionHandlerTest {
 
         List<Boolean> calls = new ArrayList<>();
 
-        Main.getBackend().setExceptionHandler(new ExceptionHandler() {
-            @Override
-            public void handleThrowable(Level level, Throwable throwable) {
-                calls.add(true);
-            }
-        });
+        Main.getBackend().setExceptionHandler((level, throwable) -> calls.add(true));
 
         ExceptionHandler.handle(Level.WARNING, new Exception("Test"));
         assertEquals(1, calls.size());

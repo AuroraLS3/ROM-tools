@@ -18,6 +18,12 @@ public class GameProcesses {
         /* Hides constructor */
     }
 
+    public static void addGames(List<Game> games) {
+        Log.log("Adding games..");
+        Operations.ALL_GAMES.save(games);
+        Log.log("Added " + games.size() + " games.");
+    }
+
     public static List<Game> loadGames() {
         Log.log("Loading games..");
         List<Game> games = Operations.ALL_GAMES.get();
