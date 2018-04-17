@@ -20,5 +20,6 @@ Date | Hours used | Description
 12.04.18 | 1.5 | More Processes written for the program
 16.04.18 | 1 | Work that was ultimately reverted because of bad design
 16.04.18 | 2.5 | Refactored bad Backend design to more extensible one
+17.04.18 | 1 | Simplified processes with CompletableFuture
  | | 
-Total | 23.5 | 
+Total | 24.5 | 
