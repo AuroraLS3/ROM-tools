@@ -21,5 +21,6 @@ Date | Hours used | Description
 16.04.18 | 1 | Work that was ultimately reverted because of bad design
 16.04.18 | 2.5 | Refactored bad Backend design to more extensible one
 17.04.18 | 1 | Simplified processes with CompletableFuture
+17.04.18 | 2 | Simplified frontend with State object, work on "Add games" functionality
  | | 
 Total | 24.5 | 
