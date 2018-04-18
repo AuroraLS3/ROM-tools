@@ -31,9 +31,13 @@ public class GameFile {
 
         filePath = file.getAbsolutePath();
         String fileName = file.getName();
-        extension = FileExtension.getExtensionFor(
-                fileName.substring(fileName.lastIndexOf('.'))
-        );
+        try {
+            extension = FileExtension.getExtensionFor(
+                    fileName.substring(fileName.lastIndexOf('.'))
+            );
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(e.getMessage() + ": " + fileName);
+        }
         binaryHash = new MD5CheckSum(file).toHash();
     }
 

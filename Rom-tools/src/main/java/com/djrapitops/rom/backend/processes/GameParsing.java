@@ -1,11 +1,13 @@
 package com.djrapitops.rom.backend.processes;
 
+import com.djrapitops.rom.exceptions.ExceptionHandler;
 import com.djrapitops.rom.game.*;
 import com.djrapitops.rom.util.Wrapper;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  * Class responsible for parsing files into Game objects.
@@ -42,7 +44,12 @@ public class GameParsing {
             if (name.endsWith(".zip")) {
                 games.addAll(parseGamesFromArchive(file));
             } else {
-                games.add(parseGame(file));
+                try {
+                    games.add(parseGame(file));
+                } catch (IllegalArgumentException e) {
+                    // Unsupported file format
+                    ExceptionHandler.handle(Level.WARNING, e);
+                }
             }
         }
         return games;

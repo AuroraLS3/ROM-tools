@@ -10,9 +10,7 @@ import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.exceptions.ExceptionHandler;
 import com.djrapitops.rom.frontend.Frontend;
 import com.djrapitops.rom.frontend.state.StateOperation;
-import com.djrapitops.rom.game.Console;
 import com.djrapitops.rom.game.Game;
-import com.djrapitops.rom.game.Metadata;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -72,15 +70,6 @@ public class Backend {
             gameBackend.open();
             open = true;
 
-            if (gameBackend.fetch(Operations.ALL_GAMES).isEmpty()) {
-                Game fakeGame = new Game("Fakegame");
-                fakeGame.setMetadata(Metadata.create().setName("Fake Game").setConsole(Console.GAMECUBE).build());
-                Operations.GAME.save(fakeGame);
-                Game fakeGame2 = new Game("Fakegame2");
-                fakeGame2.setMetadata(Metadata.create().setName("Fake Game 2").setConsole(Console.GAMECUBE).build());
-                Operations.GAME.save(fakeGame2);
-            }
-
             start();
         } catch (BackendException e) {
             if (e.getCause() instanceof SQLException && e.getCause().getMessage().contains("database is locked")) {
@@ -95,12 +84,14 @@ public class Backend {
         CompletableFuture<List<Game>> loaded = CompletableFuture.supplyAsync(GameProcesses::loadGames);
 
         loaded.thenAcceptAsync(games -> updateFrontend(state -> state.setLoadedGames(games)))
-                .thenAccept(nothing -> setOpen(true));
+                .thenAccept(nothing -> setOpen(true))
+                .handle(ExceptionHandler.handle());
 
         loaded.thenApplyAsync(FileProcesses::verifyFiles)
                 .thenAccept(GameProcesses::removeGames)
                 .thenApply(nothing -> GameProcesses.loadGames())
-                .thenAccept(games -> updateFrontend(state -> state.setLoadedGames(games)));
+                .thenAccept(games -> updateFrontend(state -> state.setLoadedGames(games)))
+                .handle(ExceptionHandler.handle());
     }
 
     private void updateFrontend(StateOperation stateOperation) {

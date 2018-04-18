@@ -109,7 +109,8 @@ public class GamesSceneBottomNav extends VBox implements Updatable<State> {
                     })
                     .thenAccept(GameProcesses::addGames)
                     .thenApply(nothing -> GameProcesses.loadGames())
-                    .thenAccept(games -> updateState(state -> state.setLoadedGames(games)));
+                    .thenAccept(games -> updateState(state -> state.setLoadedGames(games)))
+                    .handle(ExceptionHandler.handle());
         };
     }
 

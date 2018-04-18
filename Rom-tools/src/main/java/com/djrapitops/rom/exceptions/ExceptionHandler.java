@@ -2,6 +2,7 @@ package com.djrapitops.rom.exceptions;
 
 import com.djrapitops.rom.backend.Backend;
 
+import java.util.function.BiFunction;
 import java.util.logging.Level;
 
 /**
@@ -19,4 +20,12 @@ public interface ExceptionHandler {
 
     void handleThrowable(Level level, Throwable throwable);
 
+    static BiFunction<Void, Throwable, Void> handle() {
+        return (result, ex) -> {
+            if (ex != null) {
+                ExceptionHandler.handle(Level.SEVERE, ex);
+            }
+            return result;
+        };
+    }
 }

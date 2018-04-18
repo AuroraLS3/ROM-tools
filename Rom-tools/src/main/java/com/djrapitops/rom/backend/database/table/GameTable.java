@@ -33,7 +33,7 @@ public class GameTable extends Table {
     public void createTable() {
         String sql = TableSQLParser.createTable(tableName)
                 .primaryKeyIDColumn(Col.ID)
-                .column(Col.NAME, "varchar(500)").notNull().unique()
+                .column(Col.NAME, "varchar(500)").notNull()
                 .toString();
         createTable(sql);
     }
