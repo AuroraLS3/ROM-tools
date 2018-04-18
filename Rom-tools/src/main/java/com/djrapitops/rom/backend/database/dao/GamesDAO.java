@@ -37,9 +37,6 @@ public class GamesDAO implements DAO<List<Game>> {
         Map<Integer, Metadata> metadata = tables.getMetadataTable().getMetadata();
         for (Map.Entry<Integer, Metadata> entry : metadata.entrySet()) {
             Game game = games.get(entry.getKey());
-            if (game == null) {
-                continue;
-            }
             game.setMetadata(entry.getValue());
         }
 

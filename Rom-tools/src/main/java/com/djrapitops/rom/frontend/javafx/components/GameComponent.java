@@ -28,7 +28,6 @@ public class GameComponent extends VBox {
 
         this.game = game;
         this.state = state;
-
         VBox nameAndMeta = getGameNameAndMeta();
         VBox console = getConsoleName();
         console.setAlignment(Pos.CENTER_RIGHT);

@@ -105,13 +105,16 @@ public class FileTable extends GameIDTable {
     }
 
     public boolean containsGame(Collection<GameFile> gameFiles) {
-        String sql = "SELECT COUNT(*) as c FROM " + tableName + " WHERE " + Col.CHECKSUM + "=?";
+        String sql = "SELECT COUNT(*) as c FROM " + tableName +
+                " WHERE " + Col.CHECKSUM + "=?" +
+                " AND " + Col.FILE_PATH + "=?";
 
         for (GameFile gameFile : gameFiles) {
             if (query(new QueryStatement<Boolean>(sql, 100) {
                 @Override
                 public void prepare(PreparedStatement statement) throws SQLException {
                     statement.setString(1, gameFile.getHash());
+                    statement.setString(2, gameFile.getAbsolutePath());
                 }
 
                 @Override

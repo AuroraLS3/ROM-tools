@@ -55,7 +55,8 @@ public class GameTable extends Table {
                 statement.setString(1, game.getName());
             }
         });
-        String selectSql = "SELECT " + Col.ID + " FROM " + tableName + " WHERE " + Col.NAME + "=?";
+        String selectSql = "SELECT " + Col.ID + " FROM " + tableName + " WHERE " + Col.NAME + "=?" +
+                " ORDER BY " + Col.ID + " DESC LIMIT 1";
         return query(new QueryStatement<Integer>(selectSql, 1) {
             @Override
             public void prepare(PreparedStatement statement) throws SQLException {

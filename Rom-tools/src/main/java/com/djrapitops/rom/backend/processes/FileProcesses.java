@@ -28,7 +28,7 @@ public class FileProcesses {
         Log.log("Verifying Files..");
         List<Game> gamesWithChangedFiles = new ArrayList<>();
 
-        for (Game game : games) {
+        for (Game game : new ArrayList<>(games)) {
             for (GameFile gameFile : game.getGameFiles()) {
                 if (!gameFile.matchesHash()) {
                     gamesWithChangedFiles.add(game);
