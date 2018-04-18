@@ -120,7 +120,7 @@ public class GamesSceneBottomNav extends VBox implements Updatable<State> {
 
     public EventHandler<ActionEvent> getSelectAllActionHandler(JFXButton selectAll) {
         return event -> {
-            if (frontend.getState().getSelectedGames().size() > 0) {
+            if (!frontend.getState().getSelectedGames().isEmpty()) {
                 updateState(state -> state.setSelectedGames(new HashSet<>()));
             } else {
                 updateState(state -> state.setSelectedGames(new HashSet<>(state.getLoadedGames())));
@@ -130,7 +130,7 @@ public class GamesSceneBottomNav extends VBox implements Updatable<State> {
 
     @Override
     public void update(State state) {
-        if (frontend.getState().getSelectedGames().size() > 0) {
+        if (!frontend.getState().getSelectedGames().isEmpty()) {
             selectAll.setText("Unselect All");
         } else {
             selectAll.setText("Select All");

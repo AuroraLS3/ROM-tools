@@ -7,6 +7,10 @@ package com.djrapitops.rom.backend;
  */
 public class Log {
 
+    private Log() {
+        /* Hide Constructor */
+    }
+
     public static void log(String msg) {
         // TODO Use logger.
         System.out.println(msg);

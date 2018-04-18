@@ -15,6 +15,8 @@ import com.djrapitops.rom.game.Game;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Main backend class in charge of initialization and management of other backend related objects and processes.
@@ -35,7 +37,7 @@ public class Backend {
         gameBackend = new GameCache(gameStorage);
 
         // Dummy Exception handler that logs to console if frontend doesn't set one.
-        exceptionHandler = (level, throwable) -> throwable.printStackTrace();
+        exceptionHandler = (level, throwable) -> Logger.getGlobal().log(Level.WARNING, throwable.getMessage(), throwable);
     }
 
     public static Backend getInstance() {

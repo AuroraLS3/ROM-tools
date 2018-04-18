@@ -67,12 +67,6 @@ public class GamesView extends BorderPane implements Updatable<State> {
         list.setFocusTraversable(false);
         list.prefHeightProperty().bind(heightProperty());
 
-        list.selectionModelProperty().addListener((observable, oldGame, newGame) -> {
-            System.out.println(observable.getValue().getSelectedIndices());
-            System.out.println(oldGame.getSelectedIndices());
-            System.out.println(newGame.getSelectedIndices());
-        });
-
         list.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         container.getChildren().add(list);
 
