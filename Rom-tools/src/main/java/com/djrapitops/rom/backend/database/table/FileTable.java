@@ -3,6 +3,7 @@ package com.djrapitops.rom.backend.database.table;
 import com.djrapitops.rom.backend.database.SQLDatabase;
 import com.djrapitops.rom.backend.database.sql.ExecuteStatement;
 import com.djrapitops.rom.backend.database.sql.QueryAllStatement;
+import com.djrapitops.rom.backend.database.sql.QueryStatement;
 import com.djrapitops.rom.backend.database.sql.TableSQLParser;
 import com.djrapitops.rom.game.FileExtension;
 import com.djrapitops.rom.game.GameFile;
@@ -72,24 +73,24 @@ public class FileTable extends GameIDTable {
      *
      * @return Map with ID, GameFile collection pairs
      */
-    public Map<Integer, Set<GameFile>> getPaths() {
+    public Map<Integer, Set<GameFile>> getGameFiles() {
         String sql = "SELECT * FROM " + tableName;
 
         return query(new QueryAllStatement<Map<Integer, Set<GameFile>>>(sql, 30000) {
             @Override
             public Map<Integer, Set<GameFile>> processResults(ResultSet set) throws SQLException {
-                Map<Integer, Set<GameFile>> pathMap = new HashMap<>();
+                Map<Integer, Set<GameFile>> gameFileMap = new HashMap<>();
                 while (set.next()) {
                     int gameId = set.getInt(Col.GAME_ID);
                     String extension = set.getString(Col.EXTENSION);
                     String path = set.getString(Col.FILE_PATH);
                     String checksum = set.getString(Col.CHECKSUM);
 
-                    Set<GameFile> paths = pathMap.getOrDefault(gameId, new HashSet<>());
+                    Set<GameFile> paths = gameFileMap.getOrDefault(gameId, new HashSet<>());
                     paths.add(new GameFile(FileExtension.getExtensionFor(extension), path, checksum));
-                    pathMap.put(gameId, paths);
+                    gameFileMap.put(gameId, paths);
                 }
-                return pathMap;
+                return gameFileMap;
             }
         });
     }
@@ -101,6 +102,27 @@ public class FileTable extends GameIDTable {
      */
     public void removeFiles(List<Integer> gameIDs) {
         removeRelatedToIDs(gameIDs);
+    }
+
+    public boolean containsGame(Collection<GameFile> gameFiles) {
+        String sql = "SELECT COUNT(*) as c FROM " + tableName + " WHERE " + Col.CHECKSUM + "=?";
+
+        for (GameFile gameFile : gameFiles) {
+            if (query(new QueryStatement<Boolean>(sql, 100) {
+                @Override
+                public void prepare(PreparedStatement statement) throws SQLException {
+                    statement.setString(1, gameFile.getHash());
+                }
+
+                @Override
+                public Boolean processResults(ResultSet set) throws SQLException {
+                    return set.next() && set.getInt("c") > 0;
+                }
+            })) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static class Col {

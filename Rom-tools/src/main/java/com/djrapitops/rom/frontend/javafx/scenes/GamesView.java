@@ -9,6 +9,8 @@ import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +28,7 @@ public class GamesView extends BorderPane implements Updatable<List<Game>> {
     public GamesView(JavaFXFrontend frontend, BorderPane mainContainer) {
         this.frontend = frontend;
         prefWidthProperty().bind(mainContainer.widthProperty());
+        prefHeightProperty().bind(mainContainer.heightProperty());
         bottomNav = new GamesSceneBottomNav(frontend);
         bottomNav.prefWidthProperty().bind(this.widthProperty());
     }
@@ -41,16 +44,35 @@ public class GamesView extends BorderPane implements Updatable<List<Game>> {
         container.prefWidthProperty().bind(this.widthProperty());
 
         JFXListView<GameComponent> list = new JFXListView<>();
-        list.setItems(
-                FXCollections.observableArrayList(
-                        with.stream()
-                                .map(GameComponent::new)
-                                .collect(Collectors.toList())
-                )
-        );
+        List<GameComponent> gameComponents = with.stream()
+                .map(game -> {
+                    GameComponent gameComponent = new GameComponent(game, frontend.getState());
+                    gameComponent.prefWidthProperty().bind(list.prefWidthProperty());
+                    return gameComponent;
+                })
+                .collect(Collectors.toList());
+        list.setItems(FXCollections.observableArrayList(gameComponents));
+
+        // Removes the blue "on focus" box around the list
+        list.setFocusTraversable(false);
+        list.prefHeightProperty().bind(heightProperty());
+
+        list.selectionModelProperty().addListener((observable, oldGame, newGame) -> {
+            System.out.println(observable.getValue().getSelectedIndices());
+            System.out.println(oldGame.getSelectedIndices());
+            System.out.println(newGame.getSelectedIndices());
+        });
+
         list.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         container.getChildren().add(list);
 
+        BorderPane selectedContainer = new BorderPane();
+        Text selectedText = new Text(frontend.getState().getSelectedGames().size() + " games selected");
+        selectedText.setTextAlignment(TextAlignment.CENTER);
+        selectedContainer.setCenter(selectedText);
+        selectedContainer.setPrefHeight(25);
+
+        setTop(selectedContainer);
         setCenter(container);
         setBottom(bottomNav);
     }

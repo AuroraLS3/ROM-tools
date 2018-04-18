@@ -13,6 +13,10 @@ public class GameDAO implements DAO<Game> {
 
     @Override
     public void add(SQLTables tables, Game game) {
+        if (tables.getFileTable().containsGame(game.getGameFiles())) {
+            return;
+        }
+
         int gameId = tables.getGameTable().saveGame(game);
 
         tables.getMetadataTable().saveMetadata(gameId, game.getMetadata());

@@ -43,9 +43,30 @@ public class SQLiteDatabaseStorageTest {
         db.save(Operations.GAME, expected);
 
         List<Game> games = db.fetch(Operations.ALL_GAMES);
-        assertEquals(1, games.size());
+        assertEquals("Game was not in database after save", 1, games.size());
 
         Game result = games.get(0);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void databaseIsAtomicBetweenOpenCloseOpen() {
+        Game expected = createGame();
+        db.save(Operations.GAME, expected);
+
+        List<Game> games = db.fetch(Operations.ALL_GAMES);
+        assertEquals("Game was not in database after save", 1, games.size());
+
+        Game result = games.get(0);
+        assertEquals(expected, result);
+
+        db.close();
+        db.open();
+
+        games = db.fetch(Operations.ALL_GAMES);
+        assertEquals("Game was not in database after restart", 1, games.size());
+
+        result = games.get(0);
         assertEquals(expected, result);
     }
 

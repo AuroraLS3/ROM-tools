@@ -1,12 +1,15 @@
 package com.djrapitops.rom.frontend.javafx.components;
 
 import com.djrapitops.rom.frontend.javafx.Variables;
+import com.djrapitops.rom.frontend.state.State;
 import com.djrapitops.rom.game.Game;
+import com.jfoenix.controls.JFXCheckBox;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -17,19 +20,40 @@ import javafx.scene.text.Text;
  */
 public class GameComponent extends VBox {
 
-    public GameComponent(Game game) {
-        BorderPane container = new BorderPane();
-        VBox left = getLeftSide(game);
-        VBox right = getRightSide(game);
-        right.setAlignment(Pos.CENTER_RIGHT);
+    private final Game game;
+    private final State state;
 
-        container.setLeft(left);
-        container.setRight(right);
+    public GameComponent(Game game, State state) {
+        BorderPane container = new BorderPane();
+
+        this.game = game;
+        this.state = state;
+
+        VBox nameAndMeta = getGameNameAndMeta();
+        VBox console = getConsoleName();
+        console.setAlignment(Pos.CENTER_RIGHT);
+
+        HBox leftContainer = new HBox();
+        JFXCheckBox checkBox = new JFXCheckBox();
+        checkBox.setSelected(state.isSelected(game));
+        checkBox.selectedProperty().addListener(
+                (observable, oldValue, newValue) -> setSelected(newValue)
+        );
+
+        leftContainer.getChildren().add(checkBox);
+        leftContainer.getChildren().add(nameAndMeta);
+
+        container.setLeft(leftContainer);
+        container.setRight(console);
 
         getChildren().add(container);
     }
 
-    private VBox getRightSide(Game game) {
+    public void setSelected(Boolean newValue) {
+        state.performStateChange(current -> current.gameSelected(game, newValue));
+    }
+
+    private VBox getConsoleName() {
         VBox right = new VBox();
         ObservableList<Node> children = right.getChildren();
 
@@ -39,7 +63,7 @@ public class GameComponent extends VBox {
         return right;
     }
 
-    private VBox getLeftSide(Game game) {
+    private VBox getGameNameAndMeta() {
         VBox left = new VBox();
         ObservableList<Node> children = left.getChildren();
 

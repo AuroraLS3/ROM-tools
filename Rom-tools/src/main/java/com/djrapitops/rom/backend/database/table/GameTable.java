@@ -46,7 +46,7 @@ public class GameTable extends Table {
      * @throws BackendException If an error occurs executing or querying the database.
      */
     public int saveGame(Game game) {
-        String sql = "REPLACE INTO " + tableName + " (" +
+        String sql = "INSERT INTO " + tableName + " (" +
                 Col.NAME +
                 ") VALUES (?)";
         execute(new ExecuteStatement(sql) {

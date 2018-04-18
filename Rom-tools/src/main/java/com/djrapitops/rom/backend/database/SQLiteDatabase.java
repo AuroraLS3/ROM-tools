@@ -1,5 +1,7 @@
 package com.djrapitops.rom.backend.database;
 
+import com.djrapitops.rom.backend.Log;
+import com.djrapitops.rom.backend.Operation;
 import com.djrapitops.rom.backend.database.sql.ExecuteStatement;
 import com.djrapitops.rom.backend.database.sql.QueryStatement;
 import com.djrapitops.rom.backend.database.table.SQLTables;
@@ -34,6 +36,7 @@ public class SQLiteDatabase extends SQLDatabase {
 
     @Override
     public void execute(ExecuteStatement statement) {
+        Log.log("DB Execute: " + statement.getSql());
         try {
             statement.execute(getConnection().prepareStatement(statement.getSql()));
         } catch (SQLException e) {
@@ -43,6 +46,7 @@ public class SQLiteDatabase extends SQLDatabase {
 
     @Override
     public void executeBatch(ExecuteStatement statement) {
+        Log.log("DB Execute Batch: " + statement.getSql());
         try {
             statement.executeBatch(getConnection().prepareStatement(statement.getSql()));
         } catch (SQLException e) {
@@ -52,6 +56,7 @@ public class SQLiteDatabase extends SQLDatabase {
 
     @Override
     public <T> T query(QueryStatement<T> statement) {
+        Log.log("DB Query: " + statement.getSql());
         try {
             return statement.executeQuery(connection.prepareStatement(statement.getSql()));
         } catch (SQLException e) {
@@ -81,6 +86,7 @@ public class SQLiteDatabase extends SQLDatabase {
             /* Ignored, closing */
         } finally {
             open = false;
+            connection = null;
         }
     }
 
@@ -110,4 +116,26 @@ public class SQLiteDatabase extends SQLDatabase {
     public SQLTables getTables() {
         return tables;
     }
+
+    @Override
+    public <T> void save(Operation<T> op, T obj) {
+        super.save(op, obj);
+        commitChanges();
+    }
+
+    @Override
+    public <T> void remove(Operation<T> op, T obj) {
+        super.remove(op, obj);
+        commitChanges();
+    }
+
+    private void commitChanges() {
+        // Ensures atomicity because autoCommit is false.
+        try {
+            getConnection().commit();
+        } catch (SQLException e) {
+            throw new BackendException("Failed to commit to database", e);
+        }
+    }
+
 }

@@ -9,7 +9,7 @@ import java.util.Objects;
  *
  * @author Rsl1122
  */
-public class Game {
+public class Game implements Comparable<Game> {
 
     private final String name;
     private Collection<GameFile> gameFiles;
@@ -51,7 +51,6 @@ public class Game {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(metadata, name);
     }
 
@@ -62,6 +61,11 @@ public class Game {
                 ", metadata=" + metadata +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Game game) {
+        return this.name.compareTo(game.name);
     }
 
     public String getName() {

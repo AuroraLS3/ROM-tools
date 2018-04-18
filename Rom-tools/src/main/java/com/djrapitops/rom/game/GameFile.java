@@ -53,7 +53,8 @@ public class GameFile {
     }
 
     public String getFileName() {
-        return getFile().getName();
+        String absolutePath = getAbsolutePath();
+        return absolutePath.substring(absolutePath.lastIndexOf(File.separator) + 1);
     }
 
     public boolean matchesHash() {

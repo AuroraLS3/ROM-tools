@@ -4,8 +4,7 @@ import com.djrapitops.rom.frontend.Frontend;
 import com.djrapitops.rom.game.Game;
 import javafx.application.Platform;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Object that holds the Frontend state so that it can be kept in sync with the backend changes.
@@ -17,7 +16,7 @@ public class State {
     private final Frontend frontend;
 
     private List<Game> loadedGames;
-    private List<Game> selectedGames;
+    private Set<Game> selectedGames;
     private List<Game> visibleGames;
 
     private String search;
@@ -26,7 +25,7 @@ public class State {
         this.frontend = frontend;
 
         loadedGames = new ArrayList<>();
-        selectedGames = new ArrayList<>();
+        selectedGames = new HashSet<>();
         visibleGames = new ArrayList<>();
 
         search = "";
@@ -45,14 +44,15 @@ public class State {
     }
 
     public void setLoadedGames(List<Game> loadedGames) {
+        Collections.sort(loadedGames);
         this.loadedGames = loadedGames;
     }
 
-    public List<Game> getSelectedGames() {
+    public Set<Game> getSelectedGames() {
         return selectedGames;
     }
 
-    public void setSelectedGames(List<Game> selectedGames) {
+    public void setSelectedGames(Set<Game> selectedGames) {
         this.selectedGames = selectedGames;
     }
 
@@ -70,5 +70,17 @@ public class State {
 
     public void setSearch(String search) {
         this.search = search;
+    }
+
+    public void gameSelected(Game game, Boolean isSelected) {
+        if (isSelected) {
+            selectedGames.add(game);
+        } else {
+            selectedGames.remove(game);
+        }
+    }
+
+    public boolean isSelected(Game game) {
+        return selectedGames.contains(game);
     }
 }

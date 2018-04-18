@@ -72,12 +72,14 @@ public class Backend {
             gameBackend.open();
             open = true;
 
-            Game fakeGame = new Game("Fakegame");
-            fakeGame.setMetadata(Metadata.create().setName("Fake Game").setConsole(Console.GAMECUBE).build());
-            Operations.GAME.save(fakeGame);
-            Game fakeGame2 = new Game("Fakegame2");
-            fakeGame2.setMetadata(Metadata.create().setName("Fake Game 2").setConsole(Console.GAMECUBE).build());
-            Operations.GAME.save(fakeGame2);
+            if (gameBackend.fetch(Operations.ALL_GAMES).isEmpty()) {
+                Game fakeGame = new Game("Fakegame");
+                fakeGame.setMetadata(Metadata.create().setName("Fake Game").setConsole(Console.GAMECUBE).build());
+                Operations.GAME.save(fakeGame);
+                Game fakeGame2 = new Game("Fakegame2");
+                fakeGame2.setMetadata(Metadata.create().setName("Fake Game 2").setConsole(Console.GAMECUBE).build());
+                Operations.GAME.save(fakeGame2);
+            }
 
             start();
         } catch (BackendException e) {

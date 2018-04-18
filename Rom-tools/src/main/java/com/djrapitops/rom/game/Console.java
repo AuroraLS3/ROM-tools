@@ -28,7 +28,7 @@ public enum Console {
     PS2("Playstation 2"),
     PSP("Playstation Portable"),
     XBOX("Xbox"),
-    METADATA("Game Metadata contains console information"),
+    METADATA("Unknown"),
     SEGA_CD("Sega CD");
 
 
