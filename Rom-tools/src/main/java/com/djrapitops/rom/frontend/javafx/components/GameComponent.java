@@ -35,9 +35,7 @@ public class GameComponent extends VBox {
         HBox leftContainer = new HBox();
         JFXCheckBox checkBox = new JFXCheckBox();
         checkBox.setSelected(state.isSelected(game));
-        checkBox.selectedProperty().addListener(
-                (observable, oldValue, newValue) -> setSelected(newValue)
-        );
+        checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> setSelected(newValue));
 
         leftContainer.getChildren().add(checkBox);
         leftContainer.getChildren().add(nameAndMeta);
