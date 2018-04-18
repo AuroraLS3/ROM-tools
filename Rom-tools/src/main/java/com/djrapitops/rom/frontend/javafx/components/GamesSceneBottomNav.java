@@ -81,7 +81,6 @@ public class GamesSceneBottomNav extends VBox implements Updatable<State> {
         addGameFolders.setOnAction(getAddGameFoldersActionHandler());
 
         SplitMenuButton addGamesChoices = new SplitMenuButton();
-//        addGamesChoices.setSkin(new JFXSplitMenuButtonSkin(addGamesChoices));
         addGamesChoices.prefWidthProperty().bind(container.widthProperty());
         addGamesChoices.setText("Add Games");
         addGamesChoices.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
