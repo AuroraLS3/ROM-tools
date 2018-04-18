@@ -32,11 +32,15 @@ public class GameFile {
         filePath = file.getAbsolutePath();
         String fileName = file.getName();
         try {
+            int beginIndex = fileName.lastIndexOf('.');
+            if (beginIndex == -1) {
+                throw new IllegalArgumentException("File did not have a file format");
+            }
             extension = FileExtension.getExtensionFor(
-                    fileName.substring(fileName.lastIndexOf('.'))
+                    fileName.substring(beginIndex)
             );
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(e.getMessage() + ": " + fileName);
+            throw new IllegalArgumentException(e.getMessage() + ": " + file.getAbsolutePath());
         }
         binaryHash = new MD5CheckSum(file).toHash();
     }

@@ -29,8 +29,8 @@ public enum Console {
     PSP("Playstation Portable"),
     XBOX("Xbox"),
     METADATA("Unknown"),
-    SEGA_CD("Sega CD");
-
+    SEGA_CD("Sega CD"),
+    VECTREX("Vectrex");
 
     private final String fullName;
 

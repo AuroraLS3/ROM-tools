@@ -25,8 +25,6 @@ public class GamesView extends BorderPane implements Updatable<State> {
     private final JavaFXFrontend frontend;
     private final GamesSceneBottomNav bottomNav;
 
-    private int loadedGames = 0;
-
     public GamesView(JavaFXFrontend frontend, BorderPane mainContainer) {
         this.frontend = frontend;
         prefWidthProperty().bind(mainContainer.widthProperty());
@@ -43,12 +41,6 @@ public class GamesView extends BorderPane implements Updatable<State> {
     @Override
     public void update(State state) {
         bottomNav.update(state);
-
-        int stateSize = state.getLoadedGames().size();
-        if (loadedGames == stateSize && loadedGames != 0) {
-            return;
-        }
-        loadedGames = stateSize;
 
         VBox container = new VBox();
         container.prefWidthProperty().bind(this.widthProperty());

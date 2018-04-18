@@ -37,11 +37,10 @@ public class GameParsing {
         // TODO Handle cases where games require multiple files to work.
         List<Game> games = new ArrayList<>();
         for (File file : files) {
-            if (file.isDirectory()) {
-                parseGamesFromDir(file);
-            }
             String name = file.getName();
-            if (name.endsWith(".zip")) {
+            if (file.isDirectory()) {
+                games.addAll(parseGamesFromDir(file));
+            } else if (name.endsWith(".zip")) {
                 games.addAll(parseGamesFromArchive(file));
             } else {
                 try {

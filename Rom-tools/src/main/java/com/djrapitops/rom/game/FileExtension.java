@@ -9,6 +9,7 @@ package com.djrapitops.rom.game;
  * @author Rsl1122
  */
 public enum FileExtension {
+    A26(".a26", Console.ATARI_2600),
     A78(".a78", Console.ATARI_7800),
     NES(".nes", Console.NES),
     SMC(".smc", Console.SNES),
@@ -40,6 +41,7 @@ public enum FileExtension {
     PBP(".pbp", Console.PSP),
     XEX(".xex", Console.XBOX),
     DOL(".dol", Console.GAMECUBE),
+    VEC(".vec", Console.VECTREX),
     // CUE, BIN: PSX or SegaCD
     CUE(".cue", Console.METADATA),
     BIN(".bin", Console.METADATA);

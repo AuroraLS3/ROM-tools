@@ -15,9 +15,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitMenuButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -72,11 +75,23 @@ public class GamesSceneBottomNav extends VBox implements Updatable<State> {
 
         ObservableList<Node> children = container.getChildren();
 
-        JFXButton addGames = new JFXButton("Add Games");
-        addGames.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        addGames.prefWidthProperty().bind(container.widthProperty());
-        addGames.setOnAction(getAddGamesActionHandler());
-        children.add(addGames);
+        MenuItem addGameFiles = new MenuItem("Add Files");
+        addGameFiles.setOnAction(getAddGameFilesActionHandler());
+        MenuItem addGameFolders = new MenuItem("Add Folder");
+        addGameFolders.setOnAction(getAddGameFoldersActionHandler());
+
+        SplitMenuButton addGamesChoices = new SplitMenuButton();
+//        addGamesChoices.setSkin(new JFXSplitMenuButtonSkin(addGamesChoices));
+        addGamesChoices.prefWidthProperty().bind(container.widthProperty());
+        addGamesChoices.setText("Add Games");
+        addGamesChoices.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        addGamesChoices.setOnAction(getAddGameFilesActionHandler());
+        addGamesChoices.getItems().add(addGameFiles);
+        addGamesChoices.getItems().add(addGameFolders);
+        // Removes the blue "on focus" box around the list
+        addGamesChoices.setFocusTraversable(false);
+
+        children.add(addGamesChoices);
 
         selectAll = new JFXButton("Select All");
         selectAll.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -92,11 +107,15 @@ public class GamesSceneBottomNav extends VBox implements Updatable<State> {
         return container;
     }
 
-    public EventHandler<ActionEvent> getAddGamesActionHandler() {
+    public EventHandler<ActionEvent> getAddGameFilesActionHandler() {
         return event -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select Game Files");
             List<File> chosen = fileChooser.showOpenMultipleDialog(frontend.getStage());
+
+            if (chosen == null) {
+                return;
+            }
 
             CompletableFuture.supplyAsync(() -> chosen)
                     .thenApply(files -> {
@@ -135,5 +154,31 @@ public class GamesSceneBottomNav extends VBox implements Updatable<State> {
         } else {
             selectAll.setText("Select All");
         }
+    }
+
+    public EventHandler<ActionEvent> getAddGameFoldersActionHandler() {
+        return event -> {
+            DirectoryChooser fileChooser = new DirectoryChooser();
+            fileChooser.setTitle("Select Folder to search recursively");
+            File chosenFolder = fileChooser.showDialog(frontend.getStage().getOwner());
+
+            if (chosenFolder == null) {
+                return;
+            }
+
+            CompletableFuture.supplyAsync(() -> chosenFolder)
+                    .thenApply(file -> {
+                        try {
+                            return GameParsing.parseGamesFromFile(file);
+                        } catch (IOException e) {
+                            ExceptionHandler.handle(Level.WARNING, e);
+                            return new ArrayList<Game>();
+                        }
+                    })
+                    .thenAccept(GameProcesses::addGames)
+                    .thenApply(nothing -> GameProcesses.loadGames())
+                    .thenAccept(games -> updateState(state -> state.setLoadedGames(games)))
+                    .handle(ExceptionHandler.handle());
+        };
     }
 }
