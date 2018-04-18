@@ -27,7 +27,7 @@ public class ExceptionHandlerTest {
         });
 
         // getMessage is called once in default ExceptionHandler and once in Exception#toString
-        assertEquals(1, calls.size());
+        assertEquals(2, calls.size());
     }
 
     @Test
