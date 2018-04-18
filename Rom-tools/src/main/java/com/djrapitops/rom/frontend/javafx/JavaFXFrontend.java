@@ -129,7 +129,7 @@ public class JavaFXFrontend extends Application implements Frontend {
     @Override
     public void update(State state) {
         Log.log("JFX: Update View");
-        gamesView.update(state.getLoadedGames());
+        gamesView.update(state);
         mainNavigation.update(currentView);
         mainContainer.setCenter(getView(currentView));
     }

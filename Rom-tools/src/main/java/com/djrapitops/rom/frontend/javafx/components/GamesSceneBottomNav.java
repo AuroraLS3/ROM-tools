@@ -5,7 +5,9 @@ import com.djrapitops.rom.backend.processes.GameProcesses;
 import com.djrapitops.rom.exceptions.ExceptionHandler;
 import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
 import com.djrapitops.rom.frontend.javafx.scenes.GamesView;
+import com.djrapitops.rom.frontend.state.State;
 import com.djrapitops.rom.frontend.state.StateOperation;
+import com.djrapitops.rom.frontend.state.Updatable;
 import com.djrapitops.rom.game.Game;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -32,9 +34,10 @@ import java.util.logging.Level;
  * @author Rsl1122
  * @see GamesView
  */
-public class GamesSceneBottomNav extends VBox {
+public class GamesSceneBottomNav extends VBox implements Updatable<State> {
 
     private final JavaFXFrontend frontend;
+    private JFXButton selectAll;
 
     public GamesSceneBottomNav(JavaFXFrontend frontend) {
         this.frontend = frontend;
@@ -75,7 +78,7 @@ public class GamesSceneBottomNav extends VBox {
         addGames.setOnAction(getAddGamesActionHandler());
         children.add(addGames);
 
-        JFXButton selectAll = new JFXButton("Select All");
+        selectAll = new JFXButton("Select All");
         selectAll.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         selectAll.prefWidthProperty().bind(container.widthProperty());
         selectAll.setOnAction(getSelectAllActionHandler(selectAll));
@@ -118,12 +121,18 @@ public class GamesSceneBottomNav extends VBox {
         return event -> {
             if (frontend.getState().getLoadedGames().size() == frontend.getState().getSelectedGames().size()) {
                 updateState(state -> state.setSelectedGames(new HashSet<>()));
-                selectAll.setText("Select All");
             } else {
                 updateState(state -> state.setSelectedGames(new HashSet<>(state.getLoadedGames())));
-                selectAll.setText("Unselect All");
             }
         };
     }
 
+    @Override
+    public void update(State state) {
+        if (frontend.getState().getLoadedGames().size() == frontend.getState().getSelectedGames().size()) {
+            selectAll.setText("Unselect All");
+        } else {
+            selectAll.setText("Select All");
+        }
+    }
 }

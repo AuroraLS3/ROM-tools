@@ -3,8 +3,8 @@ package com.djrapitops.rom.frontend.javafx.scenes;
 import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
 import com.djrapitops.rom.frontend.javafx.components.GameComponent;
 import com.djrapitops.rom.frontend.javafx.components.GamesSceneBottomNav;
+import com.djrapitops.rom.frontend.state.State;
 import com.djrapitops.rom.frontend.state.Updatable;
-import com.djrapitops.rom.game.Game;
 import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
 import javafx.scene.layout.BorderPane;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  *
  * @author Rsl1122
  */
-public class GamesView extends BorderPane implements Updatable<List<Game>> {
+public class GamesView extends BorderPane implements Updatable<State> {
 
     private final JavaFXFrontend frontend;
     private final GamesSceneBottomNav bottomNav;
@@ -36,15 +36,15 @@ public class GamesView extends BorderPane implements Updatable<List<Game>> {
     /**
      * Updates GamesView to display a list of games.
      *
-     * @param with Object used as parameters for the update.
+     * @param state Object used as parameters for the update.
      */
     @Override
-    public void update(List<Game> with) {
+    public void update(State state) {
         VBox container = new VBox();
         container.prefWidthProperty().bind(this.widthProperty());
 
         JFXListView<GameComponent> list = new JFXListView<>();
-        List<GameComponent> gameComponents = with.stream()
+        List<GameComponent> gameComponents = state.getLoadedGames().stream()
                 .map(game -> {
                     GameComponent gameComponent = new GameComponent(game, frontend.getState());
                     gameComponent.prefWidthProperty().bind(list.prefWidthProperty());
@@ -74,6 +74,7 @@ public class GamesView extends BorderPane implements Updatable<List<Game>> {
 
         setTop(selectedContainer);
         setCenter(container);
+        bottomNav.update(state);
         setBottom(bottomNav);
     }
 }
