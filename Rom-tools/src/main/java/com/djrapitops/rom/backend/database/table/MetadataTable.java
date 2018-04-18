@@ -41,7 +41,7 @@ public class MetadataTable extends GameIDTable {
     }
 
     public void saveMetadata(int gameId, Metadata metadata) {
-        String sql = "INSERT INTO " + tableName + "(" +
+        String sql = "REPLACE INTO " + tableName + "(" +
                 Col.GAME_ID + ", " +
                 Col.NAME + ", " +
                 Col.CONSOLE +

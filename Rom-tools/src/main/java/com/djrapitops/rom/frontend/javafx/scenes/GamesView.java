@@ -45,7 +45,7 @@ public class GamesView extends BorderPane implements Updatable<State> {
         bottomNav.update(state);
 
         int stateSize = state.getLoadedGames().size();
-        if (loadedGames == stateSize) {
+        if (loadedGames == stateSize && loadedGames != 0) {
             return;
         }
         loadedGames = stateSize;
