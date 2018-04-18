@@ -21,6 +21,7 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
@@ -66,29 +67,30 @@ public class GamesSceneBottomNav extends VBox {
         HBox container = new HBox();
         container.prefWidthProperty().bind(this.widthProperty());
 
-        JFXButton addGames = new JFXButton("Add Games");
-        JFXButton selectAll = new JFXButton("Select All");
-        JFXButton selectWithFilters = new JFXButton("Select with Filters");
-
-        addGames.setOnAction(getAddGamesActionHandler());
-
-        addGames.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        selectAll.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        selectWithFilters.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-
-        addGames.prefWidthProperty().bind(container.widthProperty());
-        selectAll.prefWidthProperty().bind(container.widthProperty());
-        selectWithFilters.prefWidthProperty().bind(container.widthProperty());
-
         ObservableList<Node> children = container.getChildren();
+
+        JFXButton addGames = new JFXButton("Add Games");
+        addGames.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        addGames.prefWidthProperty().bind(container.widthProperty());
+        addGames.setOnAction(getAddGamesActionHandler());
         children.add(addGames);
+
+        JFXButton selectAll = new JFXButton("Select All");
+        selectAll.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        selectAll.prefWidthProperty().bind(container.widthProperty());
+        selectAll.setOnAction(getSelectAllActionHandler(selectAll));
         children.add(selectAll);
+
+        JFXButton selectWithFilters = new JFXButton("Select with Filters");
+        selectWithFilters.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        selectWithFilters.prefWidthProperty().bind(container.widthProperty());
         children.add(selectWithFilters);
+
         return container;
     }
 
     public EventHandler<ActionEvent> getAddGamesActionHandler() {
-        return (event) -> {
+        return event -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select Game Files");
             List<File> chosen = fileChooser.showOpenMultipleDialog(frontend.getStage());
@@ -96,8 +98,7 @@ public class GamesSceneBottomNav extends VBox {
             CompletableFuture.supplyAsync(() -> chosen)
                     .thenApply(files -> {
                         try {
-                            List<Game> games = GameParsing.parseGamesFromFiles(files);
-                            return games;
+                            return GameParsing.parseGamesFromFiles(files);
                         } catch (IOException e) {
                             ExceptionHandler.handle(Level.WARNING, e);
                             return new ArrayList<Game>();
@@ -112,4 +113,17 @@ public class GamesSceneBottomNav extends VBox {
     private void updateState(StateOperation operation) {
         frontend.getState().performStateChange(operation);
     }
+
+    public EventHandler<ActionEvent> getSelectAllActionHandler(JFXButton selectAll) {
+        return event -> {
+            if (frontend.getState().getLoadedGames().size() == frontend.getState().getSelectedGames().size()) {
+                updateState(state -> state.setSelectedGames(new HashSet<>()));
+                selectAll.setText("Select All");
+            } else {
+                updateState(state -> state.setSelectedGames(new HashSet<>(state.getLoadedGames())));
+                selectAll.setText("Unselect All");
+            }
+        };
+    }
+
 }

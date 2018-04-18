@@ -1,5 +1,6 @@
 package com.djrapitops.rom.backend.database.dao;
 
+import com.djrapitops.rom.backend.Log;
 import com.djrapitops.rom.backend.database.DAO;
 import com.djrapitops.rom.backend.database.table.SQLTables;
 import com.djrapitops.rom.game.Game;
@@ -13,6 +14,7 @@ public class GameDAO implements DAO<Game> {
 
     @Override
     public void add(SQLTables tables, Game game) {
+        Log.log("Save game: " + game.getName());
         if (tables.getFileTable().containsGame(game.getGameFiles())) {
             return;
         }
