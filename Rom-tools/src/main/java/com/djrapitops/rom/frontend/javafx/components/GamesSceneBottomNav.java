@@ -96,7 +96,7 @@ public class GamesSceneBottomNav extends VBox implements Updatable<State> {
     @Override
     public void update(State state) {
         if (!frontend.getState().getSelectedGames().isEmpty()) {
-            selectAll.setText("Unselect All");
+            selectAll.setText("Remove Selection");
         } else {
             selectAll.setText("Select All");
         }

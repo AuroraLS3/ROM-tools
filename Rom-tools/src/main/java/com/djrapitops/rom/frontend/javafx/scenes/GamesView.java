@@ -3,14 +3,13 @@ package com.djrapitops.rom.frontend.javafx.scenes;
 import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
 import com.djrapitops.rom.frontend.javafx.components.GameComponent;
 import com.djrapitops.rom.frontend.javafx.components.GamesSceneBottomNav;
+import com.djrapitops.rom.frontend.javafx.components.SelectedTextContainer;
 import com.djrapitops.rom.frontend.state.State;
 import com.djrapitops.rom.frontend.state.Updatable;
 import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +30,7 @@ public class GamesView extends BorderPane implements Updatable<State> {
         prefHeightProperty().bind(mainContainer.heightProperty());
         bottomNav = new GamesSceneBottomNav(frontend);
         bottomNav.prefWidthProperty().bind(this.widthProperty());
+        update(frontend.getState());
     }
 
     /**
@@ -62,13 +62,7 @@ public class GamesView extends BorderPane implements Updatable<State> {
         list.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         container.getChildren().add(list);
 
-        BorderPane selectedContainer = new BorderPane();
-        Text selectedText = new Text(frontend.getState().getSelectedGames().size() + " games selected");
-        selectedText.setTextAlignment(TextAlignment.CENTER);
-        selectedContainer.setCenter(selectedText);
-        selectedContainer.setPrefHeight(25);
-
-        setTop(selectedContainer);
+        setTop(new SelectedTextContainer(frontend));
         setCenter(container);
         setBottom(bottomNav);
     }

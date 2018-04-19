@@ -8,6 +8,7 @@ import com.djrapitops.rom.frontend.Frontend;
 import com.djrapitops.rom.frontend.javafx.components.MainNavigation;
 import com.djrapitops.rom.frontend.javafx.scenes.*;
 import com.djrapitops.rom.frontend.state.State;
+import com.djrapitops.rom.frontend.state.Updatable;
 import com.djrapitops.rom.util.Verify;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -129,9 +130,13 @@ public class JavaFXFrontend extends Application implements Frontend {
     @Override
     public void update(State state) {
         Log.log("JFX: Update View");
-        gamesView.update(state);
         mainNavigation.update(currentView);
-        mainContainer.setCenter(getView(currentView));
+        Node newView = getView(currentView);
+        if (newView instanceof Updatable) {
+            Updatable updatable = (Updatable) newView;
+            updatable.update(state);
+        }
+        mainContainer.setCenter(newView);
     }
 
     @Override
