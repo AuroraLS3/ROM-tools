@@ -24,5 +24,6 @@ Date | Hours used | Description
 17.04.18 | 2 | Simplified frontend with State object, work on "Add games" functionality
 18.04.18 | 3 | Bugfixes to adding, saving, loading, verifying games, frontend. Begun work on Selection
 18.04.18 | 1 | Evening coding, little progress
+19.04.18 | 1 | Added some buttons to Tools view
  | | 
 Total | 30.5 | 
