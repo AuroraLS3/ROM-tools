@@ -25,5 +25,6 @@ Date | Hours used | Description
 18.04.18 | 3 | Bugfixes to adding, saving, loading, verifying games, frontend. Begun work on Selection
 18.04.18 | 1 | Evening coding, little progress
 19.04.18 | 1 | Added some buttons to Tools view
+22.04.18 | 1 | Sequence diagram
  | | 
-Total | 30.5 | 
+Total | 32.5 | 
