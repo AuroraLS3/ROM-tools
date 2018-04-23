@@ -60,6 +60,7 @@ public class State {
     public void setLoadedGames(List<Game> loadedGames) {
         Collections.sort(loadedGames);
         this.loadedGames = loadedGames;
+        setSelectedGames(new HashSet<>());
     }
 
     public Set<Game> getSelectedGames() {

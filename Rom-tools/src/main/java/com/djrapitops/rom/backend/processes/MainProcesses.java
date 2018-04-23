@@ -1,6 +1,7 @@
 package com.djrapitops.rom.backend.processes;
 
 import com.djrapitops.rom.backend.Backend;
+import com.djrapitops.rom.backend.Log;
 import com.djrapitops.rom.exceptions.ExceptionHandler;
 import com.djrapitops.rom.frontend.state.StateOperation;
 import com.djrapitops.rom.game.Game;
@@ -58,6 +59,34 @@ public class MainProcesses {
             return;
         }
         processFilesGivenWhenAddingGames(Arrays.asList(files));
+    }
+
+    public static void processFileMoveToGivenFolder(File chosenFolder) {
+        List<Game> selectedGames = new ArrayList<>(Backend.getInstance().getFrontend().getState().getSelectedGames());
+
+        if (selectedGames.isEmpty()) {
+            return;
+        }
+
+        CompletableFuture<List<Game>> gamesFuture = CompletableFuture.supplyAsync(() -> selectedGames);
+
+        gamesFuture.thenApplyAsync(games -> FileProcesses.moveToSingleFolder(games, chosenFolder))
+                .thenAccept(success -> Log.log(success ? "Moved files successfully." : "Some files could not be moved"));
+        gamesFuture.thenAcceptAsync(GameProcesses::removeGames)
+                .thenApply(nothing -> GameProcesses.loadGames())
+                .thenAccept(games -> updateState(state -> state.setLoadedGames(games)));
+    }
+
+    public static void processFileCopyToGivenFolder(File chosenFolder) {
+        List<Game> selectedGames = new ArrayList<>(Backend.getInstance().getFrontend().getState().getSelectedGames());
+
+        if (selectedGames.isEmpty()) {
+            return;
+        }
+
+        CompletableFuture.supplyAsync(() -> selectedGames)
+                .thenApply(games -> FileProcesses.copyToSingleFolder(games, chosenFolder))
+                .thenAccept(success -> Log.log(success ? "Copied files successfully." : "Some files could not be copied"));
     }
 
     private static void updateState(StateOperation operation) {
