@@ -20,12 +20,15 @@ public class State {
 
     private String search;
 
+    private String loadingInformation;
+
     public State() {
         loadedGames = new ArrayList<>();
         selectedGames = new HashSet<>();
         visibleGames = new ArrayList<>();
 
         search = "";
+        loadingInformation = "";
         updateOnChange = new ArrayList<>();
     }
 
@@ -93,5 +96,13 @@ public class State {
 
     public boolean isSelected(Game game) {
         return selectedGames.contains(game);
+    }
+
+    public String getLoadingInformation() {
+        return loadingInformation;
+    }
+
+    public void setLoadingInformation(String loadingInformation) {
+        this.loadingInformation = loadingInformation;
     }
 }

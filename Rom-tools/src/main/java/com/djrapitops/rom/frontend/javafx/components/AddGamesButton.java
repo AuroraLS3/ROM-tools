@@ -1,11 +1,7 @@
 package com.djrapitops.rom.frontend.javafx.components;
 
-import com.djrapitops.rom.backend.processes.GameParsing;
-import com.djrapitops.rom.backend.processes.GameProcesses;
-import com.djrapitops.rom.exceptions.ExceptionHandler;
+import com.djrapitops.rom.backend.processes.MainProcesses;
 import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
-import com.djrapitops.rom.frontend.state.StateOperation;
-import com.djrapitops.rom.game.Game;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,11 +11,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.logging.Level;
 
 /**
  * Button component for adding games.
@@ -51,25 +43,13 @@ public class AddGamesButton extends JFXButton {
         return event -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select Game Files");
-            List<File> chosen = fileChooser.showOpenMultipleDialog(frontend.getStage());
+            List<File> chosenFiles = fileChooser.showOpenMultipleDialog(frontend.getStage());
 
-            if (chosen == null) {
+            if (chosenFiles == null) {
                 return;
             }
 
-            CompletableFuture.supplyAsync(() -> chosen)
-                    .thenApply(files -> {
-                        try {
-                            return GameParsing.parseGamesFromFiles(files);
-                        } catch (IOException e) {
-                            ExceptionHandler.handle(Level.WARNING, e);
-                            return new ArrayList<Game>();
-                        }
-                    })
-                    .thenAccept(GameProcesses::addGames)
-                    .thenApply(nothing -> GameProcesses.loadGames())
-                    .thenAccept(games -> updateState(state -> state.setLoadedGames(games)))
-                    .handle(ExceptionHandler.handle());
+            MainProcesses.processFilesGivenWhenAddingGames(chosenFiles);
         };
     }
 
@@ -83,24 +63,7 @@ public class AddGamesButton extends JFXButton {
                 return;
             }
 
-            CompletableFuture.supplyAsync(() -> chosenFolder)
-                    .thenApply(file -> {
-                        try {
-                            return GameParsing.parseGamesFromFile(file);
-                        } catch (IOException e) {
-                            ExceptionHandler.handle(Level.WARNING, e);
-                            return new ArrayList<Game>();
-                        }
-                    })
-                    .thenAccept(GameProcesses::addGames)
-                    .thenApply(nothing -> GameProcesses.loadGames())
-                    .thenAccept(games -> updateState(state -> state.setLoadedGames(games)))
-                    .handle(ExceptionHandler.handle());
+            MainProcesses.processFolderGivenWhenAddingGames(chosenFolder);
         };
     }
-
-    private void updateState(StateOperation operation) {
-        frontend.getState().performStateChange(operation);
-    }
-
 }
