@@ -13,6 +13,7 @@ public class Variables {
     public static final int WIDTH = 950;
     public static final int HEIGHT = 800;
 
+    public static final int LOADING_WIDTH = 400;
     public static final int LOADING_HEIGHT = 200;
 
     public static final Font FONT_TITLE = Font.font("Verdana", FontWeight.BOLD, 14);

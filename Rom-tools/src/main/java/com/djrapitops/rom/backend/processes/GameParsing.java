@@ -1,5 +1,6 @@
 package com.djrapitops.rom.backend.processes;
 
+import com.djrapitops.rom.backend.Log;
 import com.djrapitops.rom.exceptions.ExceptionHandler;
 import com.djrapitops.rom.game.*;
 import com.djrapitops.rom.util.Wrapper;
@@ -36,7 +37,10 @@ public class GameParsing {
     public static List<Game> parseGamesFromFiles(Collection<File> files) throws IOException {
         // TODO Handle cases where games require multiple files to work.
         List<Game> games = new ArrayList<>();
+        int i = 1;
+        int size = files.size();
         for (File file : files) {
+            Log.log("Processing files into games.. (" + i + "/" + size + ")");
             String name = file.getName();
             if (file.isDirectory()) {
                 games.addAll(parseGamesFromDir(file));
@@ -50,7 +54,9 @@ public class GameParsing {
                     ExceptionHandler.handle(Level.WARNING, e);
                 }
             }
+            i++;
         }
+        Log.log("Processed " + size + " files.");
         return games;
     }
 

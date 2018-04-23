@@ -28,15 +28,20 @@ public class FileProcesses {
         Log.log("Verifying Files..");
         List<Game> gamesWithChangedFiles = new ArrayList<>();
 
+        int i = 1;
+        int size = games.size();
         for (Game game : new ArrayList<>(games)) {
+            String gameName = game.getName();
             for (GameFile gameFile : game.getGameFiles()) {
+                Log.log("Verifying Game File Locations (" + i + "/" + size + "): " + gameName);
                 if (!gameFile.matchesHash()) {
                     gamesWithChangedFiles.add(game);
                     break;
                 }
             }
+            i++;
         }
-        Log.log("Verified files of " + games.size() + " games.");
+        Log.log("Verified files of " + size + " games.");
         return gamesWithChangedFiles;
     }
 

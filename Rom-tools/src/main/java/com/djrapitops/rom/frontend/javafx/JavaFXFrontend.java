@@ -5,6 +5,7 @@ import com.djrapitops.rom.backend.Backend;
 import com.djrapitops.rom.exceptions.ExceptionHandler;
 import com.djrapitops.rom.frontend.Frontend;
 import com.djrapitops.rom.frontend.javafx.components.MainNavigation;
+import com.djrapitops.rom.frontend.javafx.components.ProcessBar;
 import com.djrapitops.rom.frontend.javafx.scenes.*;
 import com.djrapitops.rom.frontend.state.State;
 import com.djrapitops.rom.util.Verify;
@@ -50,7 +51,6 @@ public class JavaFXFrontend extends Application implements Frontend {
         Application.launch(args);
     }
 
-
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -59,8 +59,7 @@ public class JavaFXFrontend extends Application implements Frontend {
             primaryStage.setTitle("ROM Tools");
             primaryStage.getIcons().add(new Image("http://djrapitops.com/uploads/NMPlayer.png"));
 
-            primaryStage.setScene(new LoadingScene());
-            primaryStage.show();
+            // Loading scene instance is created, only one loading window.
 
             mainNavigation = new MainNavigation(this, primaryStage);
             mainContainer = new BorderPane();
@@ -71,6 +70,7 @@ public class JavaFXFrontend extends Application implements Frontend {
             settingsView = new SettingsView(this, mainContainer);
 
             mainContainer.setTop(mainNavigation);
+            mainContainer.setBottom(new ProcessBar(state));
 
             Backend backend = Backend.getInstance();
             backend.open(this);
@@ -83,6 +83,7 @@ public class JavaFXFrontend extends Application implements Frontend {
                     Main.class.getResource("/css/jfoenix-design.css").toExternalForm()
             );
             primaryStage.setScene(scene);
+            primaryStage.show();
         } catch (Exception e) {
             primaryStage.setScene(new FatalErrorScene(e));
         }

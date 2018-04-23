@@ -14,7 +14,7 @@ public class GameDAO implements DAO<Game> {
 
     @Override
     public void add(SQLTables tables, Game game) {
-        Log.log("Save game: " + game.getName());
+        Log.debug("Save game: " + game.getName());
         if (tables.getFileTable().containsGame(game.getGameFiles())) {
             return;
         }

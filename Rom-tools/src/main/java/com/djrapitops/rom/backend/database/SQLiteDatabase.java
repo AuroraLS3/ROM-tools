@@ -36,7 +36,7 @@ public class SQLiteDatabase extends SQLDatabase {
 
     @Override
     public void execute(ExecuteStatement statement) {
-        Log.log("DB Execute: " + statement.getSql());
+        Log.debug("DB Execute: " + statement.getSql());
         try {
             statement.execute(getConnection().prepareStatement(statement.getSql()));
         } catch (SQLException e) {
@@ -46,7 +46,7 @@ public class SQLiteDatabase extends SQLDatabase {
 
     @Override
     public void executeBatch(ExecuteStatement statement) {
-        Log.log("DB Execute Batch: " + statement.getSql());
+        Log.debug("DB Execute Batch: " + statement.getSql());
         try {
             statement.executeBatch(getConnection().prepareStatement(statement.getSql()));
         } catch (SQLException e) {
@@ -56,7 +56,7 @@ public class SQLiteDatabase extends SQLDatabase {
 
     @Override
     public <T> T query(QueryStatement<T> statement) {
-        Log.log("DB Query: " + statement.getSql());
+        Log.debug("DB Query: " + statement.getSql());
         try {
             return statement.executeQuery(connection.prepareStatement(statement.getSql()));
         } catch (SQLException e) {
