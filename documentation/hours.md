@@ -26,5 +26,6 @@ Date | Hours used | Description
 18.04.18 | 1 | Evening coding, little progress
 19.04.18 | 1 | Added some buttons to Tools view
 22.04.18 | 1 | Sequence diagram
+23.04.18 | 3 | Better UI updating, Process bar, Move/Copy selected to single folder
  | | 
-Total | 32.5 | 
+Total | 35.5 | 
