@@ -2,6 +2,7 @@ package com.djrapitops.rom.frontend.javafx.components;
 
 import com.djrapitops.rom.frontend.javafx.Variables;
 import com.djrapitops.rom.frontend.state.State;
+import com.djrapitops.rom.frontend.state.Updatable;
 import com.djrapitops.rom.game.Game;
 import com.jfoenix.controls.JFXCheckBox;
 import javafx.collections.ObservableList;
@@ -18,10 +19,11 @@ import javafx.scene.text.Text;
  *
  * @author Rsl1122
  */
-public class GameComponent extends VBox {
+public class GameComponent extends VBox implements Updatable<State> {
 
     private final Game game;
     private final State state;
+    private final JFXCheckBox checkBox;
 
     public GameComponent(Game game, State state) {
         BorderPane container = new BorderPane();
@@ -33,8 +35,7 @@ public class GameComponent extends VBox {
         console.setAlignment(Pos.CENTER_RIGHT);
 
         HBox leftContainer = new HBox();
-        JFXCheckBox checkBox = new JFXCheckBox();
-        checkBox.setSelected(state.isSelected(game));
+        checkBox = new JFXCheckBox();
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> setSelected(newValue));
 
         leftContainer.getChildren().add(checkBox);
@@ -44,6 +45,14 @@ public class GameComponent extends VBox {
         container.setRight(console);
 
         getChildren().add(container);
+
+        state.addStateListener(this);
+        update(state);
+    }
+
+    @Override
+    public void update(State with) {
+        checkBox.setSelected(state.isSelected(game));
     }
 
     public void setSelected(Boolean newValue) {

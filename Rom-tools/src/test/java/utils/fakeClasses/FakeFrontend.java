@@ -9,9 +9,4 @@ public class FakeFrontend implements Frontend {
     public State getState() {
         return null;
     }
-
-    @Override
-    public void update(State with) {
-
-    }
 }

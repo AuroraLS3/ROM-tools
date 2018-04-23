@@ -1,6 +1,5 @@
 package com.djrapitops.rom.frontend.state;
 
-import com.djrapitops.rom.frontend.Frontend;
 import com.djrapitops.rom.game.Game;
 import javafx.application.Platform;
 
@@ -13,7 +12,7 @@ import java.util.*;
  */
 public class State {
 
-    private final Frontend frontend;
+    private final List<Updatable<State>> updateOnChange;
 
     private List<Game> loadedGames;
     private Set<Game> selectedGames;
@@ -21,22 +20,34 @@ public class State {
 
     private String search;
 
-    public State(Frontend frontend) {
-        this.frontend = frontend;
-
+    public State() {
         loadedGames = new ArrayList<>();
         selectedGames = new HashSet<>();
         visibleGames = new ArrayList<>();
 
         search = "";
+        updateOnChange = new ArrayList<>();
     }
 
     public void performStateChange(StateOperation operation) {
         State state = this;
         Platform.runLater(() -> {
             operation.operateOnState(state);
-            frontend.update(state);
+            // New List to prevent Concurrent Exception due to GamesView adding more games that are updatable.
+            new ArrayList<>(updateOnChange).forEach(toUpdate -> toUpdate.update(state));
         });
+    }
+
+    public void addStateListener(Updatable<State> listener) {
+        updateOnChange.add(listener);
+    }
+
+    public <T extends Updatable<State>> void clearStateListenerInstances(Class<T> classOfInstance) {
+        for (Updatable<State> updatable : new ArrayList<>(updateOnChange)) {
+            if (updatable.getClass().equals(classOfInstance)) {
+                updateOnChange.remove(updatable);
+            }
+        }
     }
 
     public List<Game> getLoadedGames() {

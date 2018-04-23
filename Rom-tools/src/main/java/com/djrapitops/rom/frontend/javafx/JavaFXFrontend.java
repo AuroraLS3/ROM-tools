@@ -2,13 +2,11 @@ package com.djrapitops.rom.frontend.javafx;
 
 import com.djrapitops.rom.Main;
 import com.djrapitops.rom.backend.Backend;
-import com.djrapitops.rom.backend.Log;
 import com.djrapitops.rom.exceptions.ExceptionHandler;
 import com.djrapitops.rom.frontend.Frontend;
 import com.djrapitops.rom.frontend.javafx.components.MainNavigation;
 import com.djrapitops.rom.frontend.javafx.scenes.*;
 import com.djrapitops.rom.frontend.state.State;
-import com.djrapitops.rom.frontend.state.Updatable;
 import com.djrapitops.rom.util.Verify;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -45,7 +43,7 @@ public class JavaFXFrontend extends Application implements Frontend {
 
     public JavaFXFrontend() {
         currentView = Views.GAMES;
-        state = new State(this);
+        state = new State();
     }
 
     public static void start(String[] args) {
@@ -125,18 +123,6 @@ public class JavaFXFrontend extends Application implements Frontend {
 
     public MainNavigation getMainNavigation() {
         return mainNavigation;
-    }
-
-    @Override
-    public void update(State state) {
-        Log.log("JFX: Update View");
-        mainNavigation.update(currentView);
-        Node newView = getView(currentView);
-        if (newView instanceof Updatable) {
-            Updatable updatable = (Updatable) newView;
-            updatable.update(state);
-        }
-        mainContainer.setCenter(newView);
     }
 
     @Override

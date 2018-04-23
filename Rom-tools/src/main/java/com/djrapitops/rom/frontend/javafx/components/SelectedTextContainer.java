@@ -1,6 +1,7 @@
 package com.djrapitops.rom.frontend.javafx.components;
 
-import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
+import com.djrapitops.rom.frontend.state.State;
+import com.djrapitops.rom.frontend.state.Updatable;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -10,12 +11,19 @@ import javafx.scene.text.TextAlignment;
  *
  * @author Rsl1122
  */
-public class SelectedTextContainer extends BorderPane {
+public class SelectedTextContainer extends BorderPane implements Updatable<State> {
 
-    public SelectedTextContainer(JavaFXFrontend frontend) {
-        Text selectedText = new Text(frontend.getState().getSelectedGames().size() + " games selected");
+    public SelectedTextContainer(State state) {
+        update(state);
+        setPrefHeight(25);
+
+        state.addStateListener(this);
+    }
+
+    @Override
+    public void update(State state) {
+        Text selectedText = new Text(state.getSelectedGames().size() + " games selected");
         selectedText.setTextAlignment(TextAlignment.CENTER);
         setCenter(selectedText);
-        setPrefHeight(25);
     }
 }

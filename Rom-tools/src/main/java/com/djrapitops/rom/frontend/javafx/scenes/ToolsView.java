@@ -19,12 +19,13 @@ import javafx.scene.layout.BorderPane;
  */
 public class ToolsView extends BorderPane implements Updatable<State> {
 
-    private final JavaFXFrontend frontend;
-
     public ToolsView(JavaFXFrontend frontend, BorderPane mainContainer) {
-        this.frontend = frontend;
         prefWidthProperty().bind(mainContainer.widthProperty());
-        update(frontend.getState());
+
+        State state = frontend.getState();
+        setTop(new SelectedTextContainer(state));
+
+        state.addStateListener(this);
     }
 
     /**
@@ -59,7 +60,6 @@ public class ToolsView extends BorderPane implements Updatable<State> {
         // Removes the blue "on focus" box around the list
         buttons.setFocusTraversable(false);
 
-        setTop(new SelectedTextContainer(frontend));
         setCenter(buttons);
     }
 

@@ -32,6 +32,8 @@ public class GamesSceneBottomNav extends VBox implements Updatable<State> {
         this.frontend = frontend;
         getChildren().add(getTopDrawer());
         getChildren().add(getBottomDrawer());
+
+        frontend.getState().addStateListener(this);
     }
 
     private Pane getTopDrawer() {
