@@ -8,6 +8,7 @@ import com.djrapitops.rom.game.Game;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
@@ -52,19 +53,11 @@ public class MainProcesses {
     }
 
     public static void processFolderGivenWhenAddingGames(File chosenFolder) {
-        CompletableFuture.supplyAsync(() -> chosenFolder)
-                .thenApply(file -> {
-                    try {
-                        return GameParsing.parseGamesFromFile(file);
-                    } catch (IOException e) {
-                        ExceptionHandler.handle(Level.WARNING, e);
-                        return new ArrayList<Game>();
-                    }
-                })
-                .thenAccept(GameProcesses::addGames)
-                .thenApply(nothing -> GameProcesses.loadGames())
-                .thenAccept(games -> updateState(state -> state.setLoadedGames(games)))
-                .handle(ExceptionHandler.handle());
+        File[] files = chosenFolder.listFiles();
+        if (files == null) {
+            return;
+        }
+        processFilesGivenWhenAddingGames(Arrays.asList(files));
     }
 
     private static void updateState(StateOperation operation) {
