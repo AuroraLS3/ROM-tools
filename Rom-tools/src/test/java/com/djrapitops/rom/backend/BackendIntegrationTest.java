@@ -7,6 +7,7 @@ import org.junit.rules.ExpectedException;
 import utils.fakeClasses.FakeFrontend;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import static org.awaitility.Awaitility.await;
@@ -20,6 +21,7 @@ public class BackendIntegrationTest {
     public void testOpenDoesNotThrowException() {
         Backend backend = new Backend();
         Main.setBackend(backend);
+        Main.setExecutorService(Executors.newFixedThreadPool(10));
 
         backend.open(new FakeFrontend());
         await().atMost(1, TimeUnit.SECONDS).until(opened(backend));

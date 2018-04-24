@@ -38,4 +38,8 @@ public class Main {
     public static ExecutorService getExecutorService() {
         return executorService;
     }
+
+    public static void setExecutorService(ExecutorService executorService) {
+        Main.executorService = executorService;
+    }
 }
