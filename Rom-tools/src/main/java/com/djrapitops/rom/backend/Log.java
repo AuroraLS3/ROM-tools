@@ -19,7 +19,10 @@ public class Log {
     }
 
     public static void log(String msg) {
-        Backend.getInstance().getFrontend().getState().performStateChange(state -> state.setLoadingInformation(msg));
+        Backend.getInstance()
+                .getFrontend()
+                .getState()
+                .performStateChange(state -> state.setLoadingInformation(msg));
     }
 
 }

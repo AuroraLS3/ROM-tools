@@ -2,8 +2,9 @@ package com.djrapitops.rom.util.file;
 
 import net.lingala.zip4j.exception.ZipException;
 import org.junit.Before;
-import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
@@ -15,16 +16,21 @@ import static org.junit.Assert.assertNotNull;
 
 public class ZipExtractorTest extends FileTest {
 
-    @ClassRule
-    public static TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
-    private File sourceFile;
+
+    private File zipFile;
+    private File emptyZipFile;
     private File contentsFile;
 
 
     @Before
     public void setUp() {
-        sourceFile = getFile("zip.zip");
+        zipFile = getFile("zip.zip");
+        emptyZipFile = getFile("empty_zip.zip");
         contentsFile = getFile("zipContents");
     }
 
@@ -32,13 +38,21 @@ public class ZipExtractorTest extends FileTest {
     public void testExtraction() throws IOException, ZipException {
         List<String> expected = lines(contentsFile);
 
-        ZipExtractor extractor = new ZipExtractor(sourceFile, temporaryFolder.getRoot(), () -> "No Password");
+        ZipExtractor extractor = new ZipExtractor(zipFile, temporaryFolder.getRoot(), () -> "No Password");
         extractor.unzip();
 
         File unZipped = new File(temporaryFolder.getRoot(), "zipContents");
         assertNotNull(unZipped);
         List<String> result = lines(unZipped);
         assertEquals(expected, result);
+    }
+
+    @Test
+    public void extractionOfEmptyZipThrowsZipException() throws ZipException {
+        thrown.expect(ZipException.class);
+
+        ZipExtractor extractor = new ZipExtractor(emptyZipFile, temporaryFolder.getRoot(), () -> "No Password");
+        extractor.unzip();
     }
 
 }

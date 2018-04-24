@@ -59,10 +59,10 @@ public class FileProcesses {
             if (files != null) {
                 return Arrays.asList(files);
             }
+            throw new IllegalStateException("Nothing was extracted.");
         } catch (ZipException e) {
-            throw new IllegalStateException(e);
+            throw new IllegalStateException(e.getMessage(), e);
         }
-        throw new IllegalStateException("No files extracted");
     }
 
     /**
