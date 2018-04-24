@@ -1,5 +1,6 @@
 package com.djrapitops.rom.backend.processes;
 
+import com.djrapitops.rom.Main;
 import com.djrapitops.rom.backend.Backend;
 import com.djrapitops.rom.backend.Log;
 import com.djrapitops.rom.exceptions.ExceptionHandler;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 import java.util.logging.Level;
 
 /**
@@ -24,13 +26,15 @@ import java.util.logging.Level;
 public class MainProcesses {
 
     public static void loadGamesFromBackendOnProgramStart() {
-        CompletableFuture<List<Game>> loaded = CompletableFuture.supplyAsync(GameProcesses::loadGames);
+        ExecutorService execSvc = Main.getExecutorService();
+
+        CompletableFuture<List<Game>> loaded = CompletableFuture.supplyAsync(GameProcesses::loadGames, execSvc);
 
         loaded.thenAcceptAsync(games -> updateState(state -> state.setLoadedGames(games)))
                 .handle(ExceptionHandler.handle());
 
         // Verify loaded games' files.
-        loaded.thenApplyAsync(FileProcesses::verifyFiles)
+        loaded.thenApplyAsync(FileProcesses::verifyFiles, execSvc)
                 .thenAccept(GameProcesses::removeGames)
                 .thenApply(nothing -> GameProcesses.loadGames())
                 .thenAccept(games -> updateState(state -> {
@@ -42,7 +46,9 @@ public class MainProcesses {
     }
 
     public static void processFilesGivenWhenAddingGames(List<File> chosenFiles) {
-        CompletableFuture.supplyAsync(() -> chosenFiles)
+        ExecutorService execSvc = Main.getExecutorService();
+
+        CompletableFuture.supplyAsync(() -> chosenFiles, execSvc)
                 .thenApply(files -> {
                     try {
                         return GameParsing.parseGamesFromFiles(files);
@@ -72,11 +78,12 @@ public class MainProcesses {
             return;
         }
 
-        CompletableFuture<List<Game>> gamesFuture = CompletableFuture.supplyAsync(() -> selectedGames);
+        ExecutorService execSvc = Main.getExecutorService();
+        CompletableFuture<List<Game>> gamesFuture = CompletableFuture.supplyAsync(() -> selectedGames, execSvc);
 
-        gamesFuture.thenApplyAsync(games -> FileProcesses.moveToSingleFolder(games, chosenFolder))
+        gamesFuture.thenApplyAsync(games -> FileProcesses.moveToSingleFolder(games, chosenFolder), execSvc)
                 .thenAccept(success -> Log.log(success ? "Moved files successfully." : "Some files could not be moved"));
-        gamesFuture.thenAcceptAsync(GameProcesses::removeGames)
+        gamesFuture.thenAcceptAsync(GameProcesses::removeGames, execSvc)
                 .thenApply(nothing -> GameProcesses.loadGames())
                 .thenAccept(games -> updateState(state -> state.setLoadedGames(games)));
     }
@@ -88,7 +95,8 @@ public class MainProcesses {
             return;
         }
 
-        CompletableFuture.supplyAsync(() -> selectedGames)
+        ExecutorService execSvc = Main.getExecutorService();
+        CompletableFuture.supplyAsync(() -> selectedGames, execSvc)
                 .thenApply(games -> FileProcesses.copyToSingleFolder(games, chosenFolder))
                 .thenAccept(success -> Log.log(success ? "Copied files successfully." : "Some files could not be copied"));
     }

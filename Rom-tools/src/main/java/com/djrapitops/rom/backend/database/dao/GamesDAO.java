@@ -30,7 +30,7 @@ public class GamesDAO implements DAO<List<Game>> {
         int i = 1;
         int size = games.size();
         for (Game game : games) {
-            Log.log("Saving games: (" + i + "/" + size + ")" + game.getName());
+            Log.log("Saving games: (" + i + "/" + size + ") " + game.getName());
             Operations.GAME.save(game);
             i++;
         }

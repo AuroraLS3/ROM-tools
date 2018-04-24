@@ -3,6 +3,9 @@ package com.djrapitops.rom;
 import com.djrapitops.rom.backend.Backend;
 import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * Main class of ROM-tools, launches backend threads & UI thread.
  *
@@ -11,9 +14,11 @@ import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
 public class Main {
 
     private static Backend backend;
+    private static ExecutorService executorService;
 
     public static void main(String[] args) {
         backend = new Backend();
+        executorService = Executors.newFixedThreadPool(10);
         JavaFXFrontend.start(args);
     }
 
@@ -28,5 +33,9 @@ public class Main {
      */
     public static void setBackend(Backend backend) {
         Main.backend = backend;
+    }
+
+    public static ExecutorService getExecutorService() {
+        return executorService;
     }
 }
