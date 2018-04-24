@@ -78,6 +78,7 @@ public class Backend {
     }
 
     public void close() {
+        Main.getExecutorService().shutdown();
         gameBackend.close();
         open = false;
     }
