@@ -1,4 +1,4 @@
-package com.djrapitops.rom.frontend.javafx.components;
+package com.djrapitops.rom.frontend.javafx.components.gamesview;
 
 import com.djrapitops.rom.backend.processes.MainProcesses;
 import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;

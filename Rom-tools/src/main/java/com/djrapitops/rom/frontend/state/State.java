@@ -4,6 +4,7 @@ import com.djrapitops.rom.game.Game;
 import javafx.application.Platform;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Object that holds the Frontend state so that it can be kept in sync with the backend changes.
@@ -61,6 +62,7 @@ public class State {
         Collections.sort(loadedGames);
         this.loadedGames = loadedGames;
         setSelectedGames(new HashSet<>());
+        setSearch("");
     }
 
     public Set<Game> getSelectedGames() {
@@ -85,6 +87,15 @@ public class State {
 
     public void setSearch(String search) {
         this.search = search;
+        if (search.startsWith("\"")) {
+            setVisibleGames(getLoadedGames().stream()
+                    .filter(game -> game.getName().contains(search.substring(1)))
+                    .collect(Collectors.toList()));
+        } else {
+            setVisibleGames(getLoadedGames().stream()
+                    .filter(game -> game.getName().toLowerCase().contains(search.toLowerCase()))
+                    .collect(Collectors.toList()));
+        }
     }
 
     public void gameSelected(Game game, Boolean isSelected) {

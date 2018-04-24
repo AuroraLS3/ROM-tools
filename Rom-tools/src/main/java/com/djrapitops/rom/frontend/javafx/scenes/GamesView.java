@@ -2,8 +2,8 @@ package com.djrapitops.rom.frontend.javafx.scenes;
 
 import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
 import com.djrapitops.rom.frontend.javafx.components.GameComponent;
-import com.djrapitops.rom.frontend.javafx.components.GamesSceneBottomNav;
 import com.djrapitops.rom.frontend.javafx.components.SelectedTextContainer;
+import com.djrapitops.rom.frontend.javafx.components.gamesview.GamesSceneBottomNav;
 import com.djrapitops.rom.frontend.state.State;
 import com.djrapitops.rom.frontend.state.Updatable;
 import com.djrapitops.rom.game.Game;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  */
 public class GamesView extends BorderPane implements Updatable<State> {
 
-    private int lastSeenLoaded = -1;
+    private int lastseenVisible = -1;
 
     public GamesView(JavaFXFrontend frontend, BorderPane mainContainer) {
         prefWidthProperty().bind(mainContainer.widthProperty());
@@ -44,13 +44,13 @@ public class GamesView extends BorderPane implements Updatable<State> {
         container.prefWidthProperty().bind(this.widthProperty());
 
         JFXListView<GameComponent> list = new JFXListView<>();
-        List<Game> loadedGames = state.getLoadedGames();
-        int size = loadedGames.size();
+        List<Game> visibleGames = state.getVisibleGames();
+        int size = visibleGames.size();
 
-        if (lastSeenLoaded != size) {
+        if (lastseenVisible != size) {
             state.clearStateListenerInstances(GameComponent.class);
 
-            List<GameComponent> gameComponents = loadedGames.stream()
+            List<GameComponent> gameComponents = visibleGames.stream()
                     .map(game -> {
                         GameComponent gameComponent = new GameComponent(game, state);
                         gameComponent.prefWidthProperty().bind(list.prefWidthProperty());
@@ -68,6 +68,6 @@ public class GamesView extends BorderPane implements Updatable<State> {
 
             setCenter(container);
         }
-        lastSeenLoaded = size;
+        lastseenVisible = size;
     }
 }

@@ -1,4 +1,4 @@
-package com.djrapitops.rom.frontend.javafx.components;
+package com.djrapitops.rom.frontend.javafx.components.gamesview;
 
 import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
 import com.djrapitops.rom.frontend.javafx.scenes.GamesView;
@@ -6,7 +6,6 @@ import com.djrapitops.rom.frontend.state.State;
 import com.djrapitops.rom.frontend.state.StateOperation;
 import com.djrapitops.rom.frontend.state.Updatable;
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextField;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -40,14 +39,10 @@ public class GamesSceneBottomNav extends VBox implements Updatable<State> {
         HBox container = new HBox();
         container.prefWidthProperty().bind(this.widthProperty());
 
-        JFXTextField searchField = new JFXTextField();
-        searchField.setLabelFloat(true);
-        searchField.setPromptText("Search");
+        SearchField searchField = new SearchField(frontend.getState());
         container.getChildren().add(searchField);
 
         JFXButton filters = new JFXButton("Filters");
-
-        searchField.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         filters.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
         searchField.prefWidthProperty().bind(container.widthProperty());
@@ -90,7 +85,7 @@ public class GamesSceneBottomNav extends VBox implements Updatable<State> {
             if (!frontend.getState().getSelectedGames().isEmpty()) {
                 updateState(state -> state.setSelectedGames(new HashSet<>()));
             } else {
-                updateState(state -> state.setSelectedGames(new HashSet<>(state.getLoadedGames())));
+                updateState(state -> state.setSelectedGames(new HashSet<>(state.getVisibleGames())));
             }
         };
     }
@@ -100,7 +95,11 @@ public class GamesSceneBottomNav extends VBox implements Updatable<State> {
         if (!frontend.getState().getSelectedGames().isEmpty()) {
             selectAll.setText("Remove Selection");
         } else {
-            selectAll.setText("Select All");
+            if (state.getSearch().isEmpty()) {
+                selectAll.setText("Select All");
+            } else {
+                selectAll.setText("Select Visible");
+            }
         }
     }
 
