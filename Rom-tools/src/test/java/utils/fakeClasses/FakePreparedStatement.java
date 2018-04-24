@@ -361,7 +361,7 @@ public abstract class FakePreparedStatement implements PreparedStatement {
 
     @Override
     public int getFetchDirection() {
-        return 0;
+        return ResultSet.FETCH_FORWARD;
     }
 
     @Override
@@ -381,7 +381,7 @@ public abstract class FakePreparedStatement implements PreparedStatement {
 
     @Override
     public int getResultSetConcurrency() {
-        return 0;
+        return ResultSet.CONCUR_UPDATABLE;
     }
 
     @Override
@@ -391,7 +391,7 @@ public abstract class FakePreparedStatement implements PreparedStatement {
 
     @Override
     public int getResultSetType() {
-        return 0;
+        return ResultSet.TYPE_SCROLL_INSENSITIVE;
     }
 
     @Override

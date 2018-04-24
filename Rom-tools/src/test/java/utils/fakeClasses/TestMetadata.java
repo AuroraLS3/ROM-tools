@@ -6,7 +6,7 @@ import com.djrapitops.rom.game.Metadata;
 public class TestMetadata {
 
     public static Metadata createForTestGame() {
-        return Metadata.create().setConsole(FileExtension.GB).setName("Testgame").build();
+        return Metadata.create().setConsole(FileExtension.GB).setName("TestGame").build();
     }
 
 }

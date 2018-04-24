@@ -25,12 +25,11 @@ public class SQLiteDatabaseFunctionalityTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    private static File databaseFile;
     private static SQLDatabase db;
 
     @BeforeClass
     public static void setUpClass() {
-        databaseFile = new File(temporaryFolder.getRoot(), "games.db");
+        File databaseFile = new File(temporaryFolder.getRoot(), "games.db");
         db = new SQLiteDatabase(databaseFile);
         db.open();
     }

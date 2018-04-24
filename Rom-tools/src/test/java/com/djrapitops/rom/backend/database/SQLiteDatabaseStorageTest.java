@@ -82,7 +82,7 @@ public class SQLiteDatabaseStorageTest {
     }
 
     private Game createGame() {
-        Game game = new Game("Testgame");
+        Game game = new Game("TestGame");
         GameFile file = new GameFile(FileExtension.GB, "Example Path", "Hash");
         GameFile file2 = new GameFile(FileExtension.GB, "Example Path2", "Hash2");
         game.setGameFiles(Arrays.asList(file, file2));

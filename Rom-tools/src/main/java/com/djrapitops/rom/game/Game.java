@@ -15,8 +15,8 @@ public class Game implements Comparable<Game> {
     private Collection<GameFile> gameFiles;
     private Metadata metadata;
 
-    public Game(String fileName) {
-        this.name = fileName;
+    public Game(String cleanName) {
+        this.name = cleanName;
         gameFiles = Collections.emptyList();
     }
 

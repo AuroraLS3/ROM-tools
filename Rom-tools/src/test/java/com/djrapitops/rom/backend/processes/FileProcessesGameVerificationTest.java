@@ -30,8 +30,8 @@ public class FileProcessesGameVerificationTest extends FileTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    private File testfile1;
-    private File testfile2;
+    private File testFile1;
+    private File testFile2;
 
     @BeforeClass
     public static void setUpClass() {
@@ -41,8 +41,8 @@ public class FileProcessesGameVerificationTest extends FileTest {
     @Before
     public void setUp() throws Exception {
         DummyBackend.get().clearThrown();
-        testfile1 = temporaryFolder.newFile();
-        testfile2 = temporaryFolder.newFile();
+        testFile1 = temporaryFolder.newFile();
+        testFile2 = temporaryFolder.newFile();
     }
 
     @Test
@@ -56,16 +56,16 @@ public class FileProcessesGameVerificationTest extends FileTest {
     }
 
     private Game createGameWithWrongHash() {
-        Game game = new Game("Testgame");
-        GameFile file = new GameFile(FileExtension.GB, testfile1.getAbsolutePath(), "Hash");
+        Game game = new Game("TestGame");
+        GameFile file = new GameFile(FileExtension.GB, testFile1.getAbsolutePath(), "Hash");
         game.setGameFiles(Collections.singletonList(file));
         game.setMetadata(TestMetadata.createForTestGame());
         return game;
     }
 
     private Game createGameWithCorrectHash() throws IOException {
-        Game game = new Game("Testgame");
-        GameFile file = new GameFile(FileExtension.GB, testfile2.getAbsolutePath(), new MD5CheckSum(testfile2).toHash());
+        Game game = new Game("TestGame");
+        GameFile file = new GameFile(FileExtension.GB, testFile2.getAbsolutePath(), new MD5CheckSum(testFile2).toHash());
         game.setGameFiles(Collections.singletonList(file));
         game.setMetadata(TestMetadata.createForTestGame());
         return game;

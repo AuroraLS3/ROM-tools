@@ -8,7 +8,6 @@ public class TestGameBackend implements GameBackend {
     private boolean open = false;
     private Object lastSaved;
     private Object lastRemoved;
-    private boolean fetched = false;
 
     @Override
     public <T> void save(Operation<T> op, T obj) {
@@ -48,7 +47,4 @@ public class TestGameBackend implements GameBackend {
         return lastRemoved;
     }
 
-    public boolean isFetched() {
-        return fetched;
-    }
 }

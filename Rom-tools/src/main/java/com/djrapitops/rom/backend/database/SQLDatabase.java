@@ -81,6 +81,4 @@ public abstract class SQLDatabase implements GameBackend {
             throw new BackendException("Failed to create table", e.getCause());
         }
     }
-
-    public abstract Tables getTables();
 }

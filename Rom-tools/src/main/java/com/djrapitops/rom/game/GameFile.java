@@ -87,8 +87,11 @@ public class GameFile {
 
         // Remove brackets
         fileName = fileName.replaceAll("\\(.*\\)", "");
-        fileName = fileName.replaceAll("\\[.*\\]", "");
+        fileName = fileName.replaceAll("\\[.*]", "");
+        // Remove extension
         fileName = fileName.substring(0, fileName.lastIndexOf('.'));
+        // Remove underscores
+        fileName = fileName.replace("_", " ");
 
         return fileName.trim();
     }

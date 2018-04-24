@@ -56,7 +56,7 @@ public class GameCacheTest {
         GameCache cache = new GameCache(testGameBackend);
 
         String expected = "Test";
-        cache.save(new Operation<String>(FakeDAO::new, () -> Collections.EMPTY_MAP, Keys.GAMES), expected);
+        cache.save(new Operation<>(FakeDAO::new, Collections::emptyMap, Keys.GAMES), expected);
         assertEquals(expected, testGameBackend.getLastSaved());
     }
 
@@ -68,7 +68,7 @@ public class GameCacheTest {
 
         GameCache cache = new GameCache(throwingGameBackend);
 
-        cache.fetch(new Operation<String>(FakeDAO::new, () -> Collections.EMPTY_MAP, Keys.GAMES));
+        cache.fetch(new Operation<>(FakeDAO::new, Collections::emptyMap, Keys.GAMES));
     }
 
     @Test

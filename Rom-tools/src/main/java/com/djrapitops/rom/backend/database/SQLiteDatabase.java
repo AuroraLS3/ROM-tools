@@ -4,7 +4,6 @@ import com.djrapitops.rom.backend.Log;
 import com.djrapitops.rom.backend.Operation;
 import com.djrapitops.rom.backend.database.sql.ExecuteStatement;
 import com.djrapitops.rom.backend.database.sql.QueryStatement;
-import com.djrapitops.rom.backend.database.table.SQLTables;
 import com.djrapitops.rom.exceptions.BackendException;
 
 import java.io.File;
@@ -58,7 +57,7 @@ public class SQLiteDatabase extends SQLDatabase {
     public <T> T query(QueryStatement<T> statement) {
         Log.debug("DB Query: " + statement.getSql());
         try {
-            return statement.executeQuery(connection.prepareStatement(statement.getSql()));
+            return statement.executeQuery(getConnection().prepareStatement(statement.getSql()));
         } catch (SQLException e) {
             throw new BackendException("Failed to query statement: " + statement.getSql(), e);
         }
@@ -110,11 +109,6 @@ public class SQLiteDatabase extends SQLDatabase {
         } catch (ClassNotFoundException | SQLException | RuntimeException e) {
             throw new BackendException("Failed to open a new database connection", e);
         }
-    }
-
-    @Override
-    public SQLTables getTables() {
-        return tables;
     }
 
     @Override

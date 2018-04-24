@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  */
 public class GamesView extends BorderPane implements Updatable<State> {
 
-    private int lastseenVisible = -1;
+    private int lastSeenVisible = -1;
 
     public GamesView(JavaFXFrontend frontend, BorderPane mainContainer) {
         prefWidthProperty().bind(mainContainer.widthProperty());
@@ -47,7 +47,7 @@ public class GamesView extends BorderPane implements Updatable<State> {
         List<Game> visibleGames = state.getVisibleGames();
         int size = visibleGames.size();
 
-        if (lastseenVisible != size) {
+        if (lastSeenVisible != size) {
             state.clearStateListenerInstances(GameComponent.class);
 
             List<GameComponent> gameComponents = visibleGames.stream()
@@ -68,6 +68,6 @@ public class GamesView extends BorderPane implements Updatable<State> {
 
             setCenter(container);
         }
-        lastseenVisible = size;
+        lastSeenVisible = size;
     }
 }

@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -28,8 +29,8 @@ public class MainProcessesFileMovingTest extends FileTest {
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
-    private String testfile1;
-    private String testfile2;
+    private String testFile1;
+    private String testFile2;
     private File originalFolder;
     private File targetFolder;
 
@@ -43,8 +44,8 @@ public class MainProcessesFileMovingTest extends FileTest {
         originalFolder = temporaryFolder.newFolder();
         targetFolder = temporaryFolder.newFolder();
 
-        File file1 = new File(originalFolder, "Testfile1.txt");
-        File file2 = new File(originalFolder, "Testfile2.txt");
+        File file1 = new File(originalFolder, "TestFile1.txt");
+        File file2 = new File(originalFolder, "TestFile2.txt");
 
         if (!file1.createNewFile()) {
             throw new FileNotFoundException();
@@ -53,8 +54,8 @@ public class MainProcessesFileMovingTest extends FileTest {
             throw new FileNotFoundException();
         }
 
-        testfile1 = file1.getAbsolutePath();
-        testfile2 = file2.getAbsolutePath();
+        testFile1 = file1.getAbsolutePath();
+        testFile2 = file2.getAbsolutePath();
     }
 
     @Test
@@ -62,15 +63,15 @@ public class MainProcessesFileMovingTest extends FileTest {
         MainProcesses.processFileMoveToGivenFolder(targetFolder, Collections.singletonList(createGame()));
         Awaitility.await()
                 .atMost(2, TimeUnit.SECONDS)
-                .until(() -> targetFolder.listFiles() != null && targetFolder.listFiles().length > 1);
+                .until(() -> Objects.requireNonNull(targetFolder.listFiles()).length > 1);
 
         List<String> targetFileNames = getFileNamesInFolder(targetFolder);
         List<String> originalFileNames = getFileNamesInFolder(originalFolder);
 
-        assertTrue(targetFileNames.contains("Testfile1.txt"));
-        assertTrue(targetFileNames.contains("Testfile2.txt"));
-        assertFalse(originalFileNames.contains("Testfile1.txt"));
-        assertFalse(originalFileNames.contains("Testfile2.txt"));
+        assertTrue(targetFileNames.contains("TestFile1.txt"));
+        assertTrue(targetFileNames.contains("TestFile2.txt"));
+        assertFalse(originalFileNames.contains("TestFile1.txt"));
+        assertFalse(originalFileNames.contains("TestFile2.txt"));
     }
 
     @Test
@@ -78,15 +79,15 @@ public class MainProcessesFileMovingTest extends FileTest {
         MainProcesses.processFileCopyToGivenFolder(targetFolder, Collections.singletonList(createGame()));
         Awaitility.await()
                 .atMost(2, TimeUnit.SECONDS)
-                .until(() -> targetFolder.listFiles() != null && targetFolder.listFiles().length > 1);
+                .until(() -> Objects.requireNonNull(targetFolder.listFiles()).length > 1);
 
         List<String> targetFileNames = getFileNamesInFolder(targetFolder);
         List<String> originalFileNames = getFileNamesInFolder(originalFolder);
 
-        assertTrue(targetFileNames.contains("Testfile1.txt"));
-        assertTrue(targetFileNames.contains("Testfile2.txt"));
-        assertTrue(originalFileNames.contains("Testfile1.txt"));
-        assertTrue(originalFileNames.contains("Testfile2.txt"));
+        assertTrue(targetFileNames.contains("TestFile1.txt"));
+        assertTrue(targetFileNames.contains("TestFile2.txt"));
+        assertTrue(originalFileNames.contains("TestFile1.txt"));
+        assertTrue(originalFileNames.contains("TestFile2.txt"));
     }
 
     @Test
@@ -96,10 +97,10 @@ public class MainProcessesFileMovingTest extends FileTest {
         List<String> targetFileNames = getFileNamesInFolder(targetFolder);
         List<String> originalFileNames = getFileNamesInFolder(originalFolder);
 
-        assertFalse(targetFileNames.contains("Testfile1.txt"));
-        assertFalse(targetFileNames.contains("Testfile2.txt"));
-        assertTrue(originalFileNames.contains("Testfile1.txt"));
-        assertTrue(originalFileNames.contains("Testfile2.txt"));
+        assertFalse(targetFileNames.contains("TestFile1.txt"));
+        assertFalse(targetFileNames.contains("TestFile2.txt"));
+        assertTrue(originalFileNames.contains("TestFile1.txt"));
+        assertTrue(originalFileNames.contains("TestFile2.txt"));
     }
 
     @Test
@@ -109,10 +110,10 @@ public class MainProcessesFileMovingTest extends FileTest {
         List<String> targetFileNames = getFileNamesInFolder(targetFolder);
         List<String> originalFileNames = getFileNamesInFolder(originalFolder);
 
-        assertFalse(targetFileNames.contains("Testfile1.txt"));
-        assertFalse(targetFileNames.contains("Testfile2.txt"));
-        assertTrue(originalFileNames.contains("Testfile1.txt"));
-        assertTrue(originalFileNames.contains("Testfile2.txt"));
+        assertFalse(targetFileNames.contains("TestFile1.txt"));
+        assertFalse(targetFileNames.contains("TestFile2.txt"));
+        assertTrue(originalFileNames.contains("TestFile1.txt"));
+        assertTrue(originalFileNames.contains("TestFile2.txt"));
     }
 
     private List<String> getFileNamesInFolder(File folder) {
@@ -124,9 +125,9 @@ public class MainProcessesFileMovingTest extends FileTest {
     }
 
     private Game createGame() {
-        Game game = new Game("Testgame");
-        GameFile file = new GameFile(FileExtension.GB, testfile1, "Hash");
-        GameFile file2 = new GameFile(FileExtension.GB, testfile2, "Hash2");
+        Game game = new Game("TestGame");
+        GameFile file = new GameFile(FileExtension.GB, testFile1, "Hash");
+        GameFile file2 = new GameFile(FileExtension.GB, testFile2, "Hash2");
         game.setGameFiles(Arrays.asList(file, file2));
         game.setMetadata(TestMetadata.createForTestGame());
         return game;

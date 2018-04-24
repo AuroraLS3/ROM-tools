@@ -66,10 +66,6 @@ public class GameCache implements GameBackend {
         mainBackend.close();
     }
 
-    public GameBackend getMainBackend() {
-        return mainBackend;
-    }
-
     public void clear(Keys request) {
         cache.remove(request);
     }

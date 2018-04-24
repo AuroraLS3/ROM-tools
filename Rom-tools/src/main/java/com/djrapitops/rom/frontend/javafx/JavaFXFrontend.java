@@ -126,10 +126,6 @@ public class JavaFXFrontend extends Application implements Frontend {
         return currentView;
     }
 
-    public MainNavigation getMainNavigation() {
-        return mainNavigation;
-    }
-
     @Override
     public State getState() {
         return state;

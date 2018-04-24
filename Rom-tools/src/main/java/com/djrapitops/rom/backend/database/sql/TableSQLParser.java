@@ -48,14 +48,14 @@ public class TableSQLParser extends SQLParser {
     }
 
 
-    public TableSQLParser foreignKey(String column, String refrencedTable, String referencedColumn) {
+    public TableSQLParser foreignKey(String column, String referencedTable, String referencedColumn) {
         if (columns > 0) {
             append(", ");
         }
         append("FOREIGN KEY(")
                 .append(column)
                 .append(") REFERENCES ")
-                .append(refrencedTable)
+                .append(referencedTable)
                 .append("(")
                 .append(referencedColumn)
                 .append(")");

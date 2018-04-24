@@ -22,11 +22,11 @@ import java.util.*;
 public class FileTable extends GameIDTable {
 
     public static final String TABLE_NAME = "files";
-    private String insestStatement;
+    private String insertStatement;
 
     public FileTable(SQLDatabase database) {
         super(database, TABLE_NAME);
-        insestStatement = "INSERT INTO " + tableName + "(" +
+        insertStatement = "INSERT INTO " + tableName + "(" +
                 Col.GAME_ID + ", " +
                 Col.EXTENSION + ", " +
                 Col.FILE_PATH + ", " +
@@ -54,7 +54,7 @@ public class FileTable extends GameIDTable {
      * @param files  Collection of GameFiles related to a single game.
      */
     public void saveGameFiles(int gameId, Collection<GameFile> files) {
-        executeBatch(new ExecuteStatement(insestStatement) {
+        executeBatch(new ExecuteStatement(insertStatement) {
             @Override
             public void prepare(PreparedStatement statement) throws SQLException {
                 for (GameFile gameFile : files) {

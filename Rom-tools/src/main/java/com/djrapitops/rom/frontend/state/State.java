@@ -113,10 +113,6 @@ public class State {
         return displayedConsoles;
     }
 
-    public void setDisplayedConsoles(Collection<Console> displayedConsoles) {
-        this.displayedConsoles = new HashSet<>(displayedConsoles);
-    }
-
     private void updateVisibleGames() {
         if (search.startsWith("\"")) {
             visibleGames = getLoadedGames().stream()

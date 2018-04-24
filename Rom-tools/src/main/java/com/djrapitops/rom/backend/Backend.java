@@ -39,10 +39,6 @@ public class Backend {
         return Main.getBackend();
     }
 
-    public SQLDatabase getGameStorage() {
-        return gameStorage;
-    }
-
     public void setGameStorage(SQLDatabase gameStorage) {
         this.gameStorage = gameStorage;
         this.gameBackend = new GameCache(gameStorage);

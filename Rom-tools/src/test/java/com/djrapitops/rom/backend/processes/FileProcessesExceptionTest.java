@@ -28,7 +28,7 @@ public class FileProcessesExceptionTest extends FileTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    private File testfile1;
+    private File testFile1;
 
     @BeforeClass
     public static void setUpClass() {
@@ -40,7 +40,7 @@ public class FileProcessesExceptionTest extends FileTest {
         DummyBackend.get().clearThrown();
         // Here we create a folder and use it as a file.
         // Using folders like files usually causes IOExceptions.
-        testfile1 = temporaryFolder.newFolder();
+        testFile1 = temporaryFolder.newFolder();
     }
 
     @Test
@@ -82,8 +82,8 @@ public class FileProcessesExceptionTest extends FileTest {
     }
 
     private Game createBrokenGame() {
-        Game game = new Game("Testgame");
-        GameFile file = new GameFile(FileExtension.GB, testfile1.getAbsolutePath(), "Hash");
+        Game game = new Game("TestGame");
+        GameFile file = new GameFile(FileExtension.GB, testFile1.getAbsolutePath(), "Hash");
         game.setGameFiles(Collections.singletonList(file));
         game.setMetadata(TestMetadata.createForTestGame());
         return game;
