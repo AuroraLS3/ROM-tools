@@ -33,7 +33,11 @@ public class MainProcesses {
         loaded.thenApplyAsync(FileProcesses::verifyFiles)
                 .thenAccept(GameProcesses::removeGames)
                 .thenApply(nothing -> GameProcesses.loadGames())
-                .thenAccept(games -> updateState(state -> state.setLoadedGames(games)))
+                .thenAccept(games -> updateState(state -> {
+                    if (state.getLoadedGames().size() != games.size()) {
+                        state.setLoadedGames(games);
+                    }
+                }))
                 .handle(ExceptionHandler.handle());
     }
 

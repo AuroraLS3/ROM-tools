@@ -56,7 +56,7 @@ public enum Console {
             } else if (name.contains("psp") || name.contains("portable") || name.contains("vita")) {
                 return Console.PSP;
             }
-        } else if (name.contains("cd")) {
+        } else if (name.contains(" cd") || name.contains("cd.")) {
             return Console.SEGA_CD;
         }
         return extension.getConsole();
