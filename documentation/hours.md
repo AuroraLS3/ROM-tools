@@ -28,4 +28,5 @@ Date | Hours used | Description
 22.04.18 | 1 | Sequence diagram
 23.04.18 | 3 | Better UI updating, Process bar, Move/Copy selected to single folder
 24.04.18 | 2 | Search & Filter functionality, Tests for Move/Copy functionality
-Total | 37.5 | 
+24.04.18 | 2 | More tests and test related fixes, Some code cleanup, typo fixes etc.
+Total | 39.5 | 
