@@ -1,8 +1,8 @@
 package com.djrapitops.rom.frontend.javafx.components.gamesview;
 
 import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
-import com.djrapitops.rom.frontend.javafx.scenes.GamesView;
-import com.djrapitops.rom.frontend.javafx.scenes.Views;
+import com.djrapitops.rom.frontend.javafx.views.GamesView;
+import com.djrapitops.rom.frontend.javafx.views.Views;
 import com.djrapitops.rom.frontend.state.State;
 import com.djrapitops.rom.frontend.state.StateOperation;
 import com.djrapitops.rom.frontend.state.Updatable;

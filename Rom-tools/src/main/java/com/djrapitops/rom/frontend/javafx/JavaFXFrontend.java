@@ -6,7 +6,7 @@ import com.djrapitops.rom.exceptions.ExceptionHandler;
 import com.djrapitops.rom.frontend.Frontend;
 import com.djrapitops.rom.frontend.javafx.components.MainNavigation;
 import com.djrapitops.rom.frontend.javafx.components.ProcessBar;
-import com.djrapitops.rom.frontend.javafx.scenes.*;
+import com.djrapitops.rom.frontend.javafx.views.*;
 import com.djrapitops.rom.frontend.state.State;
 import com.djrapitops.rom.util.Verify;
 import javafx.application.Application;

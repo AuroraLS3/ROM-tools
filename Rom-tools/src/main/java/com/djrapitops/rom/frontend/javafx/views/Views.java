@@ -1,4 +1,4 @@
-package com.djrapitops.rom.frontend.javafx.scenes;
+package com.djrapitops.rom.frontend.javafx.views;
 
 /**
  * Enum for different UI views.

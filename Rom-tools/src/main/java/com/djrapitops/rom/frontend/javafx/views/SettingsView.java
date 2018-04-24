@@ -1,4 +1,4 @@
-package com.djrapitops.rom.frontend.javafx.scenes;
+package com.djrapitops.rom.frontend.javafx.views;
 
 import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
 import com.djrapitops.rom.frontend.state.State;
