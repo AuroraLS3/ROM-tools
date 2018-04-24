@@ -4,10 +4,10 @@ import com.djrapitops.rom.backend.Operations;
 import com.djrapitops.rom.game.FileExtension;
 import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.game.GameFile;
-import com.djrapitops.rom.game.Metadata;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
+import utils.fakeClasses.TestMetadata;
 
 import java.io.File;
 import java.util.Arrays;
@@ -85,9 +85,8 @@ public class SQLiteDatabaseStorageTest {
         Game game = new Game("Testgame");
         GameFile file = new GameFile(FileExtension.GB, "Example Path", "Hash");
         GameFile file2 = new GameFile(FileExtension.GB, "Example Path2", "Hash2");
-        Metadata metadata = Metadata.create().setConsole(FileExtension.GB).setName("Testgame").build();
         game.setGameFiles(Arrays.asList(file, file2));
-        game.setMetadata(metadata);
+        game.setMetadata(TestMetadata.createForTestGame());
         return game;
     }
 }

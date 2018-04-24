@@ -11,10 +11,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -55,11 +52,7 @@ public class FileProcesses {
         ZipExtractor zip = new ZipExtractor(zipFile, destinationFolder, password);
         try {
             zip.unzip();
-            File[] files = destinationFolder.listFiles();
-            if (files != null) {
-                return Arrays.asList(files);
-            }
-            throw new IllegalStateException("Nothing was extracted.");
+            return Arrays.asList(Objects.requireNonNull(destinationFolder.listFiles()));
         } catch (ZipException e) {
             throw new IllegalStateException(e.getMessage(), e);
         }

@@ -4,7 +4,6 @@ import com.djrapitops.rom.Main;
 import com.djrapitops.rom.game.FileExtension;
 import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.game.GameFile;
-import com.djrapitops.rom.game.Metadata;
 import com.djrapitops.rom.util.file.FileTest;
 import org.awaitility.Awaitility;
 import org.junit.Before;
@@ -12,6 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import utils.fakeClasses.TestMetadata;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -127,9 +127,8 @@ public class MainProcessesFileMovingTest extends FileTest {
         Game game = new Game("Testgame");
         GameFile file = new GameFile(FileExtension.GB, testfile1, "Hash");
         GameFile file2 = new GameFile(FileExtension.GB, testfile2, "Hash2");
-        Metadata metadata = Metadata.create().setConsole(FileExtension.GB).setName("Testgame").build();
         game.setGameFiles(Arrays.asList(file, file2));
-        game.setMetadata(metadata);
+        game.setMetadata(TestMetadata.createForTestGame());
         return game;
     }
 
