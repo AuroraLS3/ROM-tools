@@ -7,6 +7,7 @@ import com.djrapitops.rom.frontend.javafx.Style;
 import com.djrapitops.rom.frontend.javafx.components.SelectedTextContainer;
 import com.djrapitops.rom.frontend.state.State;
 import com.djrapitops.rom.frontend.state.Updatable;
+import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.util.MethodReference;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
@@ -19,6 +20,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Tools view in the UI.
@@ -74,7 +77,7 @@ public class ToolsView extends BorderPane implements Updatable<State> {
         setCenter(buttons);
     }
 
-    private EventHandler<ActionEvent> getActionEventForFolderSelect(MethodReference<File> methodToCall) {
+    private EventHandler<ActionEvent> getActionEventForFolderSelect(MethodReference.Dual<File, List<Game>> methodToCall) {
         return event -> {
             if (frontend.getState().getSelectedGames().isEmpty()) {
                 Log.log("No Games Selected.");
@@ -89,7 +92,7 @@ public class ToolsView extends BorderPane implements Updatable<State> {
                 return;
             }
 
-            methodToCall.call(chosenFolder);
+            methodToCall.call(chosenFolder, new ArrayList<>(frontend.getState().getSelectedGames()));
         };
     }
 

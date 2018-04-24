@@ -71,9 +71,7 @@ public class MainProcesses {
         processFilesGivenWhenAddingGames(Arrays.asList(files));
     }
 
-    public static void processFileMoveToGivenFolder(File chosenFolder) {
-        List<Game> selectedGames = new ArrayList<>(Backend.getInstance().getFrontend().getState().getSelectedGames());
-
+    public static void processFileMoveToGivenFolder(File chosenFolder, List<Game> selectedGames) {
         if (selectedGames.isEmpty()) {
             return;
         }
@@ -88,9 +86,7 @@ public class MainProcesses {
                 .thenAccept(games -> updateState(state -> state.setLoadedGames(games)));
     }
 
-    public static void processFileCopyToGivenFolder(File chosenFolder) {
-        List<Game> selectedGames = new ArrayList<>(Backend.getInstance().getFrontend().getState().getSelectedGames());
-
+    public static void processFileCopyToGivenFolder(File chosenFolder, List<Game> selectedGames) {
         if (selectedGames.isEmpty()) {
             return;
         }
