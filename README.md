@@ -15,22 +15,22 @@ Managing downloaded games can be a lot of unnecessary work - Extracting zips, re
 
 [Architecture](documentation/architecture.md)
 
+[How to use the Program](https://github.com/Rsl1122/ROM-tools/wiki/Using-the-Program)
+
 [Hours used](documentation/hours.md)
 
-### Using the software
+### Course Required Tools
 
-**Build Rom-tools.jar** to Rom-tools/target
+#### Build Rom-tools.jar to Rom-tools/target
 ```
 mvn package
 ```
 
-**Run the program**  
+#### Run the program
 Double click the jar to run the program or use the following command to see debug messages on console.
 ```
 java -jar Rom-tools-1.0-SNAPSHOT.jar
 ```
-
-### Course Required Tools
 
 #### Checkstyle
 
