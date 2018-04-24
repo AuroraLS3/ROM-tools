@@ -2,6 +2,7 @@ package com.djrapitops.rom.frontend.javafx.components.gamesview;
 
 import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
 import com.djrapitops.rom.frontend.javafx.scenes.GamesView;
+import com.djrapitops.rom.frontend.javafx.scenes.Views;
 import com.djrapitops.rom.frontend.state.State;
 import com.djrapitops.rom.frontend.state.StateOperation;
 import com.djrapitops.rom.frontend.state.Updatable;
@@ -44,6 +45,7 @@ public class GamesSceneBottomNav extends VBox implements Updatable<State> {
 
         JFXButton filters = new JFXButton("Filters");
         filters.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        filters.setOnAction(event -> frontend.changeView(Views.FILTERS));
 
         searchField.prefWidthProperty().bind(container.widthProperty());
         filters.prefWidthProperty().bind(container.widthProperty());
@@ -68,7 +70,8 @@ public class GamesSceneBottomNav extends VBox implements Updatable<State> {
         selectAll.setOnAction(getSelectAllActionHandler());
         children.add(selectAll);
 
-        JFXButton selectWithFilters = new JFXButton("Select with Filters");
+        JFXButton selectWithFilters = new JFXButton("disabled button");
+        selectWithFilters.setDisable(true);
         selectWithFilters.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         selectWithFilters.prefWidthProperty().bind(container.widthProperty());
         children.add(selectWithFilters);
@@ -95,7 +98,7 @@ public class GamesSceneBottomNav extends VBox implements Updatable<State> {
         if (!frontend.getState().getSelectedGames().isEmpty()) {
             selectAll.setText("Remove Selection");
         } else {
-            if (state.getSearch().isEmpty()) {
+            if (state.getSearch().isEmpty() && (state.hasFilteredConsoles())) {
                 selectAll.setText("Select All");
             } else {
                 selectAll.setText("Select Visible");

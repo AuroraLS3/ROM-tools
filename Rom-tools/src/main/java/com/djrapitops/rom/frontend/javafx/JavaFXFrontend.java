@@ -41,6 +41,7 @@ public class JavaFXFrontend extends Application implements Frontend {
     private GamesView gamesView;
     private ToolsView toolsView;
     private SettingsView settingsView;
+    private FiltersView filtersView;
 
     public JavaFXFrontend() {
         currentView = Views.GAMES;
@@ -68,6 +69,7 @@ public class JavaFXFrontend extends Application implements Frontend {
             gamesView = new GamesView(this, mainContainer);
             toolsView = new ToolsView(this, mainContainer);
             settingsView = new SettingsView(this, mainContainer);
+            filtersView = new FiltersView(this, mainContainer);
 
             mainContainer.setTop(mainNavigation);
             mainContainer.setBottom(new ProcessBar(state));
@@ -107,6 +109,8 @@ public class JavaFXFrontend extends Application implements Frontend {
                 return toolsView;
             case SETTINGS:
                 return settingsView;
+            case FILTERS:
+                return filtersView;
             default:
                 ExceptionHandler.handle(Level.WARNING, new IllegalArgumentException("View not defined"));
                 return mainContainer.getCenter();

@@ -39,11 +39,6 @@ public class ToolsView extends BorderPane implements Updatable<State> {
         state.addStateListener(this);
     }
 
-    /**
-     * Updates GamesView to display a list of games.
-     *
-     * @param with Object used as parameters for the update.
-     */
     @Override
     public void update(State with) {
 
