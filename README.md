@@ -21,6 +21,8 @@ Managing downloaded games can be a lot of unnecessary work - Extracting zips, re
 
 ### Course Required Tools
 
+[Latest Release](https://github.com/Rsl1122/ROM-tools/releases) (No clue why this is mandatory)
+
 #### Build Rom-tools.jar to Rom-tools/target
 ```
 mvn package
