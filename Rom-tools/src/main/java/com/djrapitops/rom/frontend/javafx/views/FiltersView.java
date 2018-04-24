@@ -40,21 +40,21 @@ public class FiltersView extends BorderPane implements Updatable<State> {
 
     @Override
     public void update(State state) {
-        Set<Console> loadedConsoles = state.getLoadedGames().stream()
+        Set<Console> stateConsoles = state.getLoadedGames().stream()
                 .map(game -> game.getMetadata().getConsole())
                 .distinct()
                 .collect(Collectors.toSet());
 
-        if (this.loadedConsoles.equals(loadedConsoles)) {
+        if (loadedConsoles.equals(stateConsoles)) {
             return;
         }
 
-        this.loadedConsoles = loadedConsoles;
+        loadedConsoles = stateConsoles;
 
         state.clearStateListenerInstances(ConsoleFilterButton.class);
 
         masonryPane.getChildren().clear();
-        for (Console console : loadedConsoles) {
+        for (Console console : stateConsoles) {
             ConsoleFilterButton cfButton = new ConsoleFilterButton(console, state);
             masonryPane.getChildren().add(cfButton);
         }

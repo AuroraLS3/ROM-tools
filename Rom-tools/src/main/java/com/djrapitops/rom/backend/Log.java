@@ -1,5 +1,8 @@
 package com.djrapitops.rom.backend;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Utility class for logging messages.
  *
@@ -12,8 +15,7 @@ public class Log {
     }
 
     public static void debug(String msg) {
-        // TODO Use logger.
-        System.out.println(msg);
+        Logger.getGlobal().log(Level.INFO, msg);
     }
 
     public static void log(String msg) {

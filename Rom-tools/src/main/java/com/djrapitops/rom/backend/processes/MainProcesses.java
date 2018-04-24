@@ -25,6 +25,10 @@ import java.util.logging.Level;
  */
 public class MainProcesses {
 
+    private MainProcesses() {
+        /* Hides Constructor */
+    }
+
     public static void loadGamesFromBackendOnProgramStart() {
         ExecutorService execSvc = Main.getExecutorService();
 
