@@ -2,9 +2,9 @@
 
 ## Class Diagram
 
-[Commit 1f195b7d448d4901833f47e8683d458b95e2b3bd](https://github.com/Rsl1122/ROM-tools/tree/1f195b7d448d4901833f47e8683d458b95e2b3bd)
+[Commit 3314b1ca7c9136e7b8c81851c527109304071872](https://github.com/Rsl1122/ROM-tools/tree/3314b1ca7c9136e7b8c81851c527109304071872)
 
-![Class Diagram](https://github.com/Rsl1122/ROM-tools/blob/master/documentation/ClassDiagram.jpg?raw=true)
+![Class Diagram](https://github.com/Rsl1122/ROM-tools/blob/master/documentation/ClassDiagram2.jpg?raw=true)
 
 Color | Clarification
 -- | --
