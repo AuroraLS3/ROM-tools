@@ -20,8 +20,8 @@ import java.util.logging.Logger;
  */
 public class Backend {
 
-    private final SQLDatabase gameStorage;
-    private final GameBackend gameBackend;
+    private SQLDatabase gameStorage;
+    private GameBackend gameBackend;
 
     private ExceptionHandler exceptionHandler;
     private boolean open = false;
@@ -41,6 +41,11 @@ public class Backend {
 
     public SQLDatabase getGameStorage() {
         return gameStorage;
+    }
+
+    public void setGameStorage(SQLDatabase gameStorage) {
+        this.gameStorage = gameStorage;
+        this.gameBackend = new GameCache(gameStorage);
     }
 
     public GameBackend getGameBackend() {
