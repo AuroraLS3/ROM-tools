@@ -1,5 +1,6 @@
 package com.djrapitops.rom.backend.database;
 
+import com.djrapitops.rom.Main;
 import com.djrapitops.rom.backend.Operations;
 import com.djrapitops.rom.game.FileExtension;
 import com.djrapitops.rom.game.Game;
@@ -7,6 +8,7 @@ import com.djrapitops.rom.game.GameFile;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
+import utils.fakeClasses.DummyBackend;
 import utils.fakeClasses.TestMetadata;
 
 import java.io.File;
@@ -39,8 +41,13 @@ public class SQLiteDatabaseStorageTest {
 
     @Test
     public void savesGamesSuccessfully() {
+        // Required for Log.log in Operations.ALL_GAMES.save
+        DummyBackend backend = new DummyBackend();
+        backend.setGameStorage(db);
+        Main.setBackend(backend);
+
         Game expected = createGame();
-        db.save(Operations.GAME, expected);
+        db.save(Operations.ALL_GAMES, Collections.singletonList(expected));
 
         List<Game> games = db.fetch(Operations.ALL_GAMES);
         assertEquals("Game was not in database after save", 1, games.size());
