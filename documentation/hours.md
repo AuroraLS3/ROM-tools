@@ -29,4 +29,5 @@ Date | Hours used | Description
 23.04.18 | 3 | Better UI updating, Process bar, Move/Copy selected to single folder
 24.04.18 | 2 | Search & Filter functionality, Tests for Move/Copy functionality
 24.04.18 | 2 | More tests and test related fixes, Some code cleanup, typo fixes etc.
-Total | 39.5 | 
+25.04.18 | 1.5 | In depth Architecture detail, expanded tests a little
+Total | 41 | 
