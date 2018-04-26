@@ -30,5 +30,5 @@ Date | Hours used | Description
 24.04.18 | 2 | Search & Filter functionality, Tests for Move/Copy functionality
 24.04.18 | 2 | More tests and test related fixes, Some code cleanup, typo fixes etc.
 25.04.18 | 1.5 | In depth Architecture detail, expanded tests a little
-26.04.18 | 1 | Small style adjustments, attempt to add settings via database (reverted)
-Total | 42 | 
+26.04.18 | 2 | Small style adjustments, attempt to add settings via database (reverted), Added file based settings and tests for the new settings code.
+Total | 43 | 
