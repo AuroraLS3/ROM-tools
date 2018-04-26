@@ -3,6 +3,7 @@ package com.djrapitops.rom.frontend.javafx.components.gamesview;
 import com.djrapitops.rom.frontend.state.State;
 import com.djrapitops.rom.frontend.state.Updatable;
 import com.jfoenix.controls.JFXTextField;
+import javafx.scene.paint.Paint;
 
 /**
  * GamesView component for filtering displayed games.
@@ -16,6 +17,7 @@ public class SearchField extends JFXTextField implements Updatable<State> {
     public SearchField(State state) {
         setLabelFloat(true);
         setPromptText("Search");
+        setUnFocusColor(Paint.valueOf("#fff"));
         setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
         textProperty().addListener((observable, oldValue, newValue) -> {

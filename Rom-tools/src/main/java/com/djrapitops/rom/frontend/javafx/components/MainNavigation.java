@@ -19,8 +19,8 @@ import java.util.Arrays;
  */
 public class MainNavigation extends HBox implements Updatable<Views> {
 
-    private static final String ACTIVE_STYLE = Style.BG_DARK_GREEN + Style.BUTTON_SQUARE;
-    private static final String INACTIVE_STYLE = Style.BG_GREEN + Style.BUTTON_SQUARE;
+    private static final String ACTIVE_STYLE = Style.BG_DARKER_CYAN + Style.BUTTON_SQUARE;
+    private static final String INACTIVE_STYLE = Style.BG_DARK_CYAN + Style.BUTTON_SQUARE;
 
     private final JFXButton gamesButton;
     private final JFXButton toolsButton;

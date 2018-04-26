@@ -56,9 +56,10 @@ public class JavaFXFrontend extends Application implements Frontend {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
 
+        primaryStage.getIcons().add(new Image(JavaFXFrontend.class.getResourceAsStream("/Logo.png")));
+
         try {
             primaryStage.setTitle("ROM Tools");
-            primaryStage.getIcons().add(new Image("http://djrapitops.com/uploads/NMPlayer.png"));
 
             // Loading scene instance is created, only one loading window.
 

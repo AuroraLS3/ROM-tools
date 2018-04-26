@@ -1,5 +1,6 @@
 package com.djrapitops.rom.frontend.javafx.components;
 
+import com.djrapitops.rom.frontend.javafx.Style;
 import com.djrapitops.rom.frontend.javafx.Variables;
 import com.djrapitops.rom.frontend.state.State;
 import com.djrapitops.rom.frontend.state.Updatable;
@@ -36,6 +37,7 @@ public class GameComponent extends VBox implements Updatable<State> {
 
         HBox leftContainer = new HBox();
         checkBox = new JFXCheckBox();
+        checkBox.setStyle(Style.CHECKBOX_CYAN);
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> setSelected(newValue));
 
         leftContainer.getChildren().add(checkBox);

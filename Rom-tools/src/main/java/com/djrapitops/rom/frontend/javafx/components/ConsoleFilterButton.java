@@ -40,7 +40,7 @@ public class ConsoleFilterButton extends JFXButton implements Updatable<State> {
         active = displayedConsoles.isEmpty() || displayedConsoles.contains(console);
 
         setStyle(
-                Style.BUTTON_SQUARE + (active ? Style.BG_GREEN : Style.BG_DARK_GREEN)
+                Style.BUTTON_SQUARE + (active ? Style.BG_LIGHT_GREEN : Style.BG_LIGHT_GRAY_CYAN)
         );
     }
 }

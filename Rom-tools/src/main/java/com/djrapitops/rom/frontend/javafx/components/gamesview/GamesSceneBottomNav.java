@@ -1,6 +1,7 @@
 package com.djrapitops.rom.frontend.javafx.components.gamesview;
 
 import com.djrapitops.rom.frontend.javafx.JavaFXFrontend;
+import com.djrapitops.rom.frontend.javafx.Style;
 import com.djrapitops.rom.frontend.javafx.views.GamesView;
 import com.djrapitops.rom.frontend.javafx.views.Views;
 import com.djrapitops.rom.frontend.state.State;
@@ -41,9 +42,11 @@ public class GamesSceneBottomNav extends VBox implements Updatable<State> {
         container.prefWidthProperty().bind(this.widthProperty());
 
         SearchField searchField = new SearchField(frontend.getState());
+        searchField.setStyle(Style.BUTTON_SQUARE + Style.BG_LIGHT_GRAY_CYAN + "-fx-prompt-text-fill: #fff;");
         container.getChildren().add(searchField);
 
         JFXButton filters = new JFXButton("Filters");
+        filters.setStyle(Style.BUTTON_SQUARE + Style.BG_LIGHT_GRAY_CYAN);
         filters.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         filters.setOnAction(event -> frontend.changeView(Views.FILTERS));
 
@@ -61,16 +64,19 @@ public class GamesSceneBottomNav extends VBox implements Updatable<State> {
         ObservableList<Node> children = container.getChildren();
 
         AddGamesButton addGamesButton = new AddGamesButton(frontend);
+        addGamesButton.setStyle(Style.BUTTON_SQUARE + Style.BG_DARK_CYAN);
         addGamesButton.prefWidthProperty().bind(container.widthProperty());
         children.add(addGamesButton);
 
         selectAll = new JFXButton("Select All");
+        selectAll.setStyle(Style.BUTTON_SQUARE + Style.BG_DARK_CYAN);
         selectAll.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         selectAll.prefWidthProperty().bind(container.widthProperty());
         selectAll.setOnAction(getSelectAllActionHandler());
         children.add(selectAll);
 
         JFXButton selectWithFilters = new JFXButton("disabled button");
+        selectWithFilters.setStyle(Style.BUTTON_SQUARE + Style.BG_DARK_CYAN);
         selectWithFilters.setDisable(true);
         selectWithFilters.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         selectWithFilters.prefWidthProperty().bind(container.widthProperty());

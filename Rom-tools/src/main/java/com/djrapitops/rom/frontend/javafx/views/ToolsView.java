@@ -66,7 +66,7 @@ public class ToolsView extends BorderPane implements Updatable<State> {
         );
         obsButtons.forEach(button -> {
             button.setAlignment(Pos.CENTER_LEFT);
-            button.setStyle(Style.BUTTON_SQUARE + Style.BG_GREEN);
+            button.setStyle(Style.BUTTON_SQUARE + Style.BG_DARK_CYAN);
             button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         });
 

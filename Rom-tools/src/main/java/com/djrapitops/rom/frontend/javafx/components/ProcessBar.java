@@ -2,6 +2,7 @@ package com.djrapitops.rom.frontend.javafx.components;
 
 import com.djrapitops.rom.frontend.state.State;
 import com.djrapitops.rom.frontend.state.Updatable;
+import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -16,7 +17,7 @@ public class ProcessBar extends HBox implements Updatable<State> {
     public ProcessBar(State state) {
         update(state);
         setPrefHeight(25);
-
+        setAlignment(Pos.CENTER_LEFT);
         state.addStateListener(this);
     }
 
