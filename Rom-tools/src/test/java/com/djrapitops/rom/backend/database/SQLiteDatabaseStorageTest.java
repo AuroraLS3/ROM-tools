@@ -2,17 +2,14 @@ package com.djrapitops.rom.backend.database;
 
 import com.djrapitops.rom.Main;
 import com.djrapitops.rom.backend.Operations;
-import com.djrapitops.rom.game.FileExtension;
 import com.djrapitops.rom.game.Game;
-import com.djrapitops.rom.game.GameFile;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
+import utils.GameCreationUtility;
 import utils.fakeClasses.DummyBackend;
-import utils.fakeClasses.TestMetadata;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -43,6 +40,7 @@ public class SQLiteDatabaseStorageTest {
     public void savesGamesSuccessfully() {
         // Required for Log.log in Operations.ALL_GAMES.save
         DummyBackend backend = new DummyBackend();
+        // Required for Operations.GAME.save(Game)
         backend.setGameStorage(db);
         Main.setBackend(backend);
 
@@ -89,11 +87,6 @@ public class SQLiteDatabaseStorageTest {
     }
 
     private Game createGame() {
-        Game game = new Game("TestGame");
-        GameFile file = new GameFile(FileExtension.GB, "Example Path", "Hash");
-        GameFile file2 = new GameFile(FileExtension.GB, "Example Path2", "Hash2");
-        game.setGameFiles(Arrays.asList(file, file2));
-        game.setMetadata(TestMetadata.createForTestGame());
-        return game;
+        return GameCreationUtility.createTestGameWithTwoFakeFiles();
     }
 }

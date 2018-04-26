@@ -1,19 +1,16 @@
 package com.djrapitops.rom.backend.processes;
 
 import com.djrapitops.rom.Main;
-import com.djrapitops.rom.game.FileExtension;
 import com.djrapitops.rom.game.Game;
-import com.djrapitops.rom.game.GameFile;
 import com.djrapitops.rom.util.file.FileTest;
-import com.djrapitops.rom.util.file.MD5CheckSum;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
+import utils.GameCreationUtility;
 import utils.fakeClasses.DummyBackend;
-import utils.fakeClasses.TestMetadata;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,19 +53,11 @@ public class FileProcessesGameVerificationTest extends FileTest {
     }
 
     private Game createGameWithWrongHash() {
-        Game game = new Game("TestGame");
-        GameFile file = new GameFile(FileExtension.GB, testFile1.getAbsolutePath(), "Hash");
-        game.setGameFiles(Collections.singletonList(file));
-        game.setMetadata(TestMetadata.createForTestGame());
-        return game;
+        return GameCreationUtility.createGameWithIncorrectFileHash(testFile1);
     }
 
     private Game createGameWithCorrectHash() throws IOException {
-        Game game = new Game("TestGame");
-        GameFile file = new GameFile(FileExtension.GB, testFile2.getAbsolutePath(), new MD5CheckSum(testFile2).toHash());
-        game.setGameFiles(Collections.singletonList(file));
-        game.setMetadata(TestMetadata.createForTestGame());
-        return game;
+        return GameCreationUtility.createGameWithCorrectFileHash(testFile2);
     }
 
 }

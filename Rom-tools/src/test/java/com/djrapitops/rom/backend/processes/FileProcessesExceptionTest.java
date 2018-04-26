@@ -1,9 +1,7 @@
 package com.djrapitops.rom.backend.processes;
 
 import com.djrapitops.rom.Main;
-import com.djrapitops.rom.game.FileExtension;
 import com.djrapitops.rom.game.Game;
-import com.djrapitops.rom.game.GameFile;
 import com.djrapitops.rom.util.file.FileTest;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -11,8 +9,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
+import utils.GameCreationUtility;
 import utils.fakeClasses.DummyBackend;
-import utils.fakeClasses.TestMetadata;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +26,7 @@ public class FileProcessesExceptionTest extends FileTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    private File testFile1;
+    private File testFile;
 
     @BeforeClass
     public static void setUpClass() {
@@ -40,7 +38,7 @@ public class FileProcessesExceptionTest extends FileTest {
         DummyBackend.get().clearThrown();
         // Here we create a folder and use it as a file.
         // Using folders like files usually causes IOExceptions.
-        testFile1 = temporaryFolder.newFolder();
+        testFile = temporaryFolder.newFolder();
     }
 
     @Test
@@ -82,11 +80,7 @@ public class FileProcessesExceptionTest extends FileTest {
     }
 
     private Game createBrokenGame() {
-        Game game = new Game("TestGame");
-        GameFile file = new GameFile(FileExtension.GB, testFile1.getAbsolutePath(), "Hash");
-        game.setGameFiles(Collections.singletonList(file));
-        game.setMetadata(TestMetadata.createForTestGame());
-        return game;
+        return GameCreationUtility.createGameWithIncorrectFileHash(testFile);
     }
 
 }

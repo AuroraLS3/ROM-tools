@@ -1,9 +1,7 @@
 package com.djrapitops.rom.backend.processes;
 
 import com.djrapitops.rom.Main;
-import com.djrapitops.rom.game.FileExtension;
 import com.djrapitops.rom.game.Game;
-import com.djrapitops.rom.game.GameFile;
 import com.djrapitops.rom.util.file.FileTest;
 import org.awaitility.Awaitility;
 import org.junit.Before;
@@ -11,7 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import utils.fakeClasses.TestMetadata;
+import utils.GameCreationUtility;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -125,12 +123,7 @@ public class MainProcessesFileMovingTest extends FileTest {
     }
 
     private Game createGame() {
-        Game game = new Game("TestGame");
-        GameFile file = new GameFile(FileExtension.GB, testFile1, "Hash");
-        GameFile file2 = new GameFile(FileExtension.GB, testFile2, "Hash2");
-        game.setGameFiles(Arrays.asList(file, file2));
-        game.setMetadata(TestMetadata.createForTestGame());
-        return game;
+        return GameCreationUtility.createTestGameWithFiles(testFile1, testFile2);
     }
 
 }
