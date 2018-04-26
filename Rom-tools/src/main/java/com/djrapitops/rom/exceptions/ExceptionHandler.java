@@ -21,9 +21,13 @@ public interface ExceptionHandler {
     void handleThrowable(Level level, Throwable throwable);
 
     static BiFunction<Void, Throwable, Void> handle() {
+        return handle(Level.WARNING);
+    }
+
+    static BiFunction<Void, Throwable, Void> handle(Level level) {
         return (result, ex) -> {
             if (ex != null) {
-                ExceptionHandler.handle(Level.SEVERE, ex);
+                ExceptionHandler.handle(level, ex);
             }
             return result;
         };

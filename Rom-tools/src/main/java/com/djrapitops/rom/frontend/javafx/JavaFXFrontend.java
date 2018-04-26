@@ -76,6 +76,7 @@ public class JavaFXFrontend extends Application implements Frontend {
             mainContainer.setBottom(new ProcessBar(state));
 
             Backend backend = Backend.getInstance();
+            backend.setExceptionHandler(new JavaFXExceptionHandler(this));
             backend.open(this);
 
             changeView(currentView);

@@ -35,7 +35,7 @@ public class MainProcesses {
         CompletableFuture<List<Game>> loaded = CompletableFuture.supplyAsync(GameProcesses::loadGames, execSvc);
 
         loaded.thenAcceptAsync(games -> updateState(state -> state.setLoadedGames(games)))
-                .handle(ExceptionHandler.handle());
+                .handle(ExceptionHandler.handle(Level.SEVERE));
 
         // Verify loaded games' files.
         loaded.thenApplyAsync(FileProcesses::verifyFiles, execSvc)

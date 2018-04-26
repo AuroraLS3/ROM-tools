@@ -19,7 +19,7 @@ import java.util.Arrays;
 public class FatalErrorScene extends Scene {
 
     public FatalErrorScene(Throwable e) {
-        super(getText(e));
+        super(getText(e), 700, 500);
     }
 
     private static VBox getText(Throwable e) {
@@ -46,7 +46,9 @@ public class FatalErrorScene extends Scene {
         }
 
         TextArea stackTraceArea = new TextArea(stackBuilder.toString());
-        stackTraceArea.setPrefHeight(400.0);
+        stackTraceArea.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        stackTraceArea.prefHeightProperty().bind(stackTrace.heightProperty());
+        stackTraceArea.prefWidthProperty().bind(stackTrace.widthProperty());
         children.add(stackTraceArea);
 
         return stackTrace;

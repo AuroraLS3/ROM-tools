@@ -12,7 +12,6 @@ import com.djrapitops.rom.frontend.Frontend;
 
 import java.io.File;
 import java.sql.SQLException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -37,7 +36,7 @@ public class Backend {
         settingsManager = new SettingsManager(new File("settings.conf"));
 
         // Dummy Exception handler that logs to console if frontend doesn't set one.
-        exceptionHandler = (level, throwable) -> Logger.getGlobal().log(Level.WARNING, throwable.getMessage(), throwable);
+        exceptionHandler = (level, throwable) -> Logger.getGlobal().log(level, throwable.getMessage(), throwable);
     }
 
     public static Backend getInstance() {
