@@ -2,6 +2,7 @@ package utils.fakeClasses;
 
 import com.djrapitops.rom.Main;
 import com.djrapitops.rom.backend.Backend;
+import com.djrapitops.rom.backend.settings.SettingsManager;
 import com.djrapitops.rom.frontend.Frontend;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class DummyBackend extends Backend {
     public DummyBackend() {
         fakeFrontend = new FakeFrontend();
         thrown = new ArrayList<>();
+
         setExceptionHandler((level, throwable) -> thrown.add(throwable));
     }
 
@@ -46,5 +48,9 @@ public class DummyBackend extends Backend {
 
     public void clearThrown() {
         thrown.clear();
+    }
+
+    public void setSettingsManager(SettingsManager settingsManager) {
+        this.settingsManager = settingsManager;
     }
 }

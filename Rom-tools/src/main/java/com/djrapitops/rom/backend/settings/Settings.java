@@ -1,5 +1,8 @@
 package com.djrapitops.rom.backend.settings;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+
 import java.io.Serializable;
 
 /**
@@ -49,14 +52,10 @@ public enum Settings {
         return value != null ? value : defaultValue;
     }
 
-    public double getNumber() {
-        Serializable value = getValue();
-        if (value instanceof Integer) {
-            return (Integer) value;
-        } else if (value instanceof Double) {
-            return (Double) value;
-        } else if (value instanceof Long) {
-            return (Long) value;
+    public long getNumber() {
+        String value = getString();
+        if (StringUtils.isNumeric(value)) {
+            return NumberUtils.createLong(value);
         }
         throw new IllegalStateException("Value is not a number!");
     }

@@ -6,6 +6,7 @@ import com.djrapitops.rom.exceptions.BackendException;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.io.UncheckedIOException;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -16,8 +17,9 @@ import java.util.Map;
  */
 public class SettingsManager {
 
-    private final Map<Settings, Serializable> settingValues;
     private final SettingsFile settingsFile;
+
+    private Map<Settings, Serializable> settingValues;
     private boolean open = false;
 
     public SettingsManager(File file) {
@@ -31,8 +33,8 @@ public class SettingsManager {
 
     public void open() {
         try {
-            settingsFile.load();
-        } catch (IOException e) {
+            settingValues = settingsFile.load();
+        } catch (IOException | UncheckedIOException e) {
             throw new BackendException("Could not load settings from the settings file", e);
         }
         open = true;

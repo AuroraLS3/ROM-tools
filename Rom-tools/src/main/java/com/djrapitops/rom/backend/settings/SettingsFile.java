@@ -1,6 +1,7 @@
 package com.djrapitops.rom.backend.settings;
 
 import com.djrapitops.rom.exceptions.BackendException;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.io.File;
@@ -67,7 +68,7 @@ public class SettingsFile {
             String[] keyAndValue = line.split("=", 2);
             if (keyAndValue.length < 2) {
                 throw new BackendException("Configuration file has a wrong format. " +
-                        "Misconfigured line " + lines.indexOf(line) + ": " + line);
+                        "Misconfigured line " + (lines.indexOf(line) + 1) + ": " + line);
             }
             Settings key = Settings.valueOf(keyAndValue[0]);
             Serializable value = getProperObject(keyAndValue[1]);
@@ -78,7 +79,7 @@ public class SettingsFile {
     }
 
     private Serializable getProperObject(String string) {
-        if (NumberUtils.isParsable(string)) {
+        if (StringUtils.isNumeric(string)) {
             return NumberUtils.createLong(string);
         }
         return string;

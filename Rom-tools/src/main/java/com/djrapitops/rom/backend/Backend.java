@@ -27,7 +27,7 @@ public class Backend {
     private ExceptionHandler exceptionHandler;
     private boolean open = false;
     private Frontend frontend;
-    private SettingsManager settingsManager;
+    protected SettingsManager settingsManager;
 
     public Backend() {
         gameStorage = new SQLiteDatabase();
