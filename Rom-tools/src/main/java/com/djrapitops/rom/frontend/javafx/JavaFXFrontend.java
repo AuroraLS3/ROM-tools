@@ -89,6 +89,7 @@ public class JavaFXFrontend extends Application implements Frontend {
             primaryStage.show();
         } catch (Exception e) {
             primaryStage.setScene(new FatalErrorScene(e));
+            primaryStage.show();
         }
     }
 

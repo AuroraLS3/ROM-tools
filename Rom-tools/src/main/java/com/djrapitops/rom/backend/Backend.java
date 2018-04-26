@@ -5,10 +5,12 @@ import com.djrapitops.rom.backend.cache.GameCache;
 import com.djrapitops.rom.backend.database.SQLDatabase;
 import com.djrapitops.rom.backend.database.SQLiteDatabase;
 import com.djrapitops.rom.backend.processes.MainProcesses;
+import com.djrapitops.rom.backend.settings.SettingsManager;
 import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.exceptions.ExceptionHandler;
 import com.djrapitops.rom.frontend.Frontend;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,10 +28,13 @@ public class Backend {
     private ExceptionHandler exceptionHandler;
     private boolean open = false;
     private Frontend frontend;
+    private SettingsManager settingsManager;
 
     public Backend() {
         gameStorage = new SQLiteDatabase();
         gameBackend = new GameCache(gameStorage);
+
+        settingsManager = new SettingsManager(new File("settings.conf"));
 
         // Dummy Exception handler that logs to console if frontend doesn't set one.
         exceptionHandler = (level, throwable) -> Logger.getGlobal().log(Level.WARNING, throwable.getMessage(), throwable);
@@ -65,6 +70,7 @@ public class Backend {
     public void open(Frontend frontend) {
         try {
             this.frontend = frontend;
+            settingsManager.open();
             gameBackend.open();
             open = true;
 
@@ -90,5 +96,9 @@ public class Backend {
 
     public Frontend getFrontend() {
         return frontend;
+    }
+
+    public SettingsManager getSettingsManager() {
+        return settingsManager;
     }
 }
