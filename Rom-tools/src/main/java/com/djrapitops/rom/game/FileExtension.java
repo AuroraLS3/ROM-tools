@@ -24,8 +24,6 @@ public enum FileExtension {
     GB(".gb", Console.GAMEBOY),
     GBC(".gbc", Console.GAMEBOY_COLOR),
     GBA(".gba", Console.GBA),
-    // SRL: GBA or WII
-    SRL(".srl", Console.METADATA),
     GCM(".gcm", Console.GAMECUBE),
     GCZ(".gcz", Console.GAMECUBE),
     NDS(".nds", Console.NINTENDO_DS),
@@ -42,9 +40,13 @@ public enum FileExtension {
     XEX(".xex", Console.XBOX),
     DOL(".dol", Console.GAMECUBE),
     VEC(".vec", Console.VECTREX),
+    // SRL: GBA or WII
+    SRL(".srl", Console.METADATA),
     // CUE, BIN: PSX or SegaCD
     CUE(".cue", Console.METADATA),
-    BIN(".bin", Console.METADATA);
+    BIN(".bin", Console.METADATA),
+    // ISO: PSX2 or PSP
+    ISO(".iso", Console.METADATA);
 
     private final String extension;
     private final Console console;
