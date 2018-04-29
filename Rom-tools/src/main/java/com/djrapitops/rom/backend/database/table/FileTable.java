@@ -6,7 +6,6 @@ import com.djrapitops.rom.backend.database.sql.QueryAllStatement;
 import com.djrapitops.rom.backend.database.sql.QueryStatement;
 import com.djrapitops.rom.backend.database.sql.TableSQLParser;
 import com.djrapitops.rom.game.FileExtension;
-import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.game.GameFile;
 
 import java.sql.PreparedStatement;
@@ -127,31 +126,6 @@ public class FileTable extends GameIDTable {
             }
         }
         return false;
-    }
-
-    public Optional<Integer> getGameID(Game game) {
-        Optional<GameFile> anyFile = game.getGameFiles().stream().findAny();
-        if (!anyFile.isPresent()) {
-            return Optional.empty();
-        }
-        GameFile gameFile = anyFile.get();
-
-        String sql = "SELECT " + Col.GAME_ID + " FROM " + tableName +
-                " WHERE " + Col.CHECKSUM + "=?";
-        return query(new QueryStatement<Optional<Integer>>(sql, 10) {
-            @Override
-            public void prepare(PreparedStatement statement) throws SQLException {
-                statement.setString(1, gameFile.getHash());
-            }
-
-            @Override
-            public Optional<Integer> processResults(ResultSet set) throws SQLException {
-                if (set.next()) {
-                    return Optional.of(set.getInt(Col.GAME_ID));
-                }
-                return Optional.empty();
-            }
-        });
     }
 
     public static class Col {
