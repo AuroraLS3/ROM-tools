@@ -116,11 +116,11 @@ public class State {
     private void updateVisibleGames() {
         if (search.startsWith("\"")) {
             visibleGames = getLoadedGames().stream()
-                    .filter(game -> game.getName().contains(search.substring(1)))
+                    .filter(game -> game.getMetadata().getName().contains(search.substring(1)))
                     .collect(Collectors.toList());
         } else {
             visibleGames = getLoadedGames().stream()
-                    .filter(game -> game.getName().toLowerCase().contains(search.toLowerCase()))
+                    .filter(game -> game.getMetadata().getName().toLowerCase().contains(search.toLowerCase()))
                     .collect(Collectors.toList());
         }
 

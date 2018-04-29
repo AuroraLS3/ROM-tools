@@ -33,7 +33,8 @@ public class GameTable extends Table {
     public void createTable() {
         String sql = TableSQLParser.createTable(tableName)
                 .primaryKeyIDColumn(Col.ID)
-                .column(Col.NAME, "varchar(500)").notNull()
+                .column(Col.METADATA_ID, "integer").notNull()
+                .foreignKey(Col.METADATA_ID, MetadataTable.TABLE_NAME, MetadataTable.Col.ID)
                 .toString();
         createTable(sql);
     }
@@ -47,20 +48,25 @@ public class GameTable extends Table {
      */
     public int saveGame(Game game) {
         String sql = "INSERT INTO " + tableName + " (" +
-                Col.NAME +
+                Col.METADATA_ID +
                 ") VALUES (?)";
         execute(new ExecuteStatement(sql) {
             @Override
             public void prepare(PreparedStatement statement) throws SQLException {
-                statement.setString(1, game.getName());
+                statement.setInt(1, game.getMetadataId());
             }
         });
-        String selectSql = "SELECT " + Col.ID + " FROM " + tableName + " WHERE " + Col.NAME + "=?" +
+        return getGameId(game);
+    }
+
+    public int getGameId(Game game) {
+        String selectSql = "SELECT " + Col.ID + " FROM " + tableName +
+                " WHERE " + Col.METADATA_ID + "=?" +
                 " ORDER BY " + Col.ID + " DESC LIMIT 1";
         return query(new QueryStatement<Integer>(selectSql, 1) {
             @Override
             public void prepare(PreparedStatement statement) throws SQLException {
-                statement.setString(1, game.getName());
+                statement.setInt(1, game.getMetadataId());
             }
 
             @Override
@@ -88,31 +94,10 @@ public class GameTable extends Table {
                 Map<Integer, Game> games = new HashMap<>();
                 while (set.next()) {
                     int gameId = set.getInt(Col.ID);
-                    String name = set.getString(Col.NAME);
-                    games.put(gameId, new Game(name));
+                    int metadataId = set.getInt(Col.METADATA_ID);
+                    games.put(gameId, new Game(gameId, metadataId));
                 }
                 return games;
-            }
-        });
-    }
-
-    /**
-     * Get game ID map from the database.
-     *
-     * @return Map with Game name, ID - key, value pair
-     * @throws BackendException If operation fails.
-     */
-    public Map<String, Integer> getGameIDMap() {
-        String sql = "SELECT * FROM " + tableName;
-
-        return query(new QueryAllStatement<Map<String, Integer>>(sql, 10000) {
-            @Override
-            public Map<String, Integer> processResults(ResultSet set) throws SQLException {
-                Map<String, Integer> idMap = new HashMap<>();
-                while (set.next()) {
-                    idMap.put(set.getString(Col.NAME), set.getInt(Col.ID));
-                }
-                return idMap;
             }
         });
     }
@@ -124,13 +109,13 @@ public class GameTable extends Table {
      * @throws BackendException If the operation fails.
      */
     public void removeGames(Collection<Game> games) {
-        String sql = "DELETE FROM " + tableName + " WHERE " + Col.NAME + "=?";
+        String sql = "DELETE FROM " + tableName + " WHERE " + Col.ID + "=?";
 
         executeBatch(new ExecuteStatement(sql) {
             @Override
             public void prepare(PreparedStatement statement) throws SQLException {
                 for (Game game : games) {
-                    statement.setString(1, game.getName());
+                    statement.setInt(1, game.getId());
                     statement.addBatch();
                 }
             }
@@ -139,7 +124,7 @@ public class GameTable extends Table {
 
     public static class Col {
         public static final String ID = "id";
-        public static final String NAME = "name";
+        public static final String METADATA_ID = "metadata_id";
 
         private Col() {
             /* Should not be constructed */

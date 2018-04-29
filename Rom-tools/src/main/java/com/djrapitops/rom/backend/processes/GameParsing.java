@@ -91,7 +91,7 @@ public class GameParsing {
                 .setName(cleanName)
                 .build();
 
-        Game game = new Game(cleanName);
+        Game game = new Game();
         game.setMetadata(metadata);
         game.setGameFiles(gameFiles);
 

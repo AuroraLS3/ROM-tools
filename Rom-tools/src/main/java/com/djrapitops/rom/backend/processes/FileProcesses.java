@@ -34,7 +34,7 @@ public class FileProcesses {
         int i = 1;
         int size = games.size();
         for (Game game : new ArrayList<>(games)) {
-            String gameName = game.getName();
+            String gameName = game.getMetadata().getName();
             for (GameFile gameFile : game.getGameFiles()) {
                 Log.log("Verifying Game File Locations (" + i + "/" + size + "): " + gameName);
                 if (!gameFile.matchesHash()) {

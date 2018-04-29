@@ -5,6 +5,7 @@ import com.djrapitops.rom.util.file.MD5CheckSum;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.logging.Level;
 
 /**
@@ -94,5 +95,29 @@ public class GameFile {
         fileName = fileName.replace("_", " ");
 
         return fileName.trim();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GameFile gameFile = (GameFile) o;
+        return extension == gameFile.extension &&
+                Objects.equals(filePath, gameFile.filePath) &&
+                Objects.equals(binaryHash, gameFile.binaryHash);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(extension, filePath, binaryHash);
+    }
+
+    @Override
+    public String toString() {
+        return "GameFile{" +
+                "extension=" + extension +
+                ", filePath='" + filePath + '\'' +
+                ", binaryHash='" + binaryHash + '\'' +
+                '}';
     }
 }

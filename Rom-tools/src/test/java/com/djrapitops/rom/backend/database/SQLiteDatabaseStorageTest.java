@@ -79,8 +79,8 @@ public class SQLiteDatabaseStorageTest {
     public void removeGamesSuccessfully() {
         savesGamesSuccessfully();
 
-        List<Game> singleton = Collections.singletonList(createGame());
-        db.remove(Operations.ALL_GAMES, singleton);
+        List<Game> saved = db.fetch(Operations.ALL_GAMES);
+        db.remove(Operations.ALL_GAMES, saved);
 
         List<Game> games = db.fetch(Operations.ALL_GAMES);
         assertTrue(games.isEmpty());

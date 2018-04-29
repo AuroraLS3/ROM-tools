@@ -11,12 +11,18 @@ import java.util.Objects;
  */
 public class Game implements Comparable<Game> {
 
-    private final String name;
+    private int id;
+    private int metadataId;
     private Collection<GameFile> gameFiles;
     private Metadata metadata;
 
-    public Game(String cleanName) {
-        this.name = cleanName;
+    public Game(int id, int metadataId) {
+        this.id = id;
+        this.metadataId = metadataId;
+        gameFiles = Collections.emptyList();
+    }
+
+    public Game() {
         gameFiles = Collections.emptyList();
     }
 
@@ -37,21 +43,35 @@ public class Game implements Comparable<Game> {
     }
 
     @Override
+    public int compareTo(Game game) {
+        return this.getMetadata().getName()
+                .compareTo(game.getMetadata().getName());
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getMetadataId() {
+        return metadataId;
+    }
+
+    public void setMetadataId(int metadataId) {
+        this.metadataId = metadataId;
+    }
+
+    @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Game game = (Game) o;
-        return Objects.equals(metadata, game.metadata) &&
-                Objects.equals(name, game.name);
+        return Objects.equals(gameFiles, game.gameFiles) &&
+                Objects.equals(metadata, game.metadata);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(metadata, name);
+        return Objects.hash(gameFiles, metadata);
     }
 
     @Override
@@ -59,16 +79,6 @@ public class Game implements Comparable<Game> {
         return "Game{" +
                 "gameFiles=" + gameFiles +
                 ", metadata=" + metadata +
-                ", name='" + name + '\'' +
                 '}';
-    }
-
-    @Override
-    public int compareTo(Game game) {
-        return this.name.compareTo(game.name);
-    }
-
-    public String getName() {
-        return name;
     }
 }

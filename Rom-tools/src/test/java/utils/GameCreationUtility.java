@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class GameCreationUtility {
 
     public static Game createTestGameWithTwoFakeFiles() {
-        Game game = new Game("TestGame");
+        Game game = new Game();
         GameFile file = new GameFile(FileExtension.GB, "Example Path", "Hash");
         GameFile file2 = new GameFile(FileExtension.GB, "Example Path2", "Hash2");
         game.setGameFiles(Arrays.asList(file, file2));
@@ -24,7 +24,7 @@ public class GameCreationUtility {
     }
 
     public static Game createGameWithCorrectFileHash(File file) throws IOException {
-        Game game = new Game("TestGame");
+        Game game = new Game();
         GameFile gameFile = new GameFile(FileExtension.GB, file.getAbsolutePath(), new MD5CheckSum(file).toHash());
         game.setGameFiles(Collections.singletonList(gameFile));
         game.setMetadata(MetadataCreationUtility.createForTestGame());
@@ -32,7 +32,7 @@ public class GameCreationUtility {
     }
 
     public static Game createGameWithIncorrectFileHash(File file) {
-        Game game = new Game("TestGame");
+        Game game = new Game();
         GameFile gameFile = new GameFile(FileExtension.GB, file.getAbsolutePath(), "Wrong Hash");
         game.setGameFiles(Collections.singletonList(gameFile));
         game.setMetadata(MetadataCreationUtility.createForTestGame());
@@ -40,7 +40,7 @@ public class GameCreationUtility {
     }
 
     public static Game createTestGameWithFiles(String... filePaths) {
-        Game game = new Game("TestGame");
+        Game game = new Game();
         List<GameFile> gameFiles = Arrays.stream(filePaths)
                 .map(path -> new GameFile(FileExtension.GB, path, "Hash"))
                 .collect(Collectors.toList());

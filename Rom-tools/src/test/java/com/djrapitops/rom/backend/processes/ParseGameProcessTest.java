@@ -24,7 +24,6 @@ public class ParseGameProcessTest extends FileTest {
 
         Metadata metadata = game.getMetadata();
 
-        assertEquals("Ace of Aces", game.getName());
         assertEquals("Ace of Aces", metadata.getName());
         assertEquals(Console.ATARI_7800, metadata.getConsole());
     }
@@ -39,7 +38,6 @@ public class ParseGameProcessTest extends FileTest {
 
         Metadata metadata = game.getMetadata();
 
-        assertEquals("Pac-Man", game.getName());
         assertEquals("Pac-Man", metadata.getName());
         assertEquals(Console.ATARI_2600, metadata.getConsole());
     }
