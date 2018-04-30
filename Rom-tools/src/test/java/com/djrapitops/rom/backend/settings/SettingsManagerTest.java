@@ -3,6 +3,7 @@ package com.djrapitops.rom.backend.settings;
 import com.djrapitops.rom.Main;
 import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.util.file.FileTest;
+import org.awaitility.Awaitility;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -12,6 +13,8 @@ import utils.fakeClasses.DummyBackend;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
@@ -97,12 +100,16 @@ public class SettingsManagerTest extends FileTest {
         SettingsManager settingsManager = new SettingsManager(testFile);
         backend.setSettingsManager(settingsManager);
         Main.setBackend(backend);
+        Main.setExecutorService(Executors.newFixedThreadPool(10));
 
         settingsManager.open();
 
         String expected = "TESTVALUE";
         Settings.FOLDER_GBA.setValue(expected);
         settingsManager.save();
+        Awaitility.await()
+                .atMost(2, TimeUnit.SECONDS)
+                .until(() -> expected.equals(Settings.FOLDER_GBA.getString()));
 
         settingsManager.open();
 
