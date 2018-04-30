@@ -2,6 +2,7 @@ package com.djrapitops.rom.frontend.javafx;
 
 import com.djrapitops.rom.Main;
 import com.djrapitops.rom.backend.Backend;
+import com.djrapitops.rom.backend.settings.SettingsManager;
 import com.djrapitops.rom.exceptions.ExceptionHandler;
 import com.djrapitops.rom.frontend.Frontend;
 import com.djrapitops.rom.frontend.javafx.components.MainNavigation;
@@ -67,17 +68,17 @@ public class JavaFXFrontend extends Application implements Frontend {
             mainContainer = new BorderPane();
             mainContainer.prefWidthProperty().bind(primaryStage.widthProperty());
 
+            Backend backend = Backend.getInstance();
+            backend.setExceptionHandler(new JavaFXExceptionHandler(this));
+            backend.open(this);
+
             gamesView = new GamesView(this, mainContainer);
             toolsView = new ToolsView(this, mainContainer);
-            settingsView = new SettingsView(this, mainContainer);
+            settingsView = new SettingsView(mainContainer);
             filtersView = new FiltersView(this, mainContainer);
 
             mainContainer.setTop(mainNavigation);
             mainContainer.setBottom(new ProcessBar(state));
-
-            Backend backend = Backend.getInstance();
-            backend.setExceptionHandler(new JavaFXExceptionHandler(this));
-            backend.open(this);
 
             changeView(currentView);
             Scene scene = new Scene(mainContainer, Variables.WIDTH, Variables.HEIGHT);
@@ -97,6 +98,9 @@ public class JavaFXFrontend extends Application implements Frontend {
     public void changeView(Views view) {
         Verify.notNull(primaryStage, () -> new IllegalStateException("Application has not been started yet."));
 
+        if (currentView == Views.SETTINGS) {
+            SettingsManager.getInstance().save();
+        }
         Platform.runLater(() -> {
             currentView = view;
             mainNavigation.update(view);

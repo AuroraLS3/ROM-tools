@@ -12,34 +12,37 @@ import java.io.Serializable;
  */
 public enum Settings {
 
-    FOLDER_ATARI_2600("atari2600"),
-    FOLDER_ATARI_7800("atari7800"),
-    FOLDER_NES("nes"),
-    FOLDER_SNES("snes"),
-    FOLDER_GENESIS("megadrive"),
-    FOLDER_GAME_GEAR("gamegear"),
-    FOLDER_N64("n64"),
-    FOLDER_GAMEBOY("gb"),
-    FOLDER_GAMEBOY_COLOR("gbc"),
-    FOLDER_GBA("gba"),
-    FOLDER_GAMECUBE("gamecube"),
-    FOLDER_NINTENDO_DS("ds"),
-    FOLDER_WII("wii"),
-    FOLDER_NINTENDO_3DS("3ds"),
-    FOLDER_NEO_GEO("neogeo"),
-    FOLDER_PC_ENGINE("pc engine"),
-    FOLDER_VIRTUAL_BOY("virtual boy"),
-    FOLDER_PSX("psx"),
-    FOLDER_PS2("ps2"),
-    FOLDER_PSP("psp"),
-    FOLDER_XBOX("xbox"),
-    FOLDER_METADATA("unknown"),
-    FOLDER_SEGA_CD("segacd"),
-    FOLDER_VECTREX("vectrex");
+    FOLDER_ATARI_2600("Atari 2600", "atari2600"),
+    FOLDER_ATARI_7800("Atari 7800", "atari7800"),
+    FOLDER_NES("NES", "nes"),
+    FOLDER_SNES("Super Nintendo", "snes"),
+    FOLDER_GENESIS("Sega Megadrive", "megadrive"),
+    FOLDER_GAME_GEAR("Game Gear", "gamegear"),
+    FOLDER_N64("Nintendo 64", "n64"),
+    FOLDER_GAMEBOY("Gameboy", "gb"),
+    FOLDER_GAMEBOY_COLOR("Gameboy Color", "gbc"),
+    FOLDER_GBA("Gameboy Advance", "gba"),
+    FOLDER_GAMECUBE("Gamecube", "gamecube"),
+    FOLDER_NINTENDO_DS("Nintendo DS", "ds"),
+    FOLDER_WII("Nintendo Wii", "wii"),
+    FOLDER_NINTENDO_3DS("Nintendo 3DS", "3ds"),
+    FOLDER_NEO_GEO("NeoGeo", "neogeo"),
+    FOLDER_PC_ENGINE("PC Engine", "pcengine"),
+    FOLDER_VIRTUAL_BOY("Virtual Boy", "virtualboy"),
+    FOLDER_PSX("Playstation 1", "psx"),
+    FOLDER_PS2("Playstation 2", "ps2"),
+    FOLDER_PSP("Playstation Portable", "psp"),
+    FOLDER_XBOX("Xbox", "xbox"),
+    FOLDER_METADATA("Unknown", "unknown"),
+    FOLDER_SEGA_CD("Sega CD", "segacd"),
+    FOLDER_VECTREX("Vectrex", "vectrex");
 
+    private final String label;
     private final Serializable defaultValue;
+    private String value;
 
-    Settings(Serializable defaultValue) {
+    Settings(String label, Serializable defaultValue) {
+        this.label = label;
         this.defaultValue = defaultValue;
     }
 
@@ -50,6 +53,10 @@ public enum Settings {
     Serializable getValue() {
         Serializable value = SettingsManager.getInstance().getValue(this);
         return value != null ? value : defaultValue;
+    }
+
+    public String getLabel() {
+        return label;
     }
 
     public long getNumber() {
@@ -70,5 +77,9 @@ public enum Settings {
             return (String) value;
         }
         return value.toString();
+    }
+
+    public void setValue(Serializable value) {
+        SettingsManager.getInstance().setValue(this, value);
     }
 }
