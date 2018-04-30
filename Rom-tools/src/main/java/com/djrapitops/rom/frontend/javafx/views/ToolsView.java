@@ -55,8 +55,8 @@ public class ToolsView extends BorderPane implements Updatable<State> {
 
         moveSingleFolderButton.setOnAction(getActionEventForFolderSelect(MainProcesses::processFileMoveToGivenFolder));
         copySingleFolderButton.setOnAction(getActionEventForFolderSelect(MainProcesses::processFileCopyToGivenFolder));
-        moveSubFoldersButton.setDisable(true);
-        copySubFoldersButton.setDisable(true);
+        moveSubFoldersButton.setOnAction(getActionEventForFolderSelect(MainProcesses::processFileCopyToSubFolders));
+        copySubFoldersButton.setOnAction(getActionEventForFolderSelect(MainProcesses::processFileCopyToSubFolders));
 
         ObservableList<JFXButton> obsButtons = FXCollections.observableArrayList(
                 moveSingleFolderButton,

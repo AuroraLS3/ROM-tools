@@ -1,7 +1,9 @@
 package com.djrapitops.rom.backend.processes;
 
 import com.djrapitops.rom.backend.Log;
+import com.djrapitops.rom.backend.settings.Settings;
 import com.djrapitops.rom.exceptions.ExceptionHandler;
+import com.djrapitops.rom.game.Console;
 import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.game.GameFile;
 import com.djrapitops.rom.util.Wrapper;
@@ -98,6 +100,72 @@ public class FileProcesses {
             } catch (IOException e) {
                 ExceptionHandler.handle(Level.WARNING, e);
                 noErrors = false;
+            }
+        }
+        return noErrors;
+    }
+
+    public static boolean moveToSubFolders(List<Game> games, File chosenFolder) {
+        Map<Console, List<File>> gameFiles = new EnumMap<>(Console.class);
+        for (Game game : games) {
+            Console console = game.getMetadata().getConsole();
+            List<File> files = gameFiles.getOrDefault(console, new ArrayList<>());
+            game.getGameFiles().stream()
+                    .map(GameFile::getAbsolutePath)
+                    .map(File::new)
+                    .forEach(files::add);
+            gameFiles.put(console, files);
+        }
+
+        boolean noErrors = true;
+        for (Map.Entry<Console, List<File>> entry : gameFiles.entrySet()) {
+            Console console = entry.getKey();
+            Settings setting = Settings.valueOf("FOLDER_" + console.name());
+
+            String subfolderName = setting.getString();
+            File subfolder = new File(chosenFolder, subfolderName);
+
+            List<File> files = entry.getValue();
+            for (File file : files) {
+                try {
+                    FileUtils.moveFile(file, new File(subfolder, file.getName()));
+                } catch (IOException e) {
+                    ExceptionHandler.handle(Level.WARNING, e);
+                    noErrors = false;
+                }
+            }
+        }
+        return noErrors;
+    }
+
+    public static boolean copyToSubFolders(List<Game> games, File chosenFolder) {
+        Map<Console, List<File>> gameFiles = new EnumMap<>(Console.class);
+        for (Game game : games) {
+            Console console = game.getMetadata().getConsole();
+            List<File> files = gameFiles.getOrDefault(console, new ArrayList<>());
+            game.getGameFiles().stream()
+                    .map(GameFile::getAbsolutePath)
+                    .map(File::new)
+                    .forEach(files::add);
+            gameFiles.put(console, files);
+        }
+
+        boolean noErrors = true;
+        for (Map.Entry<Console, List<File>> entry : gameFiles.entrySet()) {
+            Console console = entry.getKey();
+            Settings setting = Settings.valueOf("FOLDER_" + console.name());
+
+            String subfolderName = setting.getString();
+            File subfolder = new File(chosenFolder, subfolderName);
+
+            List<File> files = entry.getValue();
+            for (File file : files) {
+                try {
+                    FileUtils.copyFile(file, new File(subfolder, file.getName()));
+                } catch (IOException e) {
+                    ExceptionHandler.handle(Level.WARNING, e);
+                    noErrors = false;
+                }
             }
         }
         return noErrors;

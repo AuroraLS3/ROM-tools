@@ -84,10 +84,12 @@ public class MainProcesses {
         CompletableFuture<List<Game>> gamesFuture = CompletableFuture.supplyAsync(() -> selectedGames, execSvc);
 
         gamesFuture.thenApplyAsync(games -> FileProcesses.moveToSingleFolder(games, chosenFolder), execSvc)
-                .thenAccept(success -> Log.log(success ? "Moved files successfully." : "Some files could not be moved"));
+                .thenAccept(success -> Log.log(success ? "Moved files successfully." : "Some files could not be moved"))
+                .handle(ExceptionHandler.handle(Level.SEVERE));
         gamesFuture.thenAcceptAsync(GameProcesses::removeGames, execSvc)
                 .thenApply(nothing -> GameProcesses.loadGames())
-                .thenAccept(games -> updateState(state -> state.setLoadedGames(games)));
+                .thenAccept(games -> updateState(state -> state.setLoadedGames(games)))
+                .handle(ExceptionHandler.handle(Level.SEVERE));
     }
 
     public static void processFileCopyToGivenFolder(File chosenFolder, List<Game> selectedGames) {
@@ -98,7 +100,38 @@ public class MainProcesses {
         ExecutorService execSvc = Main.getExecutorService();
         CompletableFuture.supplyAsync(() -> selectedGames, execSvc)
                 .thenApply(games -> FileProcesses.copyToSingleFolder(games, chosenFolder))
-                .thenAccept(success -> Log.log(success ? "Copied files successfully." : "Some files could not be copied"));
+                .thenAccept(success -> Log.log(success ? "Copied files successfully." : "Some files could not be copied"))
+                .handle(ExceptionHandler.handle(Level.SEVERE));
+    }
+
+    public static void processFileMoveToSubFolders(File chosenFolder, List<Game> selectedGames) {
+        if (selectedGames.isEmpty()) {
+            return;
+        }
+
+        ExecutorService execSvc = Main.getExecutorService();
+        CompletableFuture<List<Game>> gamesFuture = CompletableFuture.supplyAsync(() -> selectedGames, execSvc);
+
+        gamesFuture.thenApplyAsync(games -> FileProcesses.moveToSubFolders(games, chosenFolder), execSvc)
+                .thenAccept(success -> Log.log(success ? "Moved files successfully." : "Some files could not be moved"))
+                .handle(ExceptionHandler.handle(Level.SEVERE));
+        gamesFuture.thenAcceptAsync(GameProcesses::removeGames, execSvc)
+                .thenApply(nothing -> GameProcesses.loadGames())
+                .thenAccept(games -> updateState(state -> state.setLoadedGames(games)))
+                .handle(ExceptionHandler.handle(Level.SEVERE));
+    }
+
+    public static void processFileCopyToSubFolders(File chosenFolder, List<Game> selectedGames) {
+        if (selectedGames.isEmpty()) {
+            return;
+        }
+
+        ExecutorService execSvc = Main.getExecutorService();
+        CompletableFuture<List<Game>> gamesFuture = CompletableFuture.supplyAsync(() -> selectedGames, execSvc);
+
+        gamesFuture.thenApplyAsync(games -> FileProcesses.copyToSubFolders(games, chosenFolder), execSvc)
+                .thenAccept(success -> Log.log(success ? "Copied files successfully." : "Some files could not be copied"))
+                .handle(ExceptionHandler.handle(Level.SEVERE));
     }
 
     private static void updateState(StateOperation operation) {
