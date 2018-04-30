@@ -1,6 +1,8 @@
 package com.djrapitops.rom.backend.processes;
 
 import com.djrapitops.rom.Main;
+import com.djrapitops.rom.backend.settings.Settings;
+import com.djrapitops.rom.backend.settings.SettingsManager;
 import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.util.file.FileTest;
 import org.awaitility.Awaitility;
@@ -10,6 +12,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import utils.GameCreationUtility;
+import utils.fakeClasses.DummyBackend;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,6 +42,12 @@ public class MainProcessesFileMovingTest extends FileTest {
 
     @Before
     public void setUp() throws Exception {
+        DummyBackend backend = new DummyBackend();
+        SettingsManager settingsManager = new SettingsManager(temporaryFolder.newFile());
+        settingsManager.open();
+        backend.setSettingsManager(settingsManager);
+        Main.setBackend(backend);
+
         originalFolder = temporaryFolder.newFolder();
         targetFolder = temporaryFolder.newFolder();
 
@@ -68,8 +77,7 @@ public class MainProcessesFileMovingTest extends FileTest {
 
         assertTrue(targetFileNames.contains("TestFile1.txt"));
         assertTrue(targetFileNames.contains("TestFile2.txt"));
-        assertFalse(originalFileNames.contains("TestFile1.txt"));
-        assertFalse(originalFileNames.contains("TestFile2.txt"));
+        assertTrue(originalFileNames.toString(), originalFileNames.isEmpty());
     }
 
     @Test
@@ -95,8 +103,7 @@ public class MainProcessesFileMovingTest extends FileTest {
         List<String> targetFileNames = getFileNamesInFolder(targetFolder);
         List<String> originalFileNames = getFileNamesInFolder(originalFolder);
 
-        assertFalse(targetFileNames.contains("TestFile1.txt"));
-        assertFalse(targetFileNames.contains("TestFile2.txt"));
+        assertTrue(originalFileNames.toString(), targetFileNames.isEmpty());
         assertTrue(originalFileNames.contains("TestFile1.txt"));
         assertTrue(originalFileNames.contains("TestFile2.txt"));
     }
@@ -108,8 +115,66 @@ public class MainProcessesFileMovingTest extends FileTest {
         List<String> targetFileNames = getFileNamesInFolder(targetFolder);
         List<String> originalFileNames = getFileNamesInFolder(originalFolder);
 
-        assertFalse(targetFileNames.contains("TestFile1.txt"));
-        assertFalse(targetFileNames.contains("TestFile2.txt"));
+        assertTrue(originalFileNames.toString(), targetFileNames.isEmpty());
+        assertTrue(originalFileNames.contains("TestFile1.txt"));
+        assertTrue(originalFileNames.contains("TestFile2.txt"));
+    }
+
+    @Test
+    public void testMoveToSubFolders() {
+        assertTrue(SettingsManager.getInstance().isOpen());
+
+        MainProcesses.processFileMoveToSubFolders(targetFolder, Collections.singletonList(createGame()));
+        Awaitility.await()
+                .atMost(2, TimeUnit.SECONDS)
+                .until(() -> Objects.requireNonNull(targetFolder.listFiles()).length > 0);
+
+        List<String> targetFileNames = getFileNamesInFolder(new File(targetFolder, Settings.FOLDER_GAMEBOY.getString()));
+        List<String> originalFileNames = getFileNamesInFolder(originalFolder);
+
+        assertTrue(targetFileNames.contains("TestFile1.txt"));
+        assertTrue(targetFileNames.contains("TestFile2.txt"));
+        assertTrue(originalFileNames.toString(), originalFileNames.isEmpty());
+    }
+
+    @Test
+    public void testCopyToSubFolders() {
+        assertTrue(SettingsManager.getInstance().isOpen());
+
+        MainProcesses.processFileCopyToSubFolders(targetFolder, Collections.singletonList(createGame()));
+        Awaitility.await()
+                .atMost(2, TimeUnit.SECONDS)
+                .until(() -> Objects.requireNonNull(targetFolder.listFiles()).length > 0);
+
+        List<String> targetFileNames = getFileNamesInFolder(new File(targetFolder, Settings.FOLDER_GAMEBOY.getString()));
+        List<String> originalFileNames = getFileNamesInFolder(originalFolder);
+
+        assertTrue(targetFileNames.contains("TestFile1.txt"));
+        assertTrue(targetFileNames.contains("TestFile2.txt"));
+        assertTrue(originalFileNames.contains("TestFile1.txt"));
+        assertTrue(originalFileNames.contains("TestFile2.txt"));
+    }
+
+    @Test
+    public void testMoveToSubfoldersEmptyListOfGames() {
+        MainProcesses.processFileMoveToSubFolders(targetFolder, Collections.emptyList());
+
+        File subFolder = new File(targetFolder, Settings.FOLDER_GAMEBOY.getString());
+        assertFalse(subFolder.exists());
+
+        List<String> originalFileNames = getFileNamesInFolder(originalFolder);
+        assertTrue(originalFileNames.contains("TestFile1.txt"));
+        assertTrue(originalFileNames.contains("TestFile2.txt"));
+    }
+
+    @Test
+    public void testCopyToSubfoldersEmptyListOfGames() {
+        MainProcesses.processFileCopyToSubFolders(targetFolder, Collections.emptyList());
+
+        File subFolder = new File(targetFolder, Settings.FOLDER_GAMEBOY.getString());
+        assertFalse(subFolder.exists());
+
+        List<String> originalFileNames = getFileNamesInFolder(originalFolder);
         assertTrue(originalFileNames.contains("TestFile1.txt"));
         assertTrue(originalFileNames.contains("TestFile2.txt"));
     }

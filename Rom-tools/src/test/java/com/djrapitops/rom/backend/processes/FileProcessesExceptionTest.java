@@ -1,10 +1,10 @@
 package com.djrapitops.rom.backend.processes;
 
 import com.djrapitops.rom.Main;
+import com.djrapitops.rom.backend.settings.SettingsManager;
 import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.util.file.FileTest;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -28,14 +28,14 @@ public class FileProcessesExceptionTest extends FileTest {
 
     private File testFile;
 
-    @BeforeClass
-    public static void setUpClass() {
-        Main.setBackend(new DummyBackend());
-    }
-
     @Before
     public void setUp() throws Exception {
-        DummyBackend.get().clearThrown();
+        DummyBackend backend = new DummyBackend();
+        SettingsManager settingsManager = new SettingsManager(temporaryFolder.newFile());
+        settingsManager.open();
+        backend.setSettingsManager(settingsManager);
+        Main.setBackend(backend);
+
         // Here we create a folder and use it as a file.
         // Using folders like files usually causes IOExceptions.
         testFile = temporaryFolder.newFolder();
@@ -53,6 +53,24 @@ public class FileProcessesExceptionTest extends FileTest {
     @Test
     public void fileProcessCopyNotifiesAboutIOExceptions() {
         assertFalse(FileProcesses.copyToSingleFolder(
+                Collections.singletonList(createBrokenGame()),
+                temporaryFolder.getRoot()
+        ));
+        assertEquals(1, DummyBackend.get().getThrown().size());
+    }
+
+    @Test
+    public void fileProcessMoveSubfoldersNotifiesAboutIOExceptions() {
+        assertFalse(FileProcesses.moveToSubFolders(
+                Collections.singletonList(createBrokenGame()),
+                temporaryFolder.getRoot()
+        ));
+        assertEquals(1, DummyBackend.get().getThrown().size());
+    }
+
+    @Test
+    public void fileProcessCopySubfoldersNotifiesAboutIOExceptions() {
+        assertFalse(FileProcesses.copyToSubFolders(
                 Collections.singletonList(createBrokenGame()),
                 temporaryFolder.getRoot()
         ));

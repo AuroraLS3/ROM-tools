@@ -90,4 +90,23 @@ public class SettingsManagerTest extends FileTest {
         Settings.FOLDER_ATARI_2600.getNumber();
     }
 
+    @Test
+    public void testSettingsSaving() throws IOException {
+        File testFile = new File(temporaryFolder.newFolder(), "test.conf");
+        DummyBackend backend = new DummyBackend();
+        SettingsManager settingsManager = new SettingsManager(testFile);
+        backend.setSettingsManager(settingsManager);
+        Main.setBackend(backend);
+
+        settingsManager.open();
+
+        String expected = "TESTVALUE";
+        Settings.FOLDER_GBA.setValue(expected);
+        settingsManager.save();
+
+        settingsManager.open();
+
+        assertEquals(expected, Settings.FOLDER_GBA.getString());
+    }
+
 }

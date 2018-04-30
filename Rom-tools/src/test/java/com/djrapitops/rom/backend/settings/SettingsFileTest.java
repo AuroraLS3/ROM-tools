@@ -27,8 +27,8 @@ public class SettingsFileTest extends FileTest {
     private File file;
 
     @Before
-    public void setUp() {
-        file = new File(temporaryFolder.getRoot(), "settings.conf");
+    public void setUp() throws IOException {
+        file = new File(temporaryFolder.newFolder(), "settings.conf");
     }
 
     @Test

@@ -68,4 +68,8 @@ public class SettingsManager {
                     }
                 }).handle(ExceptionHandler.handle(Level.SEVERE));
     }
+
+    public boolean isOpen() {
+        return open;
+    }
 }
