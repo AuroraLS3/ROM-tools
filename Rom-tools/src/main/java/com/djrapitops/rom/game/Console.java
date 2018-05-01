@@ -42,6 +42,12 @@ public enum Console {
         return fullName;
     }
 
+    /**
+     * Resolves the Console from the file name.
+     *
+     * @param fileName Full name of the file.
+     * @return Console that this file might be for or METADATA if not determined.
+     */
     public static Console resolveFromFilename(String fileName) {
         FileExtension extension = FileExtension.getExtensionFor(fileName.substring(fileName.lastIndexOf('.')));
         String name = fileName.toLowerCase();

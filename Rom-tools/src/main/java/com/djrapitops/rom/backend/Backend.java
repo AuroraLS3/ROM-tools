@@ -9,9 +9,11 @@ import com.djrapitops.rom.backend.settings.SettingsManager;
 import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.exceptions.ExceptionHandler;
 import com.djrapitops.rom.frontend.Frontend;
+import com.djrapitops.rom.util.Verify;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.concurrent.ExecutorService;
 import java.util.logging.Logger;
 
 /**
@@ -29,6 +31,11 @@ public class Backend {
     private Frontend frontend;
     protected SettingsManager settingsManager;
 
+    /**
+     * Class constructor.
+     * <p>
+     * Initializes game backend, settings manager and default exception handler.
+     */
     public Backend() {
         gameStorage = new SQLiteDatabase();
         gameBackend = new GameCache(gameStorage);
@@ -39,10 +46,25 @@ public class Backend {
         exceptionHandler = (level, throwable) -> Logger.getGlobal().log(level, throwable.getMessage(), throwable);
     }
 
+    /**
+     * Get instance of the Backend from Main.
+     *
+     * @return Current instance of Backend.
+     * @throws BackendException if Backend has not been initialized.
+     */
     public static Backend getInstance() {
-        return Main.getBackend();
+        return Verify.notNullPassThrough(Main.getBackend(),
+                () -> new BackendException("Backend has not been initialized."));
     }
 
+    /**
+     * Replace current game storage with a new implementation.
+     * <p>
+     * Replaces cache to use the new implementation.
+     *
+     * @param gameStorage Instance of SQLDatabase.
+     * @see SQLDatabase
+     */
     public void setGameStorage(SQLDatabase gameStorage) {
         this.gameStorage = gameStorage;
         this.gameBackend = new GameCache(gameStorage);
@@ -56,6 +78,12 @@ public class Backend {
         return exceptionHandler;
     }
 
+    /**
+     * Replace the default exception handler.
+     *
+     * @param exceptionHandler New exception handler.
+     * @see ExceptionHandler
+     */
     public void setExceptionHandler(ExceptionHandler exceptionHandler) {
         this.exceptionHandler = exceptionHandler;
     }
@@ -83,12 +111,27 @@ public class Backend {
         }
     }
 
+    /**
+     * Shuts down the backend and Main ExecutorService.
+     *
+     * @see Main
+     */
     public void close() {
-        Main.getExecutorService().shutdown();
+        ExecutorService executorService = Main.getExecutorService();
+        if (executorService != null) {
+            executorService.shutdown();
+        }
         gameBackend.close();
         open = false;
     }
 
+    /**
+     * Check if the Backend is open.
+     * <p>
+     * If false try using {@code open}
+     *
+     * @return true/false
+     */
     public boolean isOpen() {
         return open;
     }

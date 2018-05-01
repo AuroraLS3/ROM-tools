@@ -6,6 +6,7 @@ import com.djrapitops.rom.exceptions.ExceptionHandler;
 import com.djrapitops.rom.game.Console;
 import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.game.GameFile;
+import com.djrapitops.rom.util.MethodReference;
 import com.djrapitops.rom.util.Wrapper;
 import com.djrapitops.rom.util.file.ZipExtractor;
 import net.lingala.zip4j.exception.ZipException;
@@ -29,6 +30,12 @@ public class FileProcesses {
         /* Hides constructor */
     }
 
+    /**
+     * Verifies GameFiles of the given games.
+     *
+     * @param games Games to check files of.
+     * @return List of games with changed/missing files.
+     */
     public static List<Game> verifyFiles(List<Game> games) {
         Log.log("Verifying Files..");
         List<Game> gamesWithChangedFiles = new ArrayList<>();
@@ -50,6 +57,14 @@ public class FileProcesses {
         return gamesWithChangedFiles;
     }
 
+    /**
+     * Extract a .zip file.
+     *
+     * @param zipFile           File to extract.
+     * @param destinationFolder Folder to extract to.
+     * @param password          Wrapper for a possible password.
+     * @return List of the extracted files.
+     */
     public static List<File> extract(File zipFile, File destinationFolder, Wrapper<String> password) {
         ZipExtractor zip = new ZipExtractor(zipFile, destinationFolder, password);
         try {
@@ -68,35 +83,36 @@ public class FileProcesses {
      * @return true if everything went smoothly, false if error(s) occurred
      */
     public static boolean moveToSingleFolder(List<Game> games, File destinationFolder) {
-        List<File> files = games.stream().map(Game::getGameFiles)
-                .flatMap(Collection::stream)
-                .map(GameFile::getAbsolutePath)
-                .map(File::new)
-                .collect(Collectors.toList());
-
-        boolean noErrors = true;
-        for (File file : files) {
-            try {
-                FileUtils.moveFile(file, new File(destinationFolder, file.getName()));
-            } catch (IOException e) {
-                ExceptionHandler.handle(Level.WARNING, e);
-                noErrors = false;
-            }
-        }
-        return noErrors;
+        return performSingleFolderOperation(games, destinationFolder, FileUtils::moveFile);
     }
 
+    /**
+     * Copies all files of a list of games to a single folder.
+     *
+     * @param games             Games of which files to copy.
+     * @param destinationFolder Folder to copy to.
+     * @return true if everything went smoothly, false if error(s) occurred
+     */
     public static boolean copyToSingleFolder(List<Game> games, File destinationFolder) {
+        return performSingleFolderOperation(games, destinationFolder, FileUtils::copyFile);
+    }
+
+    private static boolean performSingleFolderOperation(List<Game> games, File destinationFolder,
+                                                        MethodReference.ThrowingDual<File, File, IOException> method) {
         List<File> files = games.stream().map(Game::getGameFiles)
                 .flatMap(Collection::stream)
                 .map(GameFile::getAbsolutePath)
                 .map(File::new)
                 .collect(Collectors.toList());
 
+        return performAnOperationOnFiles(destinationFolder, method, files);
+    }
+
+    private static boolean performAnOperationOnFiles(File destinationFolder, MethodReference.ThrowingDual<File, File, IOException> method, List<File> files) {
         boolean noErrors = true;
         for (File file : files) {
             try {
-                FileUtils.copyFile(file, new File(destinationFolder, file.getName()));
+                method.call(file, new File(destinationFolder, file.getName()));
             } catch (IOException e) {
                 ExceptionHandler.handle(Level.WARNING, e);
                 noErrors = false;
@@ -105,40 +121,30 @@ public class FileProcesses {
         return noErrors;
     }
 
+    /**
+     * Moves all files of a list of games to a folder in subfolders.
+     *
+     * @param games        Games of which files to move.
+     * @param chosenFolder Folder to move to.
+     * @return true if everything went smoothly, false if error(s) occurred
+     */
     public static boolean moveToSubFolders(List<Game> games, File chosenFolder) {
-        Map<Console, List<File>> gameFiles = new EnumMap<>(Console.class);
-        for (Game game : games) {
-            Console console = game.getMetadata().getConsole();
-            List<File> files = gameFiles.getOrDefault(console, new ArrayList<>());
-            game.getGameFiles().stream()
-                    .map(GameFile::getAbsolutePath)
-                    .map(File::new)
-                    .forEach(files::add);
-            gameFiles.put(console, files);
-        }
-
-        boolean noErrors = true;
-        for (Map.Entry<Console, List<File>> entry : gameFiles.entrySet()) {
-            Console console = entry.getKey();
-            Settings setting = Settings.valueOf("FOLDER_" + console.name());
-
-            String subfolderName = setting.getString();
-            File subfolder = new File(chosenFolder, subfolderName);
-
-            List<File> files = entry.getValue();
-            for (File file : files) {
-                try {
-                    FileUtils.moveFile(file, new File(subfolder, file.getName()));
-                } catch (IOException e) {
-                    ExceptionHandler.handle(Level.WARNING, e);
-                    noErrors = false;
-                }
-            }
-        }
-        return noErrors;
+        return performSubfolderOperation(games, chosenFolder, FileUtils::moveFile);
     }
 
+    /**
+     * Copies all files of a list of games to a folder in subfolders.
+     *
+     * @param games        Games of which files to copy.
+     * @param chosenFolder Folder to copy to.
+     * @return true if everything went smoothly, false if error(s) occurred
+     */
     public static boolean copyToSubFolders(List<Game> games, File chosenFolder) {
+        return performSubfolderOperation(games, chosenFolder, FileUtils::copyFile);
+    }
+
+    private static boolean performSubfolderOperation(List<Game> games, File chosenFolder,
+                                                     MethodReference.ThrowingDual<File, File, IOException> method) {
         Map<Console, List<File>> gameFiles = new EnumMap<>(Console.class);
         for (Game game : games) {
             Console console = game.getMetadata().getConsole();
@@ -159,13 +165,8 @@ public class FileProcesses {
             File subfolder = new File(chosenFolder, subfolderName);
 
             List<File> files = entry.getValue();
-            for (File file : files) {
-                try {
-                    FileUtils.copyFile(file, new File(subfolder, file.getName()));
-                } catch (IOException e) {
-                    ExceptionHandler.handle(Level.WARNING, e);
-                    noErrors = false;
-                }
+            if (!performAnOperationOnFiles(subfolder, method, files)) {
+                noErrors = false;
             }
         }
         return noErrors;

@@ -7,24 +7,39 @@ package com.djrapitops.rom.backend.database.sql;
  */
 public class SQLParser {
 
-    private final StringBuilder s;
+    private final StringBuilder builder;
 
+    /**
+     * Constructor that initializes the StringBuilder.
+     *
+     * @param start String to initialize the builder with.
+     */
     public SQLParser(String start) {
-        s = new StringBuilder(start);
+        builder = new StringBuilder(start);
     }
 
+    /**
+     * Adds a space character to the builder.
+     *
+     * @return The object which method was called.
+     */
     public SQLParser addSpace() {
-        s.append(" ");
+        builder.append(" ");
         return this;
     }
 
+    /**
+     * Adds a String to the builder.
+     *
+     * @return The object which method was called.
+     */
     public SQLParser append(String string) {
-        s.append(string);
+        builder.append(string);
         return this;
     }
 
     @Override
     public String toString() {
-        return s.toString();
+        return builder.toString();
     }
 }

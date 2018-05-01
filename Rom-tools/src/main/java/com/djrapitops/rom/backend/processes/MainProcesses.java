@@ -29,6 +29,13 @@ public class MainProcesses {
         /* Hides Constructor */
     }
 
+    /**
+     * Perform actions that should be done when the program starts.
+     * <p>
+     * Loads games and verifies files of those loaded games.
+     * <p>
+     * Removes games with bad files.
+     */
     public static void loadGamesFromBackendOnProgramStart() {
         ExecutorService execSvc = Main.getExecutorService();
 
@@ -49,6 +56,11 @@ public class MainProcesses {
                 .handle(ExceptionHandler.handle());
     }
 
+    /**
+     * Processes given files into Games that are placed into the GameBackend.
+     *
+     * @param chosenFiles Files chosen by user.
+     */
     public static void processFilesGivenWhenAddingGames(List<File> chosenFiles) {
         ExecutorService execSvc = Main.getExecutorService();
 
@@ -67,6 +79,11 @@ public class MainProcesses {
                 .handle(ExceptionHandler.handle());
     }
 
+    /**
+     * Processes given folder into Games that are placed into the GameBackend.
+     *
+     * @param chosenFolder Folder chosen by user.
+     */
     public static void processFolderGivenWhenAddingGames(File chosenFolder) {
         File[] files = chosenFolder.listFiles();
         if (files == null) {
@@ -75,6 +92,12 @@ public class MainProcesses {
         processFilesGivenWhenAddingGames(Arrays.asList(files));
     }
 
+    /**
+     * Processes file moving to a user given folder.
+     *
+     * @param chosenFolder  Folder to move game files to.
+     * @param selectedGames Games which files need to be moved.
+     */
     public static void processFileMoveToGivenFolder(File chosenFolder, List<Game> selectedGames) {
         if (selectedGames.isEmpty()) {
             return;
@@ -92,6 +115,12 @@ public class MainProcesses {
                 .handle(ExceptionHandler.handle(Level.SEVERE));
     }
 
+    /**
+     * Processes file copying to a user given folder.
+     *
+     * @param chosenFolder  Folder to move game files to.
+     * @param selectedGames Games which files need to be copied4.
+     */
     public static void processFileCopyToGivenFolder(File chosenFolder, List<Game> selectedGames) {
         if (selectedGames.isEmpty()) {
             return;
@@ -104,6 +133,12 @@ public class MainProcesses {
                 .handle(ExceptionHandler.handle(Level.SEVERE));
     }
 
+    /**
+     * Processes file moving to a user given folder in subfolders.
+     *
+     * @param chosenFolder  Folder to move game files to.
+     * @param selectedGames Games which files need to be moved.
+     */
     public static void processFileMoveToSubFolders(File chosenFolder, List<Game> selectedGames) {
         if (selectedGames.isEmpty()) {
             return;
@@ -121,6 +156,12 @@ public class MainProcesses {
                 .handle(ExceptionHandler.handle(Level.SEVERE));
     }
 
+    /**
+     * Processes file copying to a user given folder in subfolders.
+     *
+     * @param chosenFolder  Folder to move game files to.
+     * @param selectedGames Games which files need to be copied.
+     */
     public static void processFileCopyToSubFolders(File chosenFolder, List<Game> selectedGames) {
         if (selectedGames.isEmpty()) {
             return;

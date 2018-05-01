@@ -23,7 +23,7 @@ public class ProcessBar extends HBox implements Updatable<State> {
 
     @Override
     public void update(State state) {
-        Text processInfo = new Text(state.getLoadingInformation());
+        Text processInfo = new Text(state.getStatus());
         processInfo.setTextAlignment(TextAlignment.LEFT);
         getChildren().clear();
         getChildren().add(processInfo);

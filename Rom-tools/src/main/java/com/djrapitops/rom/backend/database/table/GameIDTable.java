@@ -18,6 +18,11 @@ public abstract class GameIDTable extends Table {
         super(db, tableName);
     }
 
+    /**
+     * Method that removes items from the table where a GAME_ID matches.
+     *
+     * @param gameIDs GAME_IDs to remove.
+     */
     protected void removeRelatedToIDs(List<Integer> gameIDs) {
         String sql = "DELETE FROM " + tableName + " WHERE " + Col.GAME_ID + "=?";
 
@@ -32,12 +37,13 @@ public abstract class GameIDTable extends Table {
         });
     }
 
+    /**
+     * Class that contains column names for a GameIDTable.
+     * <p>
+     * Classes extending GameIDTable that have a Col class should extend this class.
+     */
     public static class Col {
         public static final String GAME_ID = "game_id";
-
-        private Col() {
-            /* Should not be constructed */
-        }
     }
 
 }

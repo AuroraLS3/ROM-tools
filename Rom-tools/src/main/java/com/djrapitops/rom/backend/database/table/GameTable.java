@@ -59,6 +59,12 @@ public class GameTable extends Table {
         return getGameId(game);
     }
 
+    /**
+     * Used to get the GAME_ID of a specific game.
+     *
+     * @param game Game to search for.
+     * @return GAME_ID or -1 if not found.
+     */
     public int getGameId(Game game) {
         String selectSql = "SELECT " + Col.ID + " FROM " + tableName +
                 " WHERE " + Col.METADATA_ID + "=?" +
@@ -122,6 +128,9 @@ public class GameTable extends Table {
         });
     }
 
+    /**
+     * Class containing GameTable column names.
+     */
     public static class Col {
         public static final String ID = "id";
         public static final String METADATA_ID = "metadata_id";

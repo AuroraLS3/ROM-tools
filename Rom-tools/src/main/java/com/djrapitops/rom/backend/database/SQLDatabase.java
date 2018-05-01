@@ -18,6 +18,11 @@ public abstract class SQLDatabase implements GameBackend {
 
     protected SQLTables tables;
 
+    /**
+     * Constructor that initializes SQLTables.
+     *
+     * @see SQLTables
+     */
     public SQLDatabase() {
         tables = new SQLTables(this);
     }

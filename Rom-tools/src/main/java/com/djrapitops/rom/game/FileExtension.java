@@ -56,6 +56,13 @@ public enum FileExtension {
         this.console = console;
     }
 
+    /**
+     * Used to get an enum value for a specific file extension.
+     *
+     * @param extension end of a file name.
+     * @return FileExtension if found.
+     * @throws IllegalArgumentException if the extension is unsupported.
+     */
     public static FileExtension getExtensionFor(String extension) {
         for (FileExtension ext : values()) {
             if (ext.extension.equalsIgnoreCase(extension)) {

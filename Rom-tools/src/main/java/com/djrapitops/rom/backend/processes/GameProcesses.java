@@ -18,12 +18,22 @@ public class GameProcesses {
         /* Hides constructor */
     }
 
+    /**
+     * Add games to the GameBackend.
+     *
+     * @param games Games to add.
+     */
     public static void addGames(List<Game> games) {
         Log.log("Adding games..");
         Operations.ALL_GAMES.save(games);
         Log.log("Added " + games.size() + " games.");
     }
 
+    /**
+     * Load games from the GameBackend.
+     *
+     * @return Loaded games.
+     */
     public static List<Game> loadGames() {
         Log.log("Loading games..");
         List<Game> games = Operations.ALL_GAMES.get();
@@ -31,6 +41,11 @@ public class GameProcesses {
         return games;
     }
 
+    /**
+     * Remove games from the GameBackend.
+     *
+     * @param games Games to remove.
+     */
     public static void removeGames(List<Game> games) {
         Log.log("Removing games..");
         Operations.ALL_GAMES.remove(games);

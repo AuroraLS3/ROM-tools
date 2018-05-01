@@ -104,6 +104,12 @@ public class FileTable extends GameIDTable {
         removeRelatedToIDs(gameIDs);
     }
 
+    /**
+     * Check if the table contains given game files.
+     *
+     * @param gameFiles collection of GameFiles to check against.
+     * @return true if a matching checksum is found from the database.
+     */
     public boolean containsGame(Collection<GameFile> gameFiles) {
         String sql = "SELECT COUNT(*) as c FROM " + tableName +
                 " WHERE " + Col.CHECKSUM + "=?" +
@@ -128,9 +134,11 @@ public class FileTable extends GameIDTable {
         return false;
     }
 
-    public static class Col {
+    /**
+     * Class containing FileTable column names.
+     */
+    public static class Col extends GameIDTable.Col {
         public static final String ID = "id";
-        public static final String GAME_ID = GameIDTable.Col.GAME_ID;
         public static final String EXTENSION = "file_extension";
         public static final String FILE_PATH = "file_path";
         public static final String CHECKSUM = "md5_checksum";

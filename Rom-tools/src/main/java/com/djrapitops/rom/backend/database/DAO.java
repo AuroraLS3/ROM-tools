@@ -21,7 +21,8 @@ public interface DAO<T> {
     /**
      * Add an object to the backend.
      *
-     * @param obj Object to add.
+     * @param tables SQLTables to use for the save.
+     * @param obj    Object to add.
      * @throws BackendException If backend fails to save.
      */
     void add(SQLTables tables, T obj);
@@ -29,13 +30,25 @@ public interface DAO<T> {
     /**
      * Get an object with the Filter specified.
      *
+     * @param tables SQLTables to use for the fetch.
      * @param filter Filter to reduce the selection of the DAO Selector.
      * @return T object.
      */
     T get(SQLTables tables, Filter filter);
 
+    /**
+     * Remove an object from the backend.
+     *
+     * @param tables SQLTables to use for the removal.
+     * @param obj    Object to remove.
+     */
     void remove(SQLTables tables, T obj);
 
+    /**
+     * Functional interface for a Wrapper that returns a Map.
+     * <p>
+     * Used for filtering the fetch result.
+     */
     interface Filter extends Wrapper<Map<Integer, Serializable>> {
 
     }

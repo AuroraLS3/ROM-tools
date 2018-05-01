@@ -19,6 +19,11 @@ public class GameCache implements GameBackend {
 
     private final Map<Keys, Object> cache;
 
+    /**
+     * Constructor.
+     *
+     * @param mainBackend Main GameBackend to use for operations if they are not in cache.
+     */
     public GameCache(GameBackend mainBackend) {
         this.mainBackend = mainBackend;
         cache = new EnumMap<>(Keys.class);
@@ -41,6 +46,14 @@ public class GameCache implements GameBackend {
         clear(op.getKey());
     }
 
+    /**
+     * Attempt to fetch the object from cache and use main backend if not successful.
+     *
+     * @param request Key to check from cache.
+     * @param fetch   Wrapper for the fetch method.
+     * @param <T>     Type of object to fetch.
+     * @return Object in cache or main backend.
+     */
     <T> T getOrFetch(Keys request, ThrowingWrapper<T, BackendException> fetch) {
         Object inCache = cache.get(request);
         if (inCache != null) {
@@ -66,6 +79,11 @@ public class GameCache implements GameBackend {
         mainBackend.close();
     }
 
+    /**
+     * Clears a Key from the cache.
+     *
+     * @param request Key to clear from cache.
+     */
     public void clear(Keys request) {
         cache.remove(request);
     }

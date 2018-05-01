@@ -17,6 +17,11 @@ public class TimeStamp {
         formatter = new SimpleDateFormat("yyyy_MM_dd-HH:mm:ss");
     }
 
+    /**
+     * Formats the epoch millisecond to the proper format.
+     *
+     * @return yyyy_MM_dd-HH:mm:ss format String.
+     */
     public String toFormatted() {
         return formatter.format(epochMs);
     }

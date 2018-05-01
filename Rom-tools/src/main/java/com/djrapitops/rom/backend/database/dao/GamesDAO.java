@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * DAO for multiple games.
+ * DAO for operations on multiple games.
  *
  * @author Rsl1122
  */

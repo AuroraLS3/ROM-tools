@@ -50,6 +50,12 @@ public enum Settings {
         return defaultValue;
     }
 
+    /**
+     * Gets the setting value from SettingsManager or the default value if the settings have not yet been changed.
+     *
+     * @return value of the setting.
+     * @see SettingsManager
+     */
     Serializable getValue() {
         Serializable value = SettingsManager.getInstance().getValue(this);
         return value != null ? value : defaultValue;
@@ -59,6 +65,22 @@ public enum Settings {
         return label;
     }
 
+    /**
+     * Sets a new value to the SettingsManager for this Enum.
+     *
+     * @param value new value.
+     * @see SettingsManager
+     */
+    public void setValue(Serializable value) {
+        SettingsManager.getInstance().setValue(this, value);
+    }
+
+    /**
+     * Get the setting value as a number.
+     *
+     * @return Numeric value of the setting.
+     * @throws IllegalStateException If the value is not a number.
+     */
     public long getNumber() {
         String value = getString();
         if (StringUtils.isNumeric(value)) {
@@ -67,19 +89,27 @@ public enum Settings {
         throw new IllegalStateException("Value is not a number!");
     }
 
+    /**
+     * Get the class of the default value for the setting.
+     * <p>
+     * Used for determining input for settings view.
+     *
+     * @return Class of the default value.
+     */
     public Class<? extends Serializable> getSettingClass() {
         return defaultValue.getClass();
     }
 
+    /**
+     * Get the setting value as a String.
+     *
+     * @return String value of the setting.
+     */
     public String getString() {
         Serializable value = getValue();
         if (value instanceof String) {
             return (String) value;
         }
         return value.toString();
-    }
-
-    public void setValue(Serializable value) {
-        SettingsManager.getInstance().setValue(this, value);
     }
 }

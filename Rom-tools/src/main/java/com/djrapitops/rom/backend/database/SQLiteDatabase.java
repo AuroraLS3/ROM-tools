@@ -24,10 +24,20 @@ public class SQLiteDatabase extends SQLDatabase {
 
     private boolean open;
 
+    /**
+     * Constructor that uses the default database.
+     * <p>
+     * Default database is games.db.
+     */
     public SQLiteDatabase() {
         this(new File("games.db"));
     }
 
+    /**
+     * Constructor that uses given file as a database file.
+     *
+     * @param databaseFile File to use as database.
+     */
     public SQLiteDatabase(File databaseFile) {
         this.databaseFile = databaseFile;
         this.open = false;

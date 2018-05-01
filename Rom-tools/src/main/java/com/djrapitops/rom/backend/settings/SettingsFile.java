@@ -30,6 +30,12 @@ public class SettingsFile {
         this.file = file;
     }
 
+    /**
+     * Saves given values to the settings file.
+     *
+     * @param values Values to save.
+     * @throws IOException If the file could not be written to.
+     */
     public void save(Map<Settings, Serializable> values) throws IOException {
         List<String> lines = turnValuesToLines(values);
 
@@ -47,6 +53,12 @@ public class SettingsFile {
         return lines;
     }
 
+    /**
+     * Loads the value map from file or default values if the file doesn't exist.
+     *
+     * @return Value map of all settings.
+     * @throws IOException If the file could not be read.
+     */
     public Map<Settings, Serializable> load() throws IOException {
         if (!file.exists()) {
             return getDefaultValueMap();

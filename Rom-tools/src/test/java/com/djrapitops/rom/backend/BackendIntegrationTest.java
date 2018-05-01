@@ -35,7 +35,7 @@ public class BackendIntegrationTest {
         await().atMost(1, TimeUnit.SECONDS).until(opened(backend));
         await().atMost(5, TimeUnit.SECONDS)
                 .until(() -> {
-                    String info = fakeFrontend.getState().getLoadingInformation();
+                    String info = fakeFrontend.getState().getStatus();
                     System.out.println(info);
                     return "Loaded 0 games.".equals(info);
                 });

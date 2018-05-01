@@ -23,7 +23,7 @@ public class State {
     private String search;
     private Set<Console> displayedConsoles;
 
-    private String loadingInformation;
+    private String status;
 
     public State() {
         loadedGames = new ArrayList<>();
@@ -32,7 +32,7 @@ public class State {
         visibleGames = new ArrayList<>();
 
         search = "";
-        loadingInformation = "";
+        status = "";
         updateOnChange = new ArrayList<>();
     }
 
@@ -101,12 +101,12 @@ public class State {
         return selectedGames.contains(game);
     }
 
-    public String getLoadingInformation() {
-        return loadingInformation;
+    public String getStatus() {
+        return status;
     }
 
-    public void setLoadingInformation(String loadingInformation) {
-        this.loadingInformation = loadingInformation;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Set<Console> getDisplayedConsoles() {

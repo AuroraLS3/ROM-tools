@@ -15,5 +15,11 @@ public interface MethodReference<T> {
 
     }
 
+    interface ThrowingDual<T, K, V extends Throwable> {
+
+        void call(T variable, K variable2) throws V;
+
+    }
+
 }
 

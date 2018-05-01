@@ -36,6 +36,12 @@ public class SettingsManager {
         return Backend.getInstance().getSettingsManager();
     }
 
+    /**
+     * Opens the settings manager and loads the settings from the setting file.
+     *
+     * @throws BackendException if the file could not be loaded.
+     * @see SettingsFile
+     */
     public void open() {
         try {
             settingValues = settingsFile.load();
@@ -56,6 +62,9 @@ public class SettingsManager {
         settingValues.put(settings, value);
     }
 
+    /**
+     * Save the settings file Asynchronously
+     */
     public void save() {
         CompletableFuture.supplyAsync(() -> settingValues, Main.getExecutorService())
                 .thenAccept(values -> {
@@ -69,6 +78,11 @@ public class SettingsManager {
                 }).handle(ExceptionHandler.handle(Level.SEVERE));
     }
 
+    /**
+     * Check if the SettingsManager has been opened.
+     *
+     * @return true/false
+     */
     public boolean isOpen() {
         return open;
     }

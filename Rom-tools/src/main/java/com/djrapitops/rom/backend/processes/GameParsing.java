@@ -21,6 +21,13 @@ public class GameParsing {
         /* Hides Constructor */
     }
 
+    /**
+     * Parse games from a zip archive.
+     *
+     * @param archive zip file.
+     * @return List of parsed games.
+     * @throws IOException If file could not be read.
+     */
     public static List<Game> parseGamesFromArchive(File archive) throws IOException {
         File destinationFolder = new File("extracted");
         Wrapper<String> passwordWrapper = () -> {
@@ -30,10 +37,24 @@ public class GameParsing {
         return parseGamesFromFiles(extracted);
     }
 
+    /**
+     * Parse games from a single file, can be a folder or an archive.
+     *
+     * @param file File to parse.
+     * @return List of Games that could be parsed from the file.
+     * @throws IOException If file could not be read.
+     */
     public static List<Game> parseGamesFromFile(File file) throws IOException {
         return parseGamesFromFiles(Collections.singleton(file));
     }
 
+    /**
+     * Parse games from given files.
+     *
+     * @param files Files to parse.
+     * @return List of Games that could be parsed.
+     * @throws IOException if file could not be read.
+     */
     public static List<Game> parseGamesFromFiles(Collection<File> files) throws IOException {
         // TODO Handle cases where games require multiple files to work.
         List<Game> games = new ArrayList<>();
@@ -68,10 +89,24 @@ public class GameParsing {
         return parseGamesFromFiles(Arrays.asList(files));
     }
 
+    /**
+     * Parse a single game from given file.
+     *
+     * @param file File to parse into a game.
+     * @return Game parsed from the file.
+     * @throws IOException If the file could not be read.
+     */
     public static Game parseGame(File file) throws IOException {
         return parseGame(Collections.singleton(file));
     }
 
+    /**
+     * Parse a single game from multiple files.
+     *
+     * @param files Files to parse into a game.
+     * @return Game parsed from the files.
+     * @throws IOException If a file could not be read.
+     */
     public static Game parseGame(Collection<File> files) throws IOException {
         List<GameFile> gameFiles = new ArrayList<>();
         for (File givenFile : files) {

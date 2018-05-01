@@ -38,6 +38,12 @@ public class MetadataTable extends Table {
         createTable(sql);
     }
 
+    /**
+     * Used to save Metadata to the table.
+     *
+     * @param metadata Metadata to save.
+     * @return ID of the new saved metadata.
+     */
     public int saveMetadata(Metadata metadata) {
         String sql = "REPLACE INTO " + tableName + "(" +
                 Col.NAME + ", " +
@@ -55,6 +61,12 @@ public class MetadataTable extends Table {
         return getMetadataId(metadata);
     }
 
+    /**
+     * Used to get the ID of a specific Metadata object.
+     *
+     * @param metadata Object to search for.
+     * @return ID or -1 if not found.
+     */
     public int getMetadataId(Metadata metadata) {
         String selectSql = "SELECT " + Col.ID + " FROM " + tableName +
                 " WHERE " + Col.NAME + "=? AND " + Col.CONSOLE + "=?" +
@@ -76,6 +88,11 @@ public class MetadataTable extends Table {
         });
     }
 
+    /**
+     * Used to get a all Metadata in the table.
+     *
+     * @return Map with ID-Metadata key-value pairs.
+     */
     public Map<Integer, Metadata> getMetadata() {
         String sql = "SELECT * FROM " + tableName;
 
@@ -99,6 +116,9 @@ public class MetadataTable extends Table {
         });
     }
 
+    /**
+     * Class containing MetadataTable column names.
+     */
     public static class Col {
         public static final String ID = "id";
         public static final String NAME = "name";

@@ -4,6 +4,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import static org.junit.Assert.assertEquals;
+
 public class VerifyTest {
     private final String testSuccessMsg = "Test Success";
     private final IllegalStateException exception = new IllegalStateException(testSuccessMsg);
@@ -20,6 +22,7 @@ public class VerifyTest {
         thrown.expect(IllegalStateException.class);
         thrown.expectMessage(testSuccessMsg);
 
+        // Throws
         Verify.isTrue(false, () -> exception);
     }
 
@@ -33,6 +36,7 @@ public class VerifyTest {
         thrown.expect(IllegalStateException.class);
         thrown.expectMessage(testSuccessMsg);
 
+        // Throws
         Verify.isFalse(true, () -> exception);
     }
 
@@ -46,7 +50,24 @@ public class VerifyTest {
         thrown.expect(IllegalStateException.class);
         thrown.expectMessage(testSuccessMsg);
 
+        // Throws
         Verify.notNull(null, () -> exception);
+    }
+
+    @Test
+    public void notNullPassThrough() {
+        String expected = "Test";
+
+        assertEquals(expected, Verify.notNullPassThrough(expected, () -> exception));
+    }
+
+    @Test
+    public void notNullPassThroughException() {
+        thrown.expect(IllegalStateException.class);
+        thrown.expectMessage(testSuccessMsg);
+
+        // Throws
+        Verify.notNullPassThrough(null, () -> exception);
     }
 
     @Test
@@ -59,6 +80,7 @@ public class VerifyTest {
         thrown.expect(IllegalStateException.class);
         thrown.expectMessage(testSuccessMsg);
 
+        // Throws
         Verify.notNull(new String[]{null, ""}, () -> exception);
     }
 }
