@@ -53,8 +53,7 @@ public class Backend {
      * @throws BackendException if Backend has not been initialized.
      */
     public static Backend getInstance() {
-        return Verify.notNullPassThrough(Main.getBackend(),
-                () -> new BackendException("Backend has not been initialized."));
+        return Verify.notNullPassThrough(Main.getBackend(), () -> new BackendException("Backend has not been initialized."));
     }
 
     /**

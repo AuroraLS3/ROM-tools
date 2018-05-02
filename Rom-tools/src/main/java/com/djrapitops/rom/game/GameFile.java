@@ -99,8 +99,12 @@ public class GameFile {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         GameFile gameFile = (GameFile) o;
         return extension == gameFile.extension &&
                 Objects.equals(filePath, gameFile.filePath) &&
