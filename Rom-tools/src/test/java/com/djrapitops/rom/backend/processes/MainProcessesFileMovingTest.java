@@ -129,7 +129,7 @@ public class MainProcessesFileMovingTest extends FileTest {
                 .atMost(2, TimeUnit.SECONDS)
                 .until(() -> Objects.requireNonNull(targetFolder.listFiles()).length > 0);
 
-        List<String> targetFileNames = getFileNamesInFolder(new File(targetFolder, Settings.FOLDER_GAMEBOY.getString()));
+        List<String> targetFileNames = getFileNamesInFolder(new File(targetFolder, Settings.FOLDER_GAMEBOY.asString()));
         List<String> originalFileNames = getFileNamesInFolder(originalFolder);
 
         assertTrue(targetFileNames.contains("TestFile1.txt"));
@@ -146,7 +146,7 @@ public class MainProcessesFileMovingTest extends FileTest {
                 .atMost(2, TimeUnit.SECONDS)
                 .until(() -> Objects.requireNonNull(targetFolder.listFiles()).length > 0);
 
-        List<String> targetFileNames = getFileNamesInFolder(new File(targetFolder, Settings.FOLDER_GAMEBOY.getString()));
+        List<String> targetFileNames = getFileNamesInFolder(new File(targetFolder, Settings.FOLDER_GAMEBOY.asString()));
         List<String> originalFileNames = getFileNamesInFolder(originalFolder);
 
         assertTrue(targetFileNames.contains("TestFile1.txt"));
@@ -159,7 +159,7 @@ public class MainProcessesFileMovingTest extends FileTest {
     public void testMoveToSubfoldersEmptyListOfGames() {
         MainProcesses.processFileMoveToSubFolders(targetFolder, Collections.emptyList());
 
-        File subFolder = new File(targetFolder, Settings.FOLDER_GAMEBOY.getString());
+        File subFolder = new File(targetFolder, Settings.FOLDER_GAMEBOY.asString());
         assertFalse(subFolder.exists());
 
         List<String> originalFileNames = getFileNamesInFolder(originalFolder);
@@ -171,7 +171,7 @@ public class MainProcessesFileMovingTest extends FileTest {
     public void testCopyToSubfoldersEmptyListOfGames() {
         MainProcesses.processFileCopyToSubFolders(targetFolder, Collections.emptyList());
 
-        File subFolder = new File(targetFolder, Settings.FOLDER_GAMEBOY.getString());
+        File subFolder = new File(targetFolder, Settings.FOLDER_GAMEBOY.asString());
         assertFalse(subFolder.exists());
 
         List<String> originalFileNames = getFileNamesInFolder(originalFolder);

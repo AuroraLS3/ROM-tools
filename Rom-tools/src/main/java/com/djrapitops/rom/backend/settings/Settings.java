@@ -39,7 +39,6 @@ public enum Settings {
 
     private final String label;
     private final Serializable defaultValue;
-    private String value;
 
     Settings(String label, Serializable defaultValue) {
         this.label = label;
@@ -57,8 +56,8 @@ public enum Settings {
      * @see SettingsManager
      */
     Serializable getValue() {
-        Serializable value = SettingsManager.getInstance().getValue(this);
-        return value != null ? value : defaultValue;
+        Serializable savedValue = SettingsManager.getInstance().getValue(this);
+        return savedValue != null ? savedValue : defaultValue;
     }
 
     public String getLabel() {
@@ -81,10 +80,10 @@ public enum Settings {
      * @return Numeric value of the setting.
      * @throws IllegalStateException If the value is not a number.
      */
-    public long getNumber() {
-        String value = getString();
-        if (StringUtils.isNumeric(value)) {
-            return NumberUtils.createLong(value);
+    public long asNumber() {
+        String asString = asString();
+        if (StringUtils.isNumeric(asString)) {
+            return NumberUtils.createLong(asString);
         }
         throw new IllegalStateException("Value is not a number!");
     }
@@ -105,11 +104,15 @@ public enum Settings {
      *
      * @return String value of the setting.
      */
-    public String getString() {
-        Serializable value = getValue();
-        if (value instanceof String) {
-            return (String) value;
+    public String asString() {
+        Serializable setValue = getValue();
+        if (setValue instanceof String) {
+            return (String) setValue;
         }
-        return value.toString();
+        return setValue.toString();
+    }
+
+    public boolean asBoolean() {
+        return "true".equalsIgnoreCase(asString());
     }
 }

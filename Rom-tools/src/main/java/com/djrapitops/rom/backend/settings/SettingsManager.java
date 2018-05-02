@@ -73,7 +73,7 @@ public class SettingsManager {
                         settingsFile.save(values);
                         Log.log("Settings saved successfully.");
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        throw new UncheckedIOException(e);
                     }
                 }).handle(ExceptionHandler.handle(Level.SEVERE));
     }

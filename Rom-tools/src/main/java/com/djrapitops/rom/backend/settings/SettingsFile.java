@@ -91,10 +91,15 @@ public class SettingsFile {
     }
 
     private Serializable getProperObject(String string) {
-        if (StringUtils.isNumeric(string)) {
+        if ("true".equals(string)) {
+            return true;
+        } else if ("false".equals(string)) {
+            return false;
+        } else if (StringUtils.isNumeric(string)) {
             return NumberUtils.createLong(string);
+        } else {
+            return string;
         }
-        return string;
     }
 
     private Map<Settings, Serializable> getDefaultValueMap() {

@@ -16,7 +16,7 @@ import java.io.Serializable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class SettingsManagerTest extends FileTest {
     @Rule
@@ -60,7 +60,13 @@ public class SettingsManagerTest extends FileTest {
     }
 
     @Test
-    public void testSettingsGetNumberMethod() {
+    public void testSettingAsNumberMethod() {
+        openSettingsManager();
+
+        assertEquals(4000, (int) Settings.FOLDER_ATARI_7800.asNumber());
+    }
+
+    private void openSettingsManager() {
         File testFile = getFile("test.conf");
 
         DummyBackend backend = new DummyBackend();
@@ -69,28 +75,28 @@ public class SettingsManagerTest extends FileTest {
         Main.setBackend(backend);
 
         settingsManager.open();
-
-        assertEquals(4000, (int) Settings.FOLDER_ATARI_7800.getNumber());
     }
 
     @Test
-    public void testSettingsGetNumberMethodThrowsException() {
+    public void testSettingAsBooleanMethod() {
+        openSettingsManager();
+
+        assertFalse(Settings.FOLDER_GAMEBOY_COLOR.asBoolean());
+        assertFalse(Settings.FOLDER_ATARI_2600.asBoolean());
+        assertTrue(Settings.FOLDER_GAMEBOY.asBoolean());
+    }
+
+    @Test
+    public void testSettingAsNumberMethodThrowsException() {
         thrown.expect(IllegalStateException.class);
         thrown.expectMessage("Value is not a number!");
 
-        File testFile = getFile("test.conf");
-
-        DummyBackend backend = new DummyBackend();
-        SettingsManager settingsManager = new SettingsManager(testFile);
-        backend.setSettingsManager(settingsManager);
-        Main.setBackend(backend);
-
-        settingsManager.open();
+        openSettingsManager();
 
         assertEquals(String.class, Settings.FOLDER_ATARI_2600.getSettingClass());
 
         // Throws
-        Settings.FOLDER_ATARI_2600.getNumber();
+        Settings.FOLDER_ATARI_2600.asNumber();
     }
 
     @Test
@@ -109,11 +115,11 @@ public class SettingsManagerTest extends FileTest {
         settingsManager.save();
         Awaitility.await()
                 .atMost(2, TimeUnit.SECONDS)
-                .until(() -> expected.equals(Settings.FOLDER_GBA.getString()));
+                .until(() -> expected.equals(Settings.FOLDER_GBA.asString()));
 
         settingsManager.open();
 
-        assertEquals(expected, Settings.FOLDER_GBA.getString());
+        assertEquals(expected, Settings.FOLDER_GBA.asString());
     }
 
 }

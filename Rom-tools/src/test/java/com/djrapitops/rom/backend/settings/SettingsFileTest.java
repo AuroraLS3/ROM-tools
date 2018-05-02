@@ -49,6 +49,8 @@ public class SettingsFileTest extends FileTest {
         Map<Settings, Serializable> expected = new EnumMap<>(Settings.class);
         expected.put(Settings.FOLDER_ATARI_2600, "Testing");
         expected.put(Settings.FOLDER_ATARI_7800, 4000L);
+        expected.put(Settings.FOLDER_GAMEBOY, true);
+        expected.put(Settings.FOLDER_GAMEBOY_COLOR, false);
 
         assertEquals(expected, result);
     }

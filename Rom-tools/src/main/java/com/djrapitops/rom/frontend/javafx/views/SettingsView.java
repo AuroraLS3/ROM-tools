@@ -2,6 +2,7 @@ package com.djrapitops.rom.frontend.javafx.views;
 
 import com.djrapitops.rom.backend.settings.Settings;
 import com.djrapitops.rom.frontend.javafx.Style;
+import com.jfoenix.controls.JFXCheckBox;
 import javafx.geometry.Insets;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -29,12 +30,17 @@ public class SettingsView extends BorderPane {
 
             switch (setting.getSettingClass().getSimpleName()) {
                 case "String":
-                    TextField textField = new TextField(setting.getString());
-                    textField.setStyle(Style.BUTTON_SQUARE);
-                    textField.textProperty().addListener((observable, oldValue, newValue) -> {
-                        setting.setValue(newValue);
-                    });
-                    settingLine.setRight(textField);
+                    TextField field = new TextField(setting.asString());
+                    field.setStyle(Style.BUTTON_SQUARE);
+                    field.textProperty().addListener((observable, oldValue, newValue) -> setting.setValue(newValue));
+                    settingLine.setRight(field);
+                    break;
+                case "Boolean":
+                    JFXCheckBox checkBox = new JFXCheckBox();
+                    checkBox.setSelected(setting.asBoolean());
+                    checkBox.setStyle(Style.CHECKBOX_PURPLE);
+                    checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> setting.setValue(newValue));
+                    settingLine.setRight(checkBox);
                     break;
                 default:
                     break;
