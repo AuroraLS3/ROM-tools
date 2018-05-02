@@ -58,11 +58,7 @@
                 <version>0.8.0</version>
                 <configuration>
                     <excludes>
-                        <exclude>com/djrapitops/rom/frontend/*</exclude>
-                        <exclude>com/djrapitops/rom/frontend/javafx/*</exclude>
-                        <exclude>com/djrapitops/rom/frontend/javafx/components/*</exclude>
-                        <exclude>com/djrapitops/rom/frontend/javafx/scenes/*</exclude>
-                        <exclude>com/djrapitops/rom/frontend/javafx/updating/*</exclude>
+                        <exclude>com/djrapitops/rom/frontend/**</exclude>
                     </excludes>
                 </configuration>
                 <executions>
