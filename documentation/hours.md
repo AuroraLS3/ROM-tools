@@ -34,4 +34,5 @@ Date | Hours used | Description
 29.04.18 | 1 | Changed database structure slightly
 30.04.18 | 1 | Added subfolders to settings view
 01.05.18 | 1.5 | Shit ton of javadoc
-Total | 45.5 | 
+02.05.18 | 1.5 | Prepared things for week 6 deadline
+Total | 47 | 
