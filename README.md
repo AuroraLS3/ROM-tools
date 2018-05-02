@@ -17,6 +17,8 @@ Managing downloaded games can be a lot of unnecessary work - Extracting zips, re
 
 [How to use the Program](https://github.com/Rsl1122/ROM-tools/wiki/Using-the-Program)
 
+[Testing document](documentation/tests.md)
+
 [Hours used](documentation/hours.md)
 
 ### Course Required Tools
