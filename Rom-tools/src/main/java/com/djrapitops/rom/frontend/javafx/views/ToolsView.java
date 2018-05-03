@@ -16,6 +16,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
 
@@ -75,6 +77,14 @@ public class ToolsView extends BorderPane implements Updatable<State> {
         buttons.setFocusTraversable(false);
 
         setCenter(buttons);
+
+        ImageView imageView = new ImageView(
+                new Image(JavaFXFrontend.class.getResourceAsStream("/Logo-text.png"))
+        );
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(300);
+        setAlignment(imageView, Pos.CENTER);
+        setTop(imageView);
     }
 
     private EventHandler<ActionEvent> getActionEventForFolderSelect(MethodReference.Dual<File, List<Game>> methodToCall) {

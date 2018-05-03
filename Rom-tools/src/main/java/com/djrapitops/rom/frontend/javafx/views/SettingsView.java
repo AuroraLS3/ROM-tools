@@ -4,6 +4,7 @@ import com.djrapitops.rom.backend.settings.Settings;
 import com.djrapitops.rom.frontend.javafx.Style;
 import com.jfoenix.controls.JFXCheckBox;
 import javafx.geometry.Insets;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -19,7 +20,10 @@ public class SettingsView extends BorderPane {
     public SettingsView(BorderPane mainContainer) {
         prefWidthProperty().bind(mainContainer.widthProperty());
 
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.prefWidthProperty().bind(widthProperty());
         VBox container = new VBox();
+        container.prefWidthProperty().bind(scrollPane.widthProperty());
         container.setPadding(new Insets(10));
 
         for (Settings setting : Settings.values()) {
@@ -47,6 +51,8 @@ public class SettingsView extends BorderPane {
             }
             container.getChildren().add(settingLine);
         }
-        setCenter(container);
+
+        scrollPane.setContent(container);
+        setCenter(scrollPane);
     }
 }
