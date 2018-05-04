@@ -36,4 +36,5 @@ Date | Hours used | Description
 01.05.18 | 1.5 | Shit ton of javadoc
 02.05.18 | 1.5 | Prepared things for week 6 deadline
 03.05.18 | 0.5 | Small ui addition
-Total | 47.5 | 
+04.05.18 | 1 | Reduced UI lag with various changes
+Total | 48.5 | 
