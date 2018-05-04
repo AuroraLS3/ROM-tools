@@ -19,6 +19,7 @@ import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
@@ -39,13 +40,13 @@ public class ToolsView extends BorderPane implements Updatable<State> {
 
         this.frontend = frontend;
         State state = this.frontend.getState();
-        setTop(new SelectedTextContainer(state));
 
+        update(state);
         state.addStateListener(this);
     }
 
     @Override
-    public void update(State with) {
+    public void update(State state) {
 
         JFXListView<JFXButton> buttons = new JFXListView<>();
         buttons.prefWidthProperty().bind(widthProperty());
@@ -78,13 +79,17 @@ public class ToolsView extends BorderPane implements Updatable<State> {
 
         setCenter(buttons);
 
+        VBox topContainer = new VBox();
+        topContainer.prefWidthProperty().bind(widthProperty());
         ImageView imageView = new ImageView(
                 new Image(JavaFXFrontend.class.getResourceAsStream("/Logo-text.png"))
         );
         imageView.setPreserveRatio(true);
         imageView.setFitWidth(300);
-        setAlignment(imageView, Pos.CENTER);
-        setTop(imageView);
+        topContainer.setAlignment(Pos.CENTER);
+        topContainer.getChildren().add(imageView);
+        topContainer.getChildren().add(new SelectedTextContainer(state));
+        setTop(topContainer);
     }
 
     private EventHandler<ActionEvent> getActionEventForFolderSelect(MethodReference.Dual<File, List<Game>> methodToCall) {

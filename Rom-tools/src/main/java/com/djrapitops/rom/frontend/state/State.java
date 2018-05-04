@@ -2,7 +2,6 @@ package com.djrapitops.rom.frontend.state;
 
 import com.djrapitops.rom.game.Console;
 import com.djrapitops.rom.game.Game;
-import javafx.application.Platform;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -38,11 +37,7 @@ public class State {
 
     public void performStateChange(StateOperation operation) {
         State state = this;
-        Platform.runLater(() -> {
-            operation.operateOnState(state);
-            // New List to prevent Concurrent Exception due to GamesView adding more games that are updatable.
-            new ArrayList<>(updateOnChange).forEach(toUpdate -> toUpdate.update(state));
-        });
+        operation.operateOnState(state);
     }
 
     public void addStateListener(Updatable<State> listener) {
@@ -146,5 +141,9 @@ public class State {
 
     public boolean hasFilteredConsoles() {
         return displayedConsoles.isEmpty() || displayedConsoles.containsAll(Arrays.asList(Console.values()));
+    }
+
+    public List<Updatable<State>> getUpdateOnChange() {
+        return updateOnChange;
     }
 }

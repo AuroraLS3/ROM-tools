@@ -43,6 +43,7 @@ public class JavaFXFrontend extends Application implements Frontend {
     private ToolsView toolsView;
     private SettingsView settingsView;
     private FiltersView filtersView;
+    private StateUpdateTimer updateTimer;
 
     public JavaFXFrontend() {
         currentView = Views.GAMES;
@@ -89,6 +90,9 @@ public class JavaFXFrontend extends Application implements Frontend {
             );
             primaryStage.setScene(scene);
             primaryStage.show();
+
+            updateTimer = new StateUpdateTimer(this);
+            updateTimer.start();
         } catch (Exception e) {
             primaryStage.setScene(new FatalErrorScene(e));
             primaryStage.show();
@@ -126,6 +130,7 @@ public class JavaFXFrontend extends Application implements Frontend {
 
     @Override
     public void stop() {
+        updateTimer.stop();
         Backend.getInstance().close();
     }
 
