@@ -37,4 +37,5 @@ Date | Hours used | Description
 02.05.18 | 1.5 | Prepared things for week 6 deadline
 03.05.18 | 0.5 | Small ui addition
 04.05.18 | 1 | Reduced UI lag with various changes
-Total | 48.5 | 
+05.05.18 | 1 | Fixed some UI responsiveness issues introduced yesterday, more tests
+Total | 49.5 | 
