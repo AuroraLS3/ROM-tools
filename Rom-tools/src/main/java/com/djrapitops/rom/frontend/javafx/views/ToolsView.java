@@ -34,6 +34,7 @@ import java.util.List;
 public class ToolsView extends BorderPane implements Updatable<State> {
 
     private final JavaFXFrontend frontend;
+    private final ImageView imageView;
 
     public ToolsView(JavaFXFrontend frontend, BorderPane mainContainer) {
         prefWidthProperty().bind(mainContainer.widthProperty());
@@ -41,12 +42,14 @@ public class ToolsView extends BorderPane implements Updatable<State> {
         this.frontend = frontend;
         State state = this.frontend.getState();
 
+        imageView = new ImageView(
+                new Image(JavaFXFrontend.class.getResourceAsStream("/Logo-text.png"))
+        );
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(300);
+
         update(state);
         state.addStateListener(this);
-    }
-
-    @Override
-    public void update(State state) {
 
         JFXListView<JFXButton> buttons = new JFXListView<>();
         buttons.prefWidthProperty().bind(widthProperty());
@@ -78,14 +81,12 @@ public class ToolsView extends BorderPane implements Updatable<State> {
         buttons.setFocusTraversable(false);
 
         setCenter(buttons);
+    }
 
+    @Override
+    public void update(State state) {
         VBox topContainer = new VBox();
         topContainer.prefWidthProperty().bind(widthProperty());
-        ImageView imageView = new ImageView(
-                new Image(JavaFXFrontend.class.getResourceAsStream("/Logo-text.png"))
-        );
-        imageView.setPreserveRatio(true);
-        imageView.setFitWidth(300);
         topContainer.setAlignment(Pos.CENTER);
         topContainer.getChildren().add(imageView);
         topContainer.getChildren().add(new SelectedTextContainer(state));
