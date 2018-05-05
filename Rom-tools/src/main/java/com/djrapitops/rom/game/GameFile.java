@@ -37,11 +37,9 @@ public class GameFile {
             if (beginIndex == -1) {
                 throw new IllegalArgumentException("File did not have a file format");
             }
-            extension = FileExtension.getExtensionFor(
-                    fileName.substring(beginIndex)
-            );
+            extension = FileExtension.getExtensionFor(fileName.substring(beginIndex));
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(e.getMessage() + ": " + file.getAbsolutePath());
+            throw new IllegalArgumentException(e.getMessage() + ": " + file.getAbsolutePath(), e);
         }
         binaryHash = new MD5CheckSum(file).toHash();
     }

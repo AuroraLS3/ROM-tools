@@ -15,7 +15,7 @@ public class SQLTables implements Tables {
     private final GameTable gameTable;
     private final MetadataTable metadataTable;
 
-    private final VersionTable versionTable;
+    VersionTable versionTable;
 
     public SQLTables(SQLDatabase database) {
         versionTable = new VersionTable(database);

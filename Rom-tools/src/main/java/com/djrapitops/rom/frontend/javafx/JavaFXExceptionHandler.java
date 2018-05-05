@@ -17,7 +17,7 @@ public class JavaFXExceptionHandler implements ExceptionHandler {
 
     private final JavaFXFrontend frontend;
 
-    public JavaFXExceptionHandler(JavaFXFrontend frontend) {
+    JavaFXExceptionHandler(JavaFXFrontend frontend) {
         this.frontend = frontend;
     }
 

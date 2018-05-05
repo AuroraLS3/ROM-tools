@@ -18,7 +18,7 @@ public class StateUpdateTimer extends AnimationTimer {
     private final JavaFXFrontend frontend;
     private long lastUpdate = 0;
 
-    public StateUpdateTimer(JavaFXFrontend frontend) {
+    StateUpdateTimer(JavaFXFrontend frontend) {
         this.frontend = frontend;
     }
 
@@ -29,11 +29,10 @@ public class StateUpdateTimer extends AnimationTimer {
         }
         State state = frontend.getState();
 
+        // New List to prevent Concurrent Exception due to GamesView adding more games that are updatable.
         List<Updatable<State>> elementsToUpdate = new ArrayList<>(state.getUpdateOnChange());
-        Platform.runLater(() -> {
-            // New List to prevent Concurrent Exception due to GamesView adding more games that are updatable.
-            elementsToUpdate.forEach(toUpdate -> toUpdate.update(state));
-        });
+
+        Platform.runLater(() -> elementsToUpdate.forEach(toUpdate -> toUpdate.update(state)));
         lastUpdate = now;
     }
 }
