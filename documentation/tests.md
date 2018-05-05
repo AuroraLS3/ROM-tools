@@ -16,12 +16,12 @@ Largest integration test is opening the Backend with a fake frontend, with an em
 
 ### Coverage
 
-02.05.2018 15:29 +2 GMT
+05.05.2018 17:35 +2 GMT
 
 Source | Line Coverage | Branch Coverage
 -- | -- | --
-Jacoco report | 91% | 72%
-Sonar | 87.8% | 73%
+Jacoco report | 92% | 75%
+Sonar | 89.4% | 75.9%
 
 Currently some of the functionality related to parsing files into games is not tested as that is likely to change in the near future when metadata is fetched from the internet.
 
