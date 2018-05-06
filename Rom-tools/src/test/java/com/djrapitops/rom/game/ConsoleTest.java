@@ -1,5 +1,6 @@
 package com.djrapitops.rom.game;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -7,6 +8,7 @@ import static org.junit.Assert.assertEquals;
 public class ConsoleTest {
 
     @Test
+    @Ignore("Test ignored: Re-enable after Metadata is fetched")
     public void testAtari2600FileName() {
         Console expected = Console.ATARI_2600;
         String fileName = "Pac-Man (1982)(Atari, Tod Frye - Sears)(CX2646 -49-7943).bin";
@@ -25,6 +27,7 @@ public class ConsoleTest {
     }
 
     @Test
+    @Ignore("Test ignored: Re-enable after Metadata is fetched")
     public void testSegaCDFileName() {
         Console expected = Console.SEGA_CD;
         String fileName = "Sonic CD.bin";
