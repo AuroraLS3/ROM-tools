@@ -44,10 +44,6 @@ public abstract class GameIDTable extends Table {
      */
     public static class Col {
         public static final String GAME_ID = "game_id";
-
-        Col() {
-            /* Hides constructor */
-        }
     }
 
 }

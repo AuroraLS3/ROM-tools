@@ -13,8 +13,9 @@ import java.util.concurrent.Executors;
  */
 public class Main {
 
-    private static Backend backend;
-    private static ExecutorService executorService;
+    // Package private in order to allow specific values for testing.
+    static Backend backend;
+    static ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     /**
      * Starts the program.
@@ -25,7 +26,6 @@ public class Main {
      */
     public static void main(String[] args) {
         backend = new Backend();
-        executorService = Executors.newFixedThreadPool(10);
         JavaFXFrontend.start(args);
     }
 
@@ -33,25 +33,8 @@ public class Main {
         return backend;
     }
 
-    /**
-     * Method for testing.
-     *
-     * @param backend Backend to use for test.
-     */
-    public static void setBackend(Backend backend) {
-        Main.backend = backend;
-    }
-
     public static ExecutorService getExecutorService() {
         return executorService;
     }
 
-    /**
-     * Method for testing.
-     *
-     * @param executorService ExecutorService to use for test.
-     */
-    public static void setExecutorService(ExecutorService executorService) {
-        Main.executorService = executorService;
-    }
 }

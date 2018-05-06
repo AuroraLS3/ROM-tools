@@ -61,7 +61,7 @@ public abstract class QueryStatement<T> {
      * @param statement PreparedStatement to set values to.
      * @throws SQLException If there is an error in SQL syntax.
      */
-    public abstract void prepare(PreparedStatement statement) throws SQLException;
+    protected abstract void prepare(PreparedStatement statement) throws SQLException;
 
     /**
      * Process the ResultSet into the actual objects.
@@ -70,7 +70,7 @@ public abstract class QueryStatement<T> {
      * @return Processed objects from ResultSet.
      * @throws SQLException If there is an error in SQL syntax.
      */
-    public abstract T processResults(ResultSet set) throws SQLException;
+    protected abstract T processResults(ResultSet set) throws SQLException;
 
     public String getSql() {
         return sql;

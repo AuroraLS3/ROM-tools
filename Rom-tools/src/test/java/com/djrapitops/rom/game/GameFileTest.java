@@ -1,6 +1,6 @@
 package com.djrapitops.rom.game;
 
-import com.djrapitops.rom.Main;
+import com.djrapitops.rom.MainTestingVariables;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -74,7 +74,7 @@ public class GameFileTest {
     @Test
     public void throwsIOExceptionWhenCannotMatchHash() {
         DummyBackend backend = new DummyBackend();
-        Main.setBackend(backend);
+        MainTestingVariables.setBackend(backend);
 
         // folder will cause exception during MD5CheckSum
         File folder = new File(temporaryFolder.getRoot(), "folder");

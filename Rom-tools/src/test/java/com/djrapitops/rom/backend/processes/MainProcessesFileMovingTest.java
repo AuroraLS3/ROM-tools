@@ -1,6 +1,6 @@
 package com.djrapitops.rom.backend.processes;
 
-import com.djrapitops.rom.Main;
+import com.djrapitops.rom.MainTestingVariables;
 import com.djrapitops.rom.backend.settings.Settings;
 import com.djrapitops.rom.backend.settings.SettingsManager;
 import com.djrapitops.rom.game.Game;
@@ -37,7 +37,7 @@ public class MainProcessesFileMovingTest extends FileTest {
 
     @BeforeClass
     public static void setUpClass() {
-        Main.setExecutorService(Executors.newFixedThreadPool(10));
+        MainTestingVariables.setExecutorService(Executors.newFixedThreadPool(10));
     }
 
     @Before
@@ -46,7 +46,7 @@ public class MainProcessesFileMovingTest extends FileTest {
         SettingsManager settingsManager = new SettingsManager(temporaryFolder.newFile());
         settingsManager.open();
         backend.setSettingsManager(settingsManager);
-        Main.setBackend(backend);
+        MainTestingVariables.setBackend(backend);
 
         originalFolder = temporaryFolder.newFolder();
         targetFolder = temporaryFolder.newFolder();

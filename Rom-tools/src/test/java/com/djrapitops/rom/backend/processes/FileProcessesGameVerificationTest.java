@@ -1,6 +1,6 @@
 package com.djrapitops.rom.backend.processes;
 
-import com.djrapitops.rom.Main;
+import com.djrapitops.rom.MainTestingVariables;
 import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.util.file.FileTest;
 import org.junit.Before;
@@ -32,7 +32,7 @@ public class FileProcessesGameVerificationTest extends FileTest {
 
     @BeforeClass
     public static void setUpClass() {
-        Main.setBackend(new DummyBackend());
+        MainTestingVariables.setBackend(new DummyBackend());
     }
 
     @Before

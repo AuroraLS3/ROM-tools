@@ -1,22 +1,22 @@
 package utils.fakeClasses;
 
 import com.djrapitops.rom.backend.database.DAO;
-import com.djrapitops.rom.backend.database.table.SQLTables;
+import com.djrapitops.rom.backend.database.Tables;
 
 public class FakeDAO<T> implements DAO<T> {
 
     @Override
-    public void add(SQLTables tables, T obj) {
+    public void add(Tables tables, T obj) {
 
     }
 
     @Override
-    public T get(SQLTables tables, Filter filter) {
+    public T get(Tables tables, Filter filter) {
         return null;
     }
 
     @Override
-    public void remove(SQLTables tables, T obj) {
+    public void remove(Tables tables, T obj) {
 
     }
 }

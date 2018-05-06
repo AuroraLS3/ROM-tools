@@ -1,6 +1,6 @@
 package com.djrapitops.rom.exceptions;
 
-import com.djrapitops.rom.Main;
+import com.djrapitops.rom.MainTestingVariables;
 import com.djrapitops.rom.backend.Backend;
 import org.junit.Test;
 import utils.fakeClasses.DummyBackend;
@@ -15,7 +15,7 @@ public class ExceptionHandlerTest {
 
     @Test
     public void testDefaultExceptionHandler() {
-        Main.setBackend(new Backend());
+        MainTestingVariables.setBackend(new Backend());
 
         List<Boolean> calls = new ArrayList<>();
 
@@ -33,7 +33,7 @@ public class ExceptionHandlerTest {
 
     @Test
     public void testCustomExceptionHandler() {
-        Main.setBackend(new DummyBackend());
+        MainTestingVariables.setBackend(new DummyBackend());
 
         ExceptionHandler.handle(Level.WARNING, new Exception("Test"));
         assertEquals(1, DummyBackend.get().getThrown().size());

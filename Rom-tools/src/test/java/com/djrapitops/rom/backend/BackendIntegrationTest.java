@@ -1,6 +1,6 @@
 package com.djrapitops.rom.backend;
 
-import com.djrapitops.rom.Main;
+import com.djrapitops.rom.MainTestingVariables;
 import com.djrapitops.rom.backend.database.SQLiteDatabase;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,8 +27,8 @@ public class BackendIntegrationTest {
         Backend backend = new Backend();
         backend.setGameStorage(new SQLiteDatabase(new File(temporaryFolder.getRoot(), "games.db")));
 
-        Main.setBackend(backend);
-        Main.setExecutorService(Executors.newFixedThreadPool(10));
+        MainTestingVariables.setBackend(backend);
+        MainTestingVariables.setExecutorService(Executors.newFixedThreadPool(10));
 
         FakeFrontend fakeFrontend = new FakeFrontend();
         backend.open(fakeFrontend);

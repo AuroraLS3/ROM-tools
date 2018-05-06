@@ -16,7 +16,7 @@ import java.sql.PreparedStatement;
  */
 public abstract class SQLDatabase implements GameBackend {
 
-    protected SQLTables tables;
+    protected final Tables tables;
 
     /**
      * Constructor that initializes SQLTables.

@@ -1,6 +1,5 @@
 package com.djrapitops.rom.backend.database;
 
-import com.djrapitops.rom.backend.database.table.SQLTables;
 import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.util.Wrapper;
 
@@ -14,7 +13,7 @@ import java.util.Map;
  *
  * @author Rsl1122
  * @see SQLDatabase
- * @see SQLTables
+ * @see Tables
  */
 public interface DAO<T> {
 
@@ -25,7 +24,7 @@ public interface DAO<T> {
      * @param obj    Object to add.
      * @throws BackendException If backend fails to save.
      */
-    void add(SQLTables tables, T obj);
+    void add(Tables tables, T obj);
 
     /**
      * Get an object with the Filter specified.
@@ -34,7 +33,7 @@ public interface DAO<T> {
      * @param filter Filter to reduce the selection of the DAO Selector.
      * @return T object.
      */
-    T get(SQLTables tables, Filter filter);
+    T get(Tables tables, Filter filter);
 
     /**
      * Remove an object from the backend.
@@ -42,7 +41,7 @@ public interface DAO<T> {
      * @param tables SQLTables to use for the removal.
      * @param obj    Object to remove.
      */
-    void remove(SQLTables tables, T obj);
+    void remove(Tables tables, T obj);
 
     /**
      * Functional interface for a Wrapper that returns a Map.

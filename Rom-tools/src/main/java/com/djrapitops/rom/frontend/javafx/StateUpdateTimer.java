@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Rsl1122
  */
-public class StateUpdateTimer extends AnimationTimer {
+class StateUpdateTimer extends AnimationTimer {
 
     private final JavaFXFrontend frontend;
     private long lastUpdate = 0;

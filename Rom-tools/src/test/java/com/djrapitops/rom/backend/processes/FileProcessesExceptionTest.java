@@ -1,6 +1,6 @@
 package com.djrapitops.rom.backend.processes;
 
-import com.djrapitops.rom.Main;
+import com.djrapitops.rom.MainTestingVariables;
 import com.djrapitops.rom.backend.settings.SettingsManager;
 import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.util.file.FileTest;
@@ -34,7 +34,7 @@ public class FileProcessesExceptionTest extends FileTest {
         SettingsManager settingsManager = new SettingsManager(temporaryFolder.newFile());
         settingsManager.open();
         backend.setSettingsManager(settingsManager);
-        Main.setBackend(backend);
+        MainTestingVariables.setBackend(backend);
 
         // Here we create a folder and use it as a file.
         // Using folders like files usually causes IOExceptions.

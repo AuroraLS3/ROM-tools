@@ -1,6 +1,6 @@
 package com.djrapitops.rom.backend.database;
 
-import com.djrapitops.rom.Main;
+import com.djrapitops.rom.MainTestingVariables;
 import com.djrapitops.rom.backend.Operations;
 import com.djrapitops.rom.game.Game;
 import org.junit.*;
@@ -42,7 +42,7 @@ public class SQLiteDatabaseStorageTest {
         DummyBackend backend = new DummyBackend();
         // Required for Operations.GAME.save(Game)
         backend.setGameStorage(db);
-        Main.setBackend(backend);
+        MainTestingVariables.setBackend(backend);
 
         Game expected = createGame();
         db.save(Operations.ALL_GAMES, Collections.singletonList(expected));

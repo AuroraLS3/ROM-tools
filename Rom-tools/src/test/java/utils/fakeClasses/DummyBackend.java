@@ -11,7 +11,7 @@ import java.util.List;
 public class DummyBackend extends Backend {
 
     private final FakeFrontend fakeFrontend;
-    private List<Throwable> thrown;
+    private final List<Throwable> thrown;
 
     public DummyBackend() {
         fakeFrontend = new FakeFrontend();

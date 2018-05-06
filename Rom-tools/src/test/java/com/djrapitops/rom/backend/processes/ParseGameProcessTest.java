@@ -1,6 +1,6 @@
 package com.djrapitops.rom.backend.processes;
 
-import com.djrapitops.rom.Main;
+import com.djrapitops.rom.MainTestingVariables;
 import com.djrapitops.rom.game.Console;
 import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.game.Metadata;
@@ -45,7 +45,7 @@ public class ParseGameProcessTest extends FileTest {
     @Test
     public void testParseFolder() throws Exception {
         // Required for Log.log in GameParsing.parseGamesFromFiles
-        Main.setBackend(new DummyBackend());
+        MainTestingVariables.setBackend(new DummyBackend());
 
         File file = new File("src/test/resources/games");
 

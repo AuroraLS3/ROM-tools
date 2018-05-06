@@ -50,21 +50,6 @@ public enum Console {
      */
     public static Console resolveFromFilename(String fileName) {
         FileExtension extension = FileExtension.getExtensionFor(fileName.substring(fileName.lastIndexOf('.')));
-        String name = fileName.toLowerCase();
-        if (name.contains("atari")) {
-            return Console.ATARI_2600;
-        } else if (name.contains("playstation") || name.contains("ps")) {
-            // TODO Refine this section
-            if (name.contains("ps2")) {
-                return Console.PS2;
-            } else if (name.contains("psx")) {
-                return Console.PSX;
-            } else if (name.contains("psp") || name.contains("portable") || name.contains("vita")) {
-                return Console.PSP;
-            }
-        } else if (name.contains(" cd") || name.contains("cd.")) {
-            return Console.SEGA_CD;
-        }
         return extension.getConsole();
     }
 }

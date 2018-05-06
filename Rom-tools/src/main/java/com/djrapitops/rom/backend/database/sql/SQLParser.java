@@ -14,7 +14,7 @@ public class SQLParser {
      *
      * @param start String to initialize the builder with.
      */
-    public SQLParser(String start) {
+    SQLParser(String start) {
         builder = new StringBuilder(start);
     }
 

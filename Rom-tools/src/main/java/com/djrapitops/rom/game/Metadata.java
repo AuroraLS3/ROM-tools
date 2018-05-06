@@ -57,7 +57,7 @@ public class Metadata {
      * Builder for Metadata objects.
      */
     public static class Factory {
-        private Metadata metadata;
+        private final Metadata metadata;
 
         Factory() {
             this.metadata = new Metadata();

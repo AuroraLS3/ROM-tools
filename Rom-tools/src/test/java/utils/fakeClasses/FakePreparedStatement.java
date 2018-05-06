@@ -7,7 +7,7 @@ import java.net.URL;
 import java.sql.*;
 import java.util.Calendar;
 
-public abstract class FakePreparedStatement implements PreparedStatement {
+abstract class FakePreparedStatement implements PreparedStatement {
 
     @Override
     public void setNull(int i, int i1) {

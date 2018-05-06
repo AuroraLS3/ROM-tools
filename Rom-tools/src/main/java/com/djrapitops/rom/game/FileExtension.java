@@ -40,12 +40,13 @@ public enum FileExtension {
     XEX(".xex", Console.XBOX),
     DOL(".dol", Console.GAMECUBE),
     VEC(".vec", Console.VECTREX),
-    // SRL: GBA or WII
+    // SRL: GBA, WII
     SRL(".srl", Console.METADATA),
-    // CUE, BIN: PSX or SegaCD
+    // CUE: PSX, SegaCD
     CUE(".cue", Console.METADATA),
+    // BIN: Atari 2600, Atari 7800, Sega Genesis, Nintendo DS, PSX, SegaCD
     BIN(".bin", Console.METADATA),
-    // ISO: PSX2 or PSP
+    // ISO: PSX2, PSP
     ISO(".iso", Console.METADATA);
 
     private final String extension;

@@ -2,7 +2,7 @@ package com.djrapitops.rom.backend.database.dao;
 
 import com.djrapitops.rom.backend.Log;
 import com.djrapitops.rom.backend.database.DAO;
-import com.djrapitops.rom.backend.database.table.SQLTables;
+import com.djrapitops.rom.backend.database.Tables;
 import com.djrapitops.rom.game.Game;
 
 /**
@@ -13,7 +13,7 @@ import com.djrapitops.rom.game.Game;
 public class GameDAO implements DAO<Game> {
 
     @Override
-    public void add(SQLTables tables, Game game) {
+    public void add(Tables tables, Game game) {
         Log.debug("Save game: " + game.getMetadata().getName());
         if (tables.getFileTable().containsGame(game.getGameFiles())) {
             return;
@@ -26,12 +26,12 @@ public class GameDAO implements DAO<Game> {
     }
 
     @Override
-    public Game get(SQLTables tables, Filter filter) {
+    public Game get(Tables tables, Filter filter) {
         throw new UnsupportedOperationException("Not implemented");
     }
 
     @Override
-    public void remove(SQLTables tables, Game obj) {
+    public void remove(Tables tables, Game obj) {
         throw new UnsupportedOperationException("Not implemented");
     }
 }

@@ -1,6 +1,6 @@
 package com.djrapitops.rom.backend.settings;
 
-import com.djrapitops.rom.Main;
+import com.djrapitops.rom.MainTestingVariables;
 import com.djrapitops.rom.exceptions.BackendException;
 import com.djrapitops.rom.util.file.FileTest;
 import org.awaitility.Awaitility;
@@ -72,7 +72,7 @@ public class SettingsManagerTest extends FileTest {
         DummyBackend backend = new DummyBackend();
         SettingsManager settingsManager = new SettingsManager(testFile);
         backend.setSettingsManager(settingsManager);
-        Main.setBackend(backend);
+        MainTestingVariables.setBackend(backend);
 
         settingsManager.open();
     }
@@ -105,8 +105,8 @@ public class SettingsManagerTest extends FileTest {
         DummyBackend backend = new DummyBackend();
         SettingsManager settingsManager = new SettingsManager(testFile);
         backend.setSettingsManager(settingsManager);
-        Main.setBackend(backend);
-        Main.setExecutorService(Executors.newFixedThreadPool(10));
+        MainTestingVariables.setBackend(backend);
+        MainTestingVariables.setExecutorService(Executors.newFixedThreadPool(10));
 
         settingsManager.open();
 

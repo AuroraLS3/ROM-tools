@@ -60,7 +60,7 @@ public abstract class ExecuteStatement {
      * @param statement PreparedStatement to set values to.
      * @throws SQLException If there is an error in SQL syntax.
      */
-    public abstract void prepare(PreparedStatement statement) throws SQLException;
+    protected abstract void prepare(PreparedStatement statement) throws SQLException;
 
     public String getSql() {
         return sql;

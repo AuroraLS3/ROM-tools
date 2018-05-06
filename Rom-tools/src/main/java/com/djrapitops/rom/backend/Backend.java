@@ -12,7 +12,6 @@ import com.djrapitops.rom.frontend.Frontend;
 import com.djrapitops.rom.util.Verify;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
 import java.util.logging.Logger;
 
@@ -94,20 +93,12 @@ public class Backend {
      * @throws BackendException If Backend fails to open.
      */
     public void open(Frontend frontend) {
-        try {
-            this.frontend = frontend;
-            settingsManager.open();
-            gameBackend.open();
-            open = true;
+        this.frontend = frontend;
+        settingsManager.open();
+        gameBackend.open();
+        open = true;
 
-            MainProcesses.loadGamesFromBackendOnProgramStart();
-        } catch (BackendException e) {
-            if (e.getCause() instanceof SQLException && e.getCause().getMessage().contains("database is locked")) {
-                throw new BackendException("Program is already running! Only one instance can run at a time.");
-            } else {
-                throw e;
-            }
-        }
+        MainProcesses.loadGamesFromBackendOnProgramStart();
     }
 
     /**
@@ -117,9 +108,7 @@ public class Backend {
      */
     public void close() {
         ExecutorService executorService = Main.getExecutorService();
-        if (executorService != null) {
-            executorService.shutdown();
-        }
+        executorService.shutdown();
         gameBackend.close();
         open = false;
     }

@@ -3,9 +3,9 @@ package com.djrapitops.rom.backend.database.dao;
 import com.djrapitops.rom.backend.Log;
 import com.djrapitops.rom.backend.Operations;
 import com.djrapitops.rom.backend.database.DAO;
+import com.djrapitops.rom.backend.database.Tables;
 import com.djrapitops.rom.backend.database.table.FileTable;
 import com.djrapitops.rom.backend.database.table.GameTable;
-import com.djrapitops.rom.backend.database.table.SQLTables;
 import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.game.GameFile;
 import com.djrapitops.rom.game.Metadata;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class GamesDAO implements DAO<List<Game>> {
 
     @Override
-    public void add(SQLTables tables, List<Game> games) {
+    public void add(Tables tables, List<Game> games) {
         Log.log("Saving games..");
         int i = 1;
         int size = games.size();
@@ -36,7 +36,7 @@ public class GamesDAO implements DAO<List<Game>> {
     }
 
     @Override
-    public List<Game> get(SQLTables tables, Filter filter) {
+    public List<Game> get(Tables tables, Filter filter) {
         Map<Integer, Game> games = tables.getGameTable().getGames();
 
         Map<Integer, Metadata> metadata = tables.getMetadataTable().getMetadata();
@@ -53,7 +53,7 @@ public class GamesDAO implements DAO<List<Game>> {
     }
 
     @Override
-    public void remove(SQLTables tables, List<Game> games) {
+    public void remove(Tables tables, List<Game> games) {
         GameTable gameTable = tables.getGameTable();
         FileTable fileTable = tables.getFileTable();
 

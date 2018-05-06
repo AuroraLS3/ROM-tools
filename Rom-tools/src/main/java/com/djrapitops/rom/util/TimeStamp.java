@@ -22,12 +22,12 @@ public class TimeStamp {
      *
      * @return yyyy_MM_dd-HH:mm:ss format String.
      */
-    public String toFormatted() {
+    public String asFormatted() {
         return formatter.format(epochMs);
     }
 
     @Override
     public String toString() {
-        return toFormatted();
+        return asFormatted();
     }
 }
