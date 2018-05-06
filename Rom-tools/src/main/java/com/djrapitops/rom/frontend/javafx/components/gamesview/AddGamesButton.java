@@ -18,11 +18,11 @@ import java.util.List;
  *
  * @author Rsl1122
  */
-public class AddGamesButton extends JFXButton {
+class AddGamesButton extends JFXButton {
 
     private final JavaFXFrontend frontend;
 
-    public AddGamesButton(JavaFXFrontend frontend) {
+    AddGamesButton(JavaFXFrontend frontend) {
         super("Add Games");
         this.frontend = frontend;
 

@@ -63,7 +63,7 @@ public class SettingsManager {
     }
 
     /**
-     * Save the settings file Asynchronously
+     * Save the settings file Asynchronously.
      */
     public void save() {
         CompletableFuture.supplyAsync(() -> settingValues, Main.getExecutorService())

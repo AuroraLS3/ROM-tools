@@ -3,7 +3,7 @@ package com.djrapitops.rom.backend;
 import com.djrapitops.rom.exceptions.BackendException;
 
 /**
- * Interface for a game storage
+ * Interface for a game storage.
  *
  * @author Rsl1122
  */

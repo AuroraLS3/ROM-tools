@@ -22,7 +22,7 @@ public class MD5CheckSum {
     }
 
     /**
-     * Creates MD5 Hash
+     * Creates MD5 Hash.
      *
      * @return MD5 Hash of the bytes in the file.
      * @throws IOException If File can not be operated on.
