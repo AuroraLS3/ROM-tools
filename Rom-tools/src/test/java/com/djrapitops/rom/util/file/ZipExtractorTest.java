@@ -23,6 +23,7 @@ public class ZipExtractorTest extends FileTest {
 
 
     private File zipFile;
+    private File passwordZipFile;
     private File emptyZipFile;
     private File contentsFile;
 
@@ -30,6 +31,7 @@ public class ZipExtractorTest extends FileTest {
     @Before
     public void setUp() {
         zipFile = getFile("zip.zip");
+        passwordZipFile = getFile("passworded_zip.zip");
         emptyZipFile = getFile("empty_zip.zip");
         contentsFile = getFile("zipContents");
     }
@@ -39,6 +41,20 @@ public class ZipExtractorTest extends FileTest {
         List<String> expected = lines(contentsFile);
 
         ZipExtractor extractor = new ZipExtractor(zipFile, temporaryFolder.getRoot(), () -> "No Password");
+        extractor.unzip();
+
+        File unZipped = new File(temporaryFolder.getRoot(), "zipContents");
+        assertNotNull(unZipped);
+        List<String> result = lines(unZipped);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testExtractionEncrypted() throws IOException, ZipException {
+        List<String> expected = lines(contentsFile);
+
+        // Password for the zip file is 'password'
+        ZipExtractor extractor = new ZipExtractor(passwordZipFile, temporaryFolder.getRoot(), () -> "password");
         extractor.unzip();
 
         File unZipped = new File(temporaryFolder.getRoot(), "zipContents");

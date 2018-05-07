@@ -19,20 +19,13 @@ public class MD5CheckSumTest extends FileTest {
 
     @Before
     public void setUp() {
-        sourceFile = getFile("zipContents");
+        sourceFile = getFile("games/Ace of Aces.a78");
     }
 
     @Test
     public void testCheckSum() throws IOException {
         // Expected Checksum generated on the internet.
-        String os = System.getProperty("os.name");
-        System.out.println("OS: " + os);
-        String expected;
-        if (os.contains("Windows")) {
-            expected = "3140d45736542aababb82668fb2b40b6".toLowerCase();
-        } else {
-            expected = "22512B4CD7C2162FABBCB649A9E664F4".toLowerCase();
-        }
+        String expected = "4dd96d99c1228bb1fcae8c1b5c239197".toLowerCase();
         String result = new MD5CheckSum(sourceFile).toHash();
         assertEquals(expected, result);
     }

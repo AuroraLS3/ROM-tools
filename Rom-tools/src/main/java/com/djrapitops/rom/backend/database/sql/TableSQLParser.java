@@ -10,13 +10,6 @@ public class TableSQLParser extends SQLParser {
     private int columns = 0;
 
     /**
-     * Constructor for an empty builder.
-     */
-    private TableSQLParser() {
-        this("");
-    }
-
-    /**
      * Constructor for builder with initial value.
      *
      * @param start String to initialize the builder with.
@@ -116,7 +109,7 @@ public class TableSQLParser extends SQLParser {
      */
     public TableSQLParser defaultValue(String value) {
         addSpace();
-        append("DEFAULT ").append(value);
+        append("DEFAULT '").append(value).append("'");
         return this;
     }
 

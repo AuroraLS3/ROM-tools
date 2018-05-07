@@ -124,7 +124,8 @@ public class FileTable extends GameIDTable {
 
                 @Override
                 public Boolean processResults(ResultSet set) throws SQLException {
-                    return set.next() && set.getInt("c") > 0;
+                    set.next();
+                    return set.getInt("c") > 0;
                 }
             })) {
                 return true;

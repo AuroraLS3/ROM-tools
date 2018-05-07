@@ -143,7 +143,7 @@ public class GameParsing {
 
     private static List<Game> parseGamesFromDir(File directory) throws IOException {
         File[] files = directory.listFiles();
-        if (files == null || files.length == 0) {
+        if (files == null) {
             return new ArrayList<>();
         }
         return parseGamesFromFiles(Arrays.asList(files));

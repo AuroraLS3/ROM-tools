@@ -13,6 +13,9 @@ import utils.fakeClasses.DummyBackend;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.io.UncheckedIOException;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -120,6 +123,37 @@ public class SettingsManagerTest extends FileTest {
         settingsManager.open();
 
         assertEquals(expected, Settings.FOLDER_GBA.asString());
+    }
+
+    @Test
+    public void ioExceptionsPassedAsUnchecked() throws IOException {
+        File testFile = new File(temporaryFolder.newFolder(), "test.conf");
+        DummyBackend backend = new DummyBackend();
+        SettingsManager settingsManager = new SettingsManager(testFile);
+        backend.setSettingsManager(settingsManager);
+        MainTestingVariables.setBackend(backend);
+        MainTestingVariables.setExecutorService(Executors.newFixedThreadPool(10));
+
+        settingsManager.settingsFile = new SettingsFile(testFile) {
+            @Override
+            public void save(Map<Settings, Serializable> values) throws IOException {
+                throw new IOException("ExpectedException");
+            }
+        };
+
+        // Throws, handled by ExceptionHandler
+        settingsManager.save();
+        Awaitility.await()
+                .atMost(1, TimeUnit.SECONDS)
+                .until(() -> backend.getThrown().size() > 0);
+
+        List<Throwable> throwables = backend.getThrown();
+        assertEquals(1, throwables.size());
+
+        Throwable thrownException = throwables.get(0).getCause();
+        assertTrue(thrownException instanceof UncheckedIOException);
+        assertTrue(thrownException.getCause() instanceof IOException);
+        assertEquals("ExpectedException", thrownException.getCause().getMessage());
     }
 
 }

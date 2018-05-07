@@ -82,7 +82,7 @@ public class SQLiteDatabase extends SQLDatabase {
 
     @Override
     public boolean isOpen() {
-        return tables != null && open;
+        return open;
     }
 
     @Override

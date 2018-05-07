@@ -22,7 +22,7 @@ import java.util.logging.Level;
  */
 public class SettingsManager {
 
-    private final SettingsFile settingsFile;
+    SettingsFile settingsFile;
 
     private Map<Settings, Serializable> settingValues;
     private boolean open = false;

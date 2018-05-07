@@ -43,6 +43,7 @@ public interface ExceptionHandler {
      */
     static BiFunction<Void, Throwable, Void> handle(Level level) {
         return (result, ex) -> {
+            // Exception is null if one doesn't occur - this method is still called.
             if (ex != null) {
                 ExceptionHandler.handle(level, ex);
             }
