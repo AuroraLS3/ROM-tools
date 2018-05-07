@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Main class of ROM-tools, launches backend threads & UI thread.
+ * Main class of ROM-tools, launches backend threads and UI thread.
  *
  * @author Rsl1122
  */

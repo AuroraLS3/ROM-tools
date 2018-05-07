@@ -10,7 +10,7 @@ import com.djrapitops.rom.exceptions.BackendException;
 import java.sql.PreparedStatement;
 
 /**
- * Represents a SQL Database that can store & retrieve items.
+ * Represents a SQL Database that can store and retrieve items.
  *
  * @author Rsl1122
  */

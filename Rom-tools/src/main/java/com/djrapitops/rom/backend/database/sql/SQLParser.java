@@ -31,6 +31,7 @@ public class SQLParser {
     /**
      * Adds a String to the builder.
      *
+     * @param string String to append.
      * @return The object which method was called.
      */
     public SQLParser append(String string) {
