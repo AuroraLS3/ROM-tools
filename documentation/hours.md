@@ -40,4 +40,5 @@ Date | Hours used | Description
 05.05.18 | 1 | Fixed some UI responsiveness issues introduced yesterday, more tests
 06.05.18 | 0.5 | Removed redundant code
 07.05.18 | 1.5 | Multi-file game combining, prepared docs for final evaluation
-Total | 51.5 | 
+07.05.18 | 0.5 | Tests for missing cases
+Total | 52 | 
