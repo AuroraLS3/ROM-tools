@@ -11,11 +11,11 @@ Managing downloaded games can be a lot of unnecessary work - Extracting zips, re
 
 ## Documentation
 
+[How to use the Program](https://github.com/Rsl1122/ROM-tools/wiki/Using-the-Program)
+
 [Requirements Analysis](documentation/req.md)
 
 [Architecture](documentation/architecture.md)
-
-[How to use the Program](https://github.com/Rsl1122/ROM-tools/wiki/Using-the-Program)
 
 [Testing document](documentation/tests.md)
 
@@ -23,7 +23,7 @@ Managing downloaded games can be a lot of unnecessary work - Extracting zips, re
 
 ### Course Required Tools
 
-[Latest Release](https://github.com/Rsl1122/ROM-tools/releases) (No clue why this is mandatory)
+[Latest Release](https://github.com/Rsl1122/ROM-tools/releases)
 
 #### Build Rom-tools.jar to Rom-tools/target
 ```
@@ -50,3 +50,10 @@ While you can run checkstyle via maven, You can also see checkstyle result at th
 #### Jacoco Test Coverage Report
 
 While you can run jacoco coverage report via maven, SonarCloud uses Jacoco for it's test coverage, so [Test coverage can be viewed on SonarCloud](https://sonarcloud.io/component_measures?id=com.djrapitops%3Arom-tools&metric=coverage&view=tree)
+
+#### Javadoc
+
+Javadoc can be generated with the command and then viewed in target/site/apidocs/index.html
+```
+mvn javadoc:javadoc
+```
