@@ -38,4 +38,6 @@ Date | Hours used | Description
 03.05.18 | 0.5 | Small ui addition
 04.05.18 | 1 | Reduced UI lag with various changes
 05.05.18 | 1 | Fixed some UI responsiveness issues introduced yesterday, more tests
-Total | 49.5 | 
+06.05.18 | 0.5 | Removed redundant code
+07.05.18 | 1.5 | Multi-file game combining, prepared docs for final evaluation
+Total | 51.5 | 
