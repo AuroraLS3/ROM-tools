@@ -8,8 +8,7 @@ import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.game.GameFile;
 import com.djrapitops.rom.util.MethodReference;
 import com.djrapitops.rom.util.Wrapper;
-import com.djrapitops.rom.util.file.ZipExtractor;
-import net.lingala.zip4j.exception.ZipException;
+import com.djrapitops.rom.util.file.ArchiveExtractor;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -58,21 +57,16 @@ public class FileProcesses {
     }
 
     /**
-     * Extract a .zip file.
+     * Extract an archive file.
      *
-     * @param zipFile           File to extract.
+     * @param archive           File to extract.
      * @param destinationFolder Folder to extract to.
      * @param password          Wrapper for a possible password.
      * @return List of the extracted files.
      */
-    public static List<File> extract(File zipFile, File destinationFolder, Wrapper<String> password) {
-        ZipExtractor zip = new ZipExtractor(zipFile, destinationFolder, password);
-        try {
-            zip.unzip();
-            return Arrays.asList(Objects.requireNonNull(destinationFolder.listFiles()));
-        } catch (ZipException e) {
-            throw new IllegalStateException(e.getMessage(), e);
-        }
+    public static List<File> extract(File archive, File destinationFolder, Wrapper<String> password) {
+        ArchiveExtractor.createExtractorFor(archive, destinationFolder, password).extract();
+        return Arrays.asList(Objects.requireNonNull(destinationFolder.listFiles()));
     }
 
     /**

@@ -23,8 +23,8 @@ public class ExtractProcessTest extends FileTest {
 
     @Before
     public void setUp() {
-        sourceFile = getFile("zip.zip");
-        contentsFile = getFile("zipContents");
+        sourceFile = getFile("archives/zip.zip");
+        contentsFile = getFile("archives/zipContents");
     }
 
     @Test

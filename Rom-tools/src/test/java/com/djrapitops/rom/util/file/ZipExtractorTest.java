@@ -1,6 +1,6 @@
 package com.djrapitops.rom.util.file;
 
-import net.lingala.zip4j.exception.ZipException;
+import com.djrapitops.rom.exceptions.ExtractionException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,48 +14,40 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class ZipExtractorTest extends FileTest {
+public class ZipExtractorTest extends ExtractorTest {
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-
     private File zipFile;
     private File passwordZipFile;
     private File emptyZipFile;
     private File contentsFile;
 
-
     @Before
     public void setUp() {
-        zipFile = getFile("zip.zip");
-        passwordZipFile = getFile("passworded_zip.zip");
-        emptyZipFile = getFile("empty_zip.zip");
-        contentsFile = getFile("zipContents");
+        zipFile = getFile("archives/zip.zip");
+        passwordZipFile = getFile("archives/passworded_zip.zip");
+        emptyZipFile = getFile("archives/empty_zip.zip");
+        contentsFile = getFile("archives/zipContents");
     }
 
     @Test
-    public void testExtraction() throws IOException, ZipException {
-        List<String> expected = lines(contentsFile);
-
-        ZipExtractor extractor = new ZipExtractor(zipFile, temporaryFolder.getRoot(), () -> "No Password");
-        extractor.unzip();
-
-        File unZipped = new File(temporaryFolder.getRoot(), "zipContents");
-        assertNotNull(unZipped);
-        List<String> result = lines(unZipped);
-        assertEquals(expected, result);
+    public void testExtraction() throws IOException {
+        testExtractionUnencrypted(lines(contentsFile), zipFile, temporaryFolder.getRoot());
     }
 
     @Test
-    public void testExtractionEncrypted() throws IOException, ZipException {
+    public void testExtractionEncrypted() throws IOException {
         List<String> expected = lines(contentsFile);
 
         // Password for the zip file is 'password'
-        ZipExtractor extractor = new ZipExtractor(passwordZipFile, temporaryFolder.getRoot(), () -> "password");
-        extractor.unzip();
+        ArchiveExtractor extractor = ArchiveExtractor.createExtractorFor(
+                passwordZipFile, temporaryFolder.getRoot(), () -> "password"
+        );
+        extractor.extract();
 
         File unZipped = new File(temporaryFolder.getRoot(), "zipContents");
         assertNotNull(unZipped);
@@ -64,11 +56,14 @@ public class ZipExtractorTest extends FileTest {
     }
 
     @Test
-    public void extractionOfEmptyZipThrowsZipException() throws ZipException {
-        thrown.expect(ZipException.class);
+    public void extractionOfEmptyZipThrowsException() {
+        thrown.expect(ExtractionException.class);
+        thrown.expectMessage("Failed to extract " +
+                emptyZipFile.getAbsolutePath() +
+                ": net.lingala.zip4j.exception.ZipException: java.io.IOException: Negative seek offset");
 
         ZipExtractor extractor = new ZipExtractor(emptyZipFile, temporaryFolder.getRoot(), () -> "No Password");
-        extractor.unzip();
+        extractor.extract();
     }
 
 }

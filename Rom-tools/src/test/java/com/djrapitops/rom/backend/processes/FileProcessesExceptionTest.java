@@ -2,6 +2,7 @@ package com.djrapitops.rom.backend.processes;
 
 import com.djrapitops.rom.MainTestingVariables;
 import com.djrapitops.rom.backend.settings.SettingsManager;
+import com.djrapitops.rom.exceptions.ExtractionException;
 import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.util.file.FileTest;
 import org.junit.Before;
@@ -79,10 +80,12 @@ public class FileProcessesExceptionTest extends FileTest {
 
     @Test
     public void extractionThrowsExceptionOnEmptyZip() {
-        thrown.expect(IllegalStateException.class);
-        thrown.expectMessage("net.lingala.zip4j.exception.ZipException: java.io.IOException: Negative seek offset");
+        File emptyZipFile = getFile("archives/empty_zip.zip");
 
-        File emptyZipFile = getFile("empty_zip.zip");
+        thrown.expect(ExtractionException.class);
+        thrown.expectMessage("Failed to extract " +
+                emptyZipFile.getAbsolutePath() +
+                ": net.lingala.zip4j.exception.ZipException: java.io.IOException: Negative seek offset");
 
         FileProcesses.extract(emptyZipFile, temporaryFolder.getRoot(), () -> "No Password");
     }
@@ -92,7 +95,7 @@ public class FileProcessesExceptionTest extends FileTest {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Destination folder was not a folder");
 
-        File emptyZipFile = getFile("empty_zip.zip");
+        File emptyZipFile = getFile("archives/empty_zip.zip");
 
         FileProcesses.extract(emptyZipFile, temporaryFolder.newFile(), () -> "No Password");
     }

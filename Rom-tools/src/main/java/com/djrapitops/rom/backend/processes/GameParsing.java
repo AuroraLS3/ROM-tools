@@ -5,6 +5,7 @@ import com.djrapitops.rom.exceptions.ExceptionHandler;
 import com.djrapitops.rom.game.*;
 import com.djrapitops.rom.util.Verify;
 import com.djrapitops.rom.util.Wrapper;
+import com.djrapitops.rom.util.file.ArchiveExtractor;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,7 +58,6 @@ public class GameParsing {
      * @throws IOException if file could not be read.
      */
     public static List<Game> parseGamesFromFiles(Collection<File> files) throws IOException {
-        // TODO Handle cases where games require multiple files to work.
         List<Game> games = new ArrayList<>();
         int i = 1;
         int size = files.size();
@@ -66,7 +66,7 @@ public class GameParsing {
             Log.log("Processing files into games.. (" + i + "/" + size + ") " + name);
             if (file.isDirectory()) {
                 games.addAll(parseGamesFromDir(file));
-            } else if (name.endsWith(".zip")) {
+            } else if (ArchiveExtractor.isSupportedArchiveFile(name)) {
                 games.addAll(parseGamesFromArchive(file));
             } else {
                 try {
