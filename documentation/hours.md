@@ -41,4 +41,5 @@ Date | Hours used | Description
 06.05.18 | 0.5 | Removed redundant code
 07.05.18 | 1.5 | Multi-file game combining, prepared docs for final evaluation
 07.05.18 | 0.5 | Tests for missing cases
-Total | 52 | 
+08.05.18 | 1 | Added support for .rar and .7z archives
+Total | 53 | 
