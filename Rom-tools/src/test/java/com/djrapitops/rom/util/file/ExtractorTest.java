@@ -7,7 +7,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-class ExtractorTest extends FileTest {
+abstract class ExtractorTest extends FileTest {
 
     void testExtractionUnencrypted(List<String> expected, File archive, File destination) throws IOException {
         ArchiveExtractor extractor = ArchiveExtractor.createExtractorFor(
