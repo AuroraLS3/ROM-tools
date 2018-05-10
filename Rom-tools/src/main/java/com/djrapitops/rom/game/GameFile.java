@@ -105,13 +105,12 @@ public class GameFile {
         }
         GameFile gameFile = (GameFile) o;
         return extension == gameFile.extension &&
-                Objects.equals(filePath, gameFile.filePath) &&
                 Objects.equals(binaryHash, gameFile.binaryHash);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(extension, filePath, binaryHash);
+        return Objects.hash(extension, binaryHash);
     }
 
     @Override

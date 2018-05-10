@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 /**
  * Class responsible for parsing files into Game objects.
@@ -86,7 +87,8 @@ public class GameParsing {
             i++;
         }
         Log.log("Processed " + size + " files.");
-        return combineMultiFileGames(games);
+        List<Game> combined = combineMultiFileGames(games);
+        return combined.stream().distinct().collect(Collectors.toList());
     }
 
     private static List<Game> combineMultiFileGames(List<Game> parsedGames) {
