@@ -76,7 +76,8 @@ public class MainProcesses {
                 .thenAccept(GameProcesses::addGames)
                 .thenApply(nothing -> GameProcesses.loadGames())
                 .thenAccept(games -> updateState(state -> state.setLoadedGames(games)))
-                .handle(ExceptionHandler.handle());
+                .thenAccept(nothing -> FileProcesses.cleanFolder(new File("extracted")))
+                .handle(ExceptionHandler.handle(Level.SEVERE));
     }
 
     /**

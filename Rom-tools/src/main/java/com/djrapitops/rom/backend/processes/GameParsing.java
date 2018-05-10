@@ -3,6 +3,7 @@ package com.djrapitops.rom.backend.processes;
 import com.djrapitops.rom.backend.Log;
 import com.djrapitops.rom.exceptions.ExceptionHandler;
 import com.djrapitops.rom.game.*;
+import com.djrapitops.rom.util.TimeStamp;
 import com.djrapitops.rom.util.Verify;
 import com.djrapitops.rom.util.Wrapper;
 import com.djrapitops.rom.util.file.ArchiveExtractor;
@@ -31,7 +32,13 @@ public class GameParsing {
      * @throws IOException If file could not be read.
      */
     public static List<Game> parseGamesFromArchive(File archive) throws IOException {
-        File destinationFolder = new File("extracted");
+        File extractFolder = new File("extracted");
+        File destinationFolder = new File(extractFolder, archive.getName());
+        while (destinationFolder.exists()) {
+            String newName = destinationFolder.getName() + new TimeStamp(System.currentTimeMillis()).asFormatted();
+            destinationFolder = new File(extractFolder, newName);
+        }
+
         Wrapper<String> passwordWrapper = () -> {
             throw new UnsupportedOperationException("Passwords not yet supported");
         };

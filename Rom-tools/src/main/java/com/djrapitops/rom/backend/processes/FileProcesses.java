@@ -7,6 +7,7 @@ import com.djrapitops.rom.game.Console;
 import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.game.GameFile;
 import com.djrapitops.rom.util.MethodReference;
+import com.djrapitops.rom.util.Verify;
 import com.djrapitops.rom.util.Wrapper;
 import com.djrapitops.rom.util.file.ArchiveExtractor;
 import org.apache.commons.io.FileUtils;
@@ -164,5 +165,24 @@ public class FileProcesses {
             }
         }
         return noErrors;
+    }
+
+    /**
+     * Method used for cleaning the folder of different archive files.
+     *
+     * @param folder Folder to clean.
+     * @throws IllegalArgumentException If given folder is not folder.
+     */
+    public static void cleanFolder(File folder) {
+        Verify.isTrue(folder.isDirectory(), () -> new IllegalArgumentException("Not a folder."));
+        for (File file : Objects.requireNonNull(folder.listFiles())) {
+            if (ArchiveExtractor.isSupportedArchiveFile(file.getName())) {
+                if (!file.delete()) {
+                    file.deleteOnExit();
+                }
+            } else if (file.isDirectory()) {
+                cleanFolder(file);
+            }
+        }
     }
 }

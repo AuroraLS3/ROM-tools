@@ -35,6 +35,7 @@ public abstract class ArchiveExtractor {
 
         this.sourceFile = sourceFile;
         this.destinationFolder = destinationFolder;
+        Verify.isTrue(destinationFolder.exists() || destinationFolder.mkdirs(), () -> new IllegalArgumentException("Could not create folder"));
         this.password = password;
     }
 

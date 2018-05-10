@@ -14,7 +14,7 @@ public class TimeStamp {
 
     public TimeStamp(long epochMs) {
         this.epochMs = epochMs;
-        formatter = new SimpleDateFormat("yyyy_MM_dd-HH:mm:ss");
+        formatter = new SimpleDateFormat("yyyy_MM_dd-HHmmss");
     }
 
     /**
