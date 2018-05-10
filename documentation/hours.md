@@ -42,4 +42,5 @@ Date | Hours used | Description
 07.05.18 | 1.5 | Multi-file game combining, prepared docs for final evaluation
 07.05.18 | 0.5 | Tests for missing cases
 08.05.18 | 1 | Added support for .rar and .7z archives
-Total | 53 | 
+10.05.18 | 1.5 | Manual testing & fixing of .rar & .7z extraction, improvements to adding "All games" archives
+Total | 54.5 | 
