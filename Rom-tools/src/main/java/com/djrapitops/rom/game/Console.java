@@ -8,6 +8,7 @@ package com.djrapitops.rom.game;
 public enum Console {
 
     ATARI_2600("Atari 2600"),
+    ATARI_5200("Atari 5200"),
     ATARI_7800("Atari 7800"),
     NES("Nintendo Entertainment System"),
     SNES("Super Nintendo"),

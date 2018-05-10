@@ -10,6 +10,7 @@ package com.djrapitops.rom.game;
  */
 public enum FileExtension {
     A26(".a26", Console.ATARI_2600),
+    A52(".a52", Console.ATARI_5200),
     A78(".a78", Console.ATARI_7800),
     NES(".nes", Console.NES),
     SMC(".smc", Console.SNES),

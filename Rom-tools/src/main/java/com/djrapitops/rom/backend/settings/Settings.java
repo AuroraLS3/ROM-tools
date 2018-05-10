@@ -13,6 +13,7 @@ import java.io.Serializable;
 public enum Settings {
 
     FOLDER_ATARI_2600("Atari 2600", "atari2600"),
+    FOLDER_ATARI_5200("Atari 5200", "atari5200"),
     FOLDER_ATARI_7800("Atari 7800", "atari7800"),
     FOLDER_NES("NES", "nes"),
     FOLDER_SNES("Super Nintendo", "snes"),
