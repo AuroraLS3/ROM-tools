@@ -31,7 +31,7 @@ mvn package
 ```
 
 #### Run the program
-Double click the jar to run the program or use the following command to see debug messages on console.
+Double click the jar to run the program or use the following command:
 ```
 java -jar Rom-tools-1.0-SNAPSHOT.jar
 ```
