@@ -99,6 +99,14 @@ public class FileProcessesExceptionTest extends FileTest {
         FileProcesses.extract(emptyZipFile, temporaryFolder.newFile(), () -> "No Password");
     }
 
+    @Test
+    public void cleanThrowsExceptionOnParameterBeingAFile() throws IOException {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Not a folder.");
+
+        FileProcesses.cleanFolder(temporaryFolder.newFile());
+    }
+
     private Game createBrokenGame() {
         return GameCreationUtility.createGameWithIncorrectFileHash(testFile);
     }

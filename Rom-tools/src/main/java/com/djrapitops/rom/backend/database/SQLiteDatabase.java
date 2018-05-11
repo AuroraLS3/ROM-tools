@@ -1,6 +1,5 @@
 package com.djrapitops.rom.backend.database;
 
-import com.djrapitops.rom.backend.Log;
 import com.djrapitops.rom.backend.Operation;
 import com.djrapitops.rom.backend.database.sql.ExecuteStatement;
 import com.djrapitops.rom.backend.database.sql.QueryStatement;
@@ -45,7 +44,6 @@ public class SQLiteDatabase extends SQLDatabase {
 
     @Override
     public void execute(ExecuteStatement statement) {
-        Log.debug("DB Execute: " + statement.getSql());
         try {
             statement.execute(getConnection().prepareStatement(statement.getSql()));
         } catch (SQLException e) {
@@ -55,7 +53,6 @@ public class SQLiteDatabase extends SQLDatabase {
 
     @Override
     public void executeBatch(ExecuteStatement statement) {
-        Log.debug("DB Execute Batch: " + statement.getSql());
         try {
             statement.executeBatch(getConnection().prepareStatement(statement.getSql()));
         } catch (SQLException e) {
@@ -65,7 +62,6 @@ public class SQLiteDatabase extends SQLDatabase {
 
     @Override
     public <T> T query(QueryStatement<T> statement) {
-        Log.debug("DB Query: " + statement.getSql());
         try {
             return statement.executeQuery(getConnection().prepareStatement(statement.getSql()));
         } catch (SQLException e) {

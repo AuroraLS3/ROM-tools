@@ -6,7 +6,6 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * ExceptionHandler implementation for JavaFX version of the UI.
@@ -32,6 +31,5 @@ public class JavaFXExceptionHandler implements ExceptionHandler {
             });
         }
         // TODO Warnings
-        Logger.getGlobal().log(level, throwable.getMessage(), throwable);
     }
 }
