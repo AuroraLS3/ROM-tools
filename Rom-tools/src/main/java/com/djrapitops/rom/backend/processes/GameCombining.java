@@ -15,6 +15,10 @@ import java.util.*;
  */
 public class GameCombining {
 
+    private GameCombining() {
+        /* Hides constructor */
+    }
+
     /**
      * Combines multi-file games into single game objects.
      * <p>
