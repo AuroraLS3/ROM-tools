@@ -43,7 +43,7 @@ class AddGamesButton extends JFXButton {
         return event -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select Game Files");
-            List<File> chosenFiles = fileChooser.showOpenMultipleDialog(frontend.getStage());
+            List<File> chosenFiles = fileChooser.showOpenMultipleDialog(frontend.getStage().getOwner());
 
             if (chosenFiles == null) {
                 return;

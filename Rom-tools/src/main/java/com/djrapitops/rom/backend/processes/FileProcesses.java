@@ -177,7 +177,7 @@ public class FileProcesses {
     public static void cleanFolder(File folder) {
         Verify.isTrue(folder.isDirectory(), () -> new IllegalArgumentException("Not a folder."));
         for (File file : Objects.requireNonNull(folder.listFiles())) {
-            if (ArchiveExtractor.isSupportedArchiveFile(file.getName())) {
+            if (file.isFile() && ArchiveExtractor.isSupportedArchiveFile(file.getName())) {
                 try {
                     Files.deleteIfExists(file.toPath());
                 } catch (IOException e) {
