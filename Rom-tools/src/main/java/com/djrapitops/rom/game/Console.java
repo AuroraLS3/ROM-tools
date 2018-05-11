@@ -1,5 +1,7 @@
 package com.djrapitops.rom.game;
 
+import java.io.File;
+
 /**
  * Enum that contains supported game systems.
  *
@@ -46,11 +48,11 @@ public enum Console {
     /**
      * Resolves the Console from the file name.
      *
-     * @param fileName Full name of the file.
+     * @param file File to resolve Console for.
      * @return Console that this file might be for or METADATA if not determined.
      */
-    public static Console resolveFromFilename(String fileName) {
-        FileExtension extension = FileExtension.getExtensionFor(fileName.substring(fileName.lastIndexOf('.')));
+    public static Console resolveForFile(File file) {
+        FileExtension extension = FileExtension.getExtensionFor(file);
         return extension.getConsole();
     }
 }

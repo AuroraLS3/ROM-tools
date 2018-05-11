@@ -2,6 +2,7 @@ package com.djrapitops.rom.backend.processes;
 
 import com.djrapitops.rom.backend.Log;
 import com.djrapitops.rom.exceptions.ExceptionHandler;
+import com.djrapitops.rom.exceptions.UnsupportedFileExtensionException;
 import com.djrapitops.rom.game.*;
 import com.djrapitops.rom.util.TimeStamp;
 import com.djrapitops.rom.util.Verify;
@@ -79,16 +80,16 @@ public class GameParsing {
             } else {
                 try {
                     games.add(parseGame(file));
-                } catch (IllegalArgumentException e) {
-                    // Unsupported file format
+                } catch (UnsupportedFileExtensionException e) {
                     ExceptionHandler.handle(Level.WARNING, e);
                 }
             }
             i++;
         }
         Log.log("Processed " + size + " files.");
-        List<Game> combined = combineMultiFileGames(games);
-        return combined.stream().distinct().collect(Collectors.toList());
+        // Removing games that have duplicate MD5 hashes, reduces addition of same file multiple times.
+        List<Game> distinctGames = games.stream().distinct().collect(Collectors.toList());
+        return combineMultiFileGames(distinctGames);
     }
 
     private static List<Game> combineMultiFileGames(List<Game> parsedGames) {
@@ -188,7 +189,7 @@ public class GameParsing {
         FileExtension extension = firstFile.getExtension();
         Console extConsole = extension.getConsole();
         Console console = extConsole.equals(Console.METADATA)
-                ? Console.resolveFromFilename(firstFile.getFileName())
+                ? Console.resolveForFile(firstFile.getFile())
                 : extConsole;
         Metadata metadata = Metadata.create()
                 .setConsole(console)

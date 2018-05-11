@@ -57,7 +57,7 @@ public abstract class ArchiveExtractor {
         } else if (fileName.endsWith(".7z")) {
             return new SevenZExtractor(sourceFile, destinationFolder, password);
         }
-        throw new ExtractionException("Unsupported archive format");
+        throw new ExtractionException("Unsupported archive format", sourceFile.getAbsolutePath());
     }
 
     public static boolean isSupportedArchiveFile(String fileName) {

@@ -1,6 +1,7 @@
 package com.djrapitops.rom.game;
 
 import com.djrapitops.rom.MainTestingVariables;
+import com.djrapitops.rom.exceptions.UnsupportedFileExtensionException;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -24,8 +25,8 @@ public class GameFileTest {
     public void throwsExceptionWhenNoFileFormat() throws IOException {
         File noExtension = new File("noExtension");
 
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("File did not have a file format: " + noExtension.getAbsolutePath());
+        thrown.expect(UnsupportedFileExtensionException.class);
+        thrown.expectMessage("File did not have a file format");
 
         // Throws
         new GameFile(noExtension);
@@ -35,8 +36,8 @@ public class GameFileTest {
     public void throwsExceptionWhenUnsupportedException() throws IOException {
         File wrongExtension = new File("wrongExtension.unsupported");
 
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Unsupported extension: .unsupported: " + wrongExtension.getAbsolutePath());
+        thrown.expect(UnsupportedFileExtensionException.class);
+        thrown.expectMessage("Unsupported extension");
 
         // Throws
         new GameFile(wrongExtension);

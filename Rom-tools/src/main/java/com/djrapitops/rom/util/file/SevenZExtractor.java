@@ -27,7 +27,7 @@ public class SevenZExtractor extends ArchiveExtractor {
         try (SevenZFile sevenZFile = new SevenZFile(sourceFile)) {
             extractFile(sevenZFile);
         } catch (IOException e) {
-            throw new ExtractionException("Failed to extract " + sourceFile.getAbsolutePath() + ": " + e.getMessage(), e);
+            throw new ExtractionException("Failed to extract: " + e.getMessage(), e, sourceFile.getAbsolutePath());
         }
     }
 

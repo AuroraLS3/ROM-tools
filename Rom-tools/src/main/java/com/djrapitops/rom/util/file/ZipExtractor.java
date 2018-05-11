@@ -37,7 +37,7 @@ public class ZipExtractor extends ArchiveExtractor {
             }
             zipFile.extractAll(destinationFolder.getAbsolutePath());
         } catch (ZipException e) {
-            throw new ExtractionException("Failed to extract " + sourceFile.getAbsolutePath() + ": " + e.getMessage(), e);
+            throw new ExtractionException("Failed to extract: " + e.getMessage(), e, sourceFile.getAbsolutePath());
         }
     }
 

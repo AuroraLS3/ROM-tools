@@ -31,7 +31,7 @@ public class RarExtractor extends ArchiveExtractor {
         try {
             extractArchive(new Archive(new FileVolumeManager(sourceFile)));
         } catch (RarException | IOException e) {
-            throw new ExtractionException("Failed to extract " + sourceFile.getAbsolutePath() + ": " + e.getMessage(), e);
+            throw new ExtractionException("Failed to extract: " + e.getMessage(), e, sourceFile.getAbsolutePath());
         }
     }
 
@@ -44,7 +44,10 @@ public class RarExtractor extends ArchiveExtractor {
     }
 
     private void extractEntry(Archive archive, FileHeader fileHeader) throws IOException, RarException {
-        File out = new File(destinationFolder, fileHeader.getFileNameString().trim());
+        String destinationFile = fileHeader.getFileNameString()
+                .replace("\\", File.separator) // Fixes linux subfolder extraction
+                .trim();
+        File out = new File(destinationFolder, destinationFile);
         if (fileHeader.isDirectory()) {
             Verify.isTrue(out.isDirectory() && out.exists() || out.mkdirs(), () -> new FileNotFoundException("Could create folder."));
         } else {

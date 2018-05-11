@@ -58,7 +58,7 @@ public class FileTable extends GameIDTable {
             public void prepare(PreparedStatement statement) throws SQLException {
                 for (GameFile gameFile : files) {
                     statement.setInt(1, gameId);
-                    statement.setString(2, gameFile.getExtension().getExtension());
+                    statement.setString(2, gameFile.getExtension().name());
                     statement.setString(3, gameFile.getAbsolutePath());
                     statement.setString(4, gameFile.getHash());
                     statement.addBatch();
@@ -86,7 +86,7 @@ public class FileTable extends GameIDTable {
                     String checksum = set.getString(Col.CHECKSUM);
 
                     List<GameFile> paths = gameFileMap.getOrDefault(gameId, new ArrayList<>());
-                    paths.add(new GameFile(FileExtension.getExtensionFor(extension), path, checksum));
+                    paths.add(new GameFile(FileExtension.valueOf(extension), path, checksum));
                     gameFileMap.put(gameId, paths);
                 }
                 return gameFileMap;

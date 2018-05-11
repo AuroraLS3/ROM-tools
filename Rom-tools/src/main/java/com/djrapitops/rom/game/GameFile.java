@@ -21,36 +21,49 @@ public class GameFile {
 
     private File file;
 
+    /**
+     * Constructor for GameFile in the database.
+     *
+     * @param extension  FileExtension of the GameFile
+     * @param filePath   Absolute path of the file.
+     * @param binaryHash MD5 hash of the file calculated earlier.
+     */
     public GameFile(FileExtension extension, String filePath, String binaryHash) {
         this.extension = extension;
         this.filePath = filePath;
         this.binaryHash = binaryHash;
     }
 
+    /**
+     * Constructor for new instances of GameFile.
+     * <p>
+     * Performs IO operations on the file - reads all bytes to generate a MD5 hash.
+     *
+     * @param file File to create object for.
+     * @throws IOException If file can not be read.
+     */
     public GameFile(File file) throws IOException {
         this.file = file;
 
         filePath = file.getAbsolutePath();
-        String fileName = file.getName();
-        try {
-            int beginIndex = fileName.lastIndexOf('.');
-            if (beginIndex == -1) {
-                throw new IllegalArgumentException("File did not have a file format");
-            }
-            extension = FileExtension.getExtensionFor(fileName.substring(beginIndex));
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(e.getMessage() + ": " + file.getAbsolutePath(), e);
-        }
+        extension = FileExtension.getExtensionFor(file);
         binaryHash = new MD5CheckSum(file).toHash();
     }
 
-    private File getFile() {
+    public File getFile() {
         if (file == null) {
             file = new File(filePath);
         }
         return file;
     }
 
+    /**
+     * Check if the file exists on the machine.
+     * <p>
+     * Creates a File object if not present.
+     *
+     * @return true/false
+     */
     public boolean exists() {
         return getFile().exists();
     }
@@ -59,11 +72,21 @@ public class GameFile {
         return filePath;
     }
 
+    /**
+     * Used to get the file name without using IO operations on a File object.
+     *
+     * @return Name of the file from the absolute path String.
+     */
     public String getFileName() {
         String absolutePath = getAbsolutePath();
         return absolutePath.substring(absolutePath.lastIndexOf(File.separator) + 1);
     }
 
+    /**
+     * Check if the file exists and matches the hash calculated earlier.
+     *
+     * @return true/false
+     */
     public boolean matchesHash() {
         try {
             return exists() && binaryHash.equals(new MD5CheckSum(getFile()).toHash());
@@ -81,6 +104,13 @@ public class GameFile {
         return binaryHash;
     }
 
+    /**
+     * Get a clean name of the file without extension or anything inside brackets.
+     * <p>
+     * Example: "game (Atari) [1983].a26"
+     *
+     * @return Clean name, Example: "game"
+     */
     public String getCleanName() {
         String fileName = getFileName();
 

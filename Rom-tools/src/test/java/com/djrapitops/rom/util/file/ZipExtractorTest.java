@@ -58,9 +58,8 @@ public class ZipExtractorTest extends ExtractorTest {
     @Test
     public void extractionOfEmptyZipThrowsException() {
         thrown.expect(ExtractionException.class);
-        thrown.expectMessage("Failed to extract " +
-                emptyZipFile.getAbsolutePath() +
-                ": net.lingala.zip4j.exception.ZipException: java.io.IOException: Negative seek offset");
+        thrown.expectMessage("Failed to extract: " +
+                "net.lingala.zip4j.exception.ZipException: java.io.IOException: Negative seek offset");
 
         ZipExtractor extractor = new ZipExtractor(emptyZipFile, temporaryFolder.getRoot(), () -> "No Password");
         extractor.extract();

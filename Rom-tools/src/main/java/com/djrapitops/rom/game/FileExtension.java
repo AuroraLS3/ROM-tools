@@ -1,5 +1,9 @@
 package com.djrapitops.rom.game;
 
+import com.djrapitops.rom.exceptions.UnsupportedFileExtensionException;
+
+import java.io.File;
+
 /**
  * Enum for supported file extensions and consoles they're linked to.
  * <p>
@@ -61,17 +65,29 @@ public enum FileExtension {
     /**
      * Used to get an enum value for a specific file extension.
      *
-     * @param extension end of a file name.
+     * @param file File to get the FileExtension for.
      * @return FileExtension if found.
-     * @throws IllegalArgumentException if the extension is unsupported.
+     * @throws UnsupportedFileExtensionException if the extension is unsupported or file does not have a file format.
      */
-    public static FileExtension getExtensionFor(String extension) {
+    public static FileExtension getExtensionFor(File file) {
+        String fileName = file.getName();
+        int beginIndex = getExtensionStartIndex(file, fileName);
+
+        String fileExtension = fileName.substring(beginIndex);
         for (FileExtension ext : values()) {
-            if (ext.extension.equalsIgnoreCase(extension)) {
+            if (ext.extension.equalsIgnoreCase(fileExtension)) {
                 return ext;
             }
         }
-        throw new IllegalArgumentException("Unsupported extension: " + extension);
+        throw new UnsupportedFileExtensionException("Unsupported extension", file.getAbsolutePath(), fileExtension);
+    }
+
+    private static int getExtensionStartIndex(File file, String fileName) {
+        int beginIndex = fileName.lastIndexOf('.');
+        if (beginIndex == -1) {
+            throw new UnsupportedFileExtensionException("File did not have a file format", file.getAbsolutePath(), "");
+        }
+        return beginIndex;
     }
 
     public String getExtension() {
