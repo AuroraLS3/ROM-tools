@@ -5,7 +5,6 @@ import com.djrapitops.rom.exceptions.ExceptionHandler;
 import com.djrapitops.rom.exceptions.UnsupportedFileExtensionException;
 import com.djrapitops.rom.game.*;
 import com.djrapitops.rom.util.TimeStamp;
-import com.djrapitops.rom.util.Verify;
 import com.djrapitops.rom.util.Wrapper;
 import com.djrapitops.rom.util.file.ArchiveExtractor;
 
@@ -89,66 +88,7 @@ public class GameParsing {
         Log.log("Processed " + size + " files.");
         // Removing games that have duplicate MD5 hashes, reduces addition of same file multiple times.
         List<Game> distinctGames = games.stream().distinct().collect(Collectors.toList());
-        return combineMultiFileGames(distinctGames);
-    }
-
-    private static List<Game> combineMultiFileGames(List<Game> parsedGames) {
-        Map<Metadata, List<Game>> groupedByMetadata = groupByMetadata(parsedGames);
-        List<Game> combined = combineGroupedGames(groupedByMetadata);
-        Log.log("Combine results, before: " + parsedGames.size() + ", after: " + combined.size());
-        Verify.isFalse(parsedGames.contains(null), () -> new IllegalStateException("Null in parsed games"));
-        Verify.isFalse(combined.contains(null), () -> new IllegalStateException("Null in combined games"));
-        return combined;
-    }
-
-    private static List<Game> combineGroupedGames(Map<Metadata, List<Game>> groupedByMetadata) {
-        List<Game> combined = new ArrayList<>();
-        int size = groupedByMetadata.size();
-        int i = 1;
-        for (Map.Entry<Metadata, List<Game>> entry : groupedByMetadata.entrySet()) {
-            Log.log("Combining.. (" + i + "/" + size + "): " + entry.getKey().getName());
-            List<Game> games = entry.getValue();
-
-            Game first = null;
-            for (Game game : games) {
-                if (hasDiskFormatFiles(game.getGameFiles())) {
-                    if (first == null) {
-                        first = game;
-                        continue;
-                    }
-                    first.getGameFiles().addAll(game.getGameFiles());
-                } else {
-                    combined.add(game);
-                }
-            }
-            if (first != null) {
-                combined.add(first);
-            }
-            i++;
-        }
-        return combined;
-    }
-
-    public static boolean hasDiskFormatFiles(Collection<GameFile> gameFiles) {
-        return gameFiles.stream()
-                .map(GameFile::getFileName)
-                .anyMatch(fileName ->
-                        fileName.toLowerCase().matches("(?i).*(track|disk|chip).[1-9][1-9]?.*")
-                                || fileName.endsWith(".cue")
-                                || fileName.endsWith(".bin")
-                );
-    }
-
-    private static Map<Metadata, List<Game>> groupByMetadata(List<Game> parsedGames) {
-        Map<Metadata, List<Game>> groupedByMetadata = new HashMap<>();
-
-        for (Game game : parsedGames) {
-            Metadata metadata = game.getMetadata();
-            List<Game> sameName = groupedByMetadata.getOrDefault(metadata, new ArrayList<>());
-            sameName.add(game);
-            groupedByMetadata.put(metadata, sameName);
-        }
-        return groupedByMetadata;
+        return GameCombining.combineMultiFileGames(distinctGames);
     }
 
     private static List<Game> parseGamesFromDir(File directory) throws IOException {

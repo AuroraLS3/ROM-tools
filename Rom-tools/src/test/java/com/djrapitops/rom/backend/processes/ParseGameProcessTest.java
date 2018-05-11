@@ -1,15 +1,18 @@
 package com.djrapitops.rom.backend.processes;
 
 import com.djrapitops.rom.MainTestingVariables;
-import com.djrapitops.rom.game.*;
+import com.djrapitops.rom.game.Console;
+import com.djrapitops.rom.game.Game;
+import com.djrapitops.rom.game.Metadata;
 import com.djrapitops.rom.util.file.FileTest;
 import org.junit.Test;
 import utils.fakeClasses.DummyBackend;
 
 import java.io.File;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ParseGameProcessTest extends FileTest {
 
@@ -51,58 +54,4 @@ public class ParseGameProcessTest extends FileTest {
 
         assertEquals(Objects.requireNonNull(file.listFiles()).length, games.size());
     }
-
-    @Test
-    public void multiFileWorksForDisks1() {
-        Collection<GameFile> files = Collections.singletonList(
-                new GameFile(FileExtension.CUE, "any.cue", "")
-        );
-        assertTrue(GameParsing.hasDiskFormatFiles(files));
-    }
-
-    @Test
-    public void multiFileWorksForDisks2() {
-        Collection<GameFile> files = Collections.singletonList(
-                new GameFile(FileExtension.BIN, "any.bin", "")
-        );
-        assertTrue(GameParsing.hasDiskFormatFiles(files));
-    }
-
-    @Test
-    public void multiFileRegexWorks1() {
-        Collection<GameFile> files = Arrays.asList(
-                new GameFile(FileExtension.A26, "game (Chip 1).a26", ""),
-                new GameFile(FileExtension.A26, "game (Chip 2).a26", "")
-        );
-        assertTrue(GameParsing.hasDiskFormatFiles(files));
-    }
-
-    @Test
-    public void multiFileRegexWorks2() {
-        // Normally these would be bin or cue files, but those are combined separately as well.
-        Collection<GameFile> files = Arrays.asList(
-                new GameFile(FileExtension.NDS, "game (Disk 1).nds", ""),
-                new GameFile(FileExtension.NDS, "game (Disk 2).nds", "")
-        );
-        assertTrue(GameParsing.hasDiskFormatFiles(files));
-    }
-
-    @Test
-    public void multiFileRegexWorks3() {
-        // Normally these would be bin or cue files, but those are combined separately as well.
-        Collection<GameFile> files = Arrays.asList(
-                new GameFile(FileExtension.NDS, "game (Track 1).nds", ""),
-                new GameFile(FileExtension.NDS, "game (Track 2).nds", "")
-        );
-        assertTrue(GameParsing.hasDiskFormatFiles(files));
-    }
-
-    @Test
-    public void multiFileFalseWorks() {
-        Collection<GameFile> files = Collections.singletonList(
-                new GameFile(FileExtension.NDS, "game.nds", "")
-        );
-        assertFalse(GameParsing.hasDiskFormatFiles(files));
-    }
-
 }
