@@ -158,6 +158,9 @@ public class FileProcesses {
             Settings setting = Settings.valueOf("FOLDER_" + console.name());
 
             String subfolderName = setting.asString();
+            if (!setting.isValidValue(subfolderName)) {
+                subfolderName = setting.getDefaultValue().toString();
+            }
             File subfolder = new File(chosenFolder, subfolderName);
 
             List<File> files = entry.getValue();

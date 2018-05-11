@@ -20,6 +20,8 @@ public class Style {
 
     public static final String CHECKBOX_CYAN = "-jfx-checked-color: #229898;";
     public static final String CHECKBOX_PURPLE = "-jfx-checked-color: #985D98;";
+    public static final String BLACK_FONT = "-fx-text-fill: '#000';";
+    public static final String RED_FONT = "-fx-text-fill: '#ff1900';";
 
     private Style() {
         /* Hides constructor */

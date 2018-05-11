@@ -36,7 +36,14 @@ public class SettingsView extends BorderPane {
                 case "String":
                     TextField field = new TextField(setting.asString());
                     field.setStyle(Style.BUTTON_SQUARE);
-                    field.textProperty().addListener((observable, oldValue, newValue) -> setting.setValue(newValue));
+                    field.textProperty().addListener((observable, oldValue, newValue) -> {
+                        setting.setValue(newValue);
+                        if (!setting.isValidValue(newValue)) {
+                            field.setStyle(Style.BUTTON_SQUARE + Style.RED_FONT);
+                        } else {
+                            field.setStyle(Style.BUTTON_SQUARE + Style.BLACK_FONT);
+                        }
+                    });
                     settingLine.setRight(field);
                     break;
                 case "Boolean":
