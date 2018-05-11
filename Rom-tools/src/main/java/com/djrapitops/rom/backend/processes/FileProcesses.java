@@ -14,6 +14,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -177,8 +178,10 @@ public class FileProcesses {
         Verify.isTrue(folder.isDirectory(), () -> new IllegalArgumentException("Not a folder."));
         for (File file : Objects.requireNonNull(folder.listFiles())) {
             if (ArchiveExtractor.isSupportedArchiveFile(file.getName())) {
-                if (!file.delete()) {
-                    file.deleteOnExit();
+                try {
+                    Files.deleteIfExists(file.toPath());
+                } catch (IOException e) {
+                    ExceptionHandler.handle(Level.WARNING, e);
                 }
             } else if (file.isDirectory()) {
                 cleanFolder(file);
