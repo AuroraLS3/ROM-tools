@@ -43,4 +43,5 @@ Date | Hours used | Description
 07.05.18 | 0.5 | Tests for missing cases
 08.05.18 | 1 | Added support for .rar and .7z archives
 10.05.18 | 1.5 | Manual testing & fixing of .rar & .7z extraction, improvements to adding "All games" archives
-Total | 54.5 | 
+11.05.18 | 4 | Prepared for evaluation release, bugfixes, removed debug logging, manual linux testing
+Total | 58.5 | 
