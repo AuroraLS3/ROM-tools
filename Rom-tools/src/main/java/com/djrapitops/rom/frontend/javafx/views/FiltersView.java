@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXMasonryPane;
 import javafx.scene.layout.BorderPane;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,7 +43,8 @@ public class FiltersView extends BorderPane implements Updatable<State> {
     public void update(State state) {
         Set<Console> stateConsoles = state.getLoadedGames().stream()
                 .map(game -> game.getMetadata().getConsole())
-                .distinct()
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .collect(Collectors.toSet());
 
         if (loadedConsoles.equals(stateConsoles)) {

@@ -1,29 +1,30 @@
 package utils;
 
-import com.djrapitops.rom.game.Console;
+import com.djrapitops.rom.game.Consoles;
 import com.djrapitops.rom.game.FileExtension;
 import com.djrapitops.rom.game.Metadata;
 
 public class MetadataCreationUtility {
 
     public static Metadata createForTestGame() {
-        return Metadata.create()
-                .setConsole(FileExtension.GB)
-                .setName("TestGame")
-                .build();
+        Metadata metadata = new Metadata();
+        metadata.setConsole(Consoles.findAllMatchingExtension(FileExtension.GB).get(0));
+        metadata.setName("TestGame");
+        return metadata;
+
     }
 
     public static Metadata createNonExistent() {
-        return Metadata.create()
-                .setConsole(Console.ATARI_2600)
-                .setName("Not to be saved")
-                .build();
+        Metadata metadata = new Metadata();
+        metadata.setConsole(Consoles.findAllMatchingExtension(FileExtension.A26).get(0));
+        metadata.setName("Not to be saved");
+        return metadata;
     }
 
     public static Metadata createWithName(String name) {
-        return Metadata.create()
-                .setConsole(Console.ATARI_2600)
-                .setName(name)
-                .build();
+        Metadata metadata = new Metadata();
+        metadata.setConsole(Consoles.findAllMatchingExtension(FileExtension.A26).get(0));
+        metadata.setName(name);
+        return metadata;
     }
 }

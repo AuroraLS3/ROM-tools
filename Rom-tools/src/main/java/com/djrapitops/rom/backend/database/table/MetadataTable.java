@@ -6,13 +6,16 @@ import com.djrapitops.rom.backend.database.sql.QueryAllStatement;
 import com.djrapitops.rom.backend.database.sql.QueryStatement;
 import com.djrapitops.rom.backend.database.sql.TableSQLParser;
 import com.djrapitops.rom.game.Console;
+import com.djrapitops.rom.game.Consoles;
 import com.djrapitops.rom.game.Metadata;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Represents 'metadata' table in the SQLDatabase.
@@ -54,7 +57,12 @@ public class MetadataTable extends Table {
             @Override
             public void prepare(PreparedStatement statement) throws SQLException {
                 statement.setString(1, metadata.getName());
-                statement.setString(2, metadata.getConsole().name());
+                Optional<Console> console = metadata.getConsole();
+                if (console.isPresent()) {
+                    statement.setString(2, console.get().getName());
+                } else {
+                    statement.setNull(2, Types.VARCHAR);
+                }
             }
         });
 
@@ -75,7 +83,12 @@ public class MetadataTable extends Table {
             @Override
             public void prepare(PreparedStatement statement) throws SQLException {
                 statement.setString(1, metadata.getName());
-                statement.setString(2, metadata.getConsole().name());
+                Optional<Console> console = metadata.getConsole();
+                if (console.isPresent()) {
+                    statement.setString(2, console.get().getName());
+                } else {
+                    statement.setNull(2, Types.VARCHAR);
+                }
             }
 
             @Override
@@ -103,12 +116,11 @@ public class MetadataTable extends Table {
                 while (set.next()) {
                     int metadataId = set.getInt(Col.ID);
                     String name = set.getString(Col.NAME);
-                    Console console = Console.valueOf(set.getString(Col.CONSOLE));
+                    Optional<Console> console = Consoles.findByName(set.getString(Col.CONSOLE));
 
-                    Metadata metadata = Metadata.create()
-                            .setName(name)
-                            .setConsole(console)
-                            .build();
+                    Metadata metadata = new Metadata();
+                    metadata.setName(name);
+                    console.ifPresent(metadata::setConsole);
                     metadataMap.put(metadataId, metadata);
                 }
                 return metadataMap;

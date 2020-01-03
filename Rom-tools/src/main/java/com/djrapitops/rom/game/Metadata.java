@@ -1,8 +1,6 @@
 package com.djrapitops.rom.game;
 
-import com.djrapitops.rom.util.Verify;
-
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Container for game related metadata.
@@ -13,17 +11,35 @@ public class Metadata {
 
     String name;
     Console console;
+    Collection<Console> potentialConsoles = Collections.emptySet();
 
-    public static Factory create() {
-        return new Factory();
+    public Metadata() {
     }
 
     public String getName() {
         return name;
     }
 
-    public Console getConsole() {
-        return console;
+    public Optional<Console> getConsole() {
+        return Optional.ofNullable(console);
+    }
+
+    public void setConsole(Console console) {
+        this.console = console;
+        this.potentialConsoles = Collections.singleton(console);
+    }
+
+    public Collection<Console> getPotentialConsoles() {
+        return potentialConsoles;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setConsoles(List<Console> potentialConsoles) {
+        if (potentialConsoles.size() == 1) console = potentialConsoles.get(0);
+        this.potentialConsoles = potentialConsoles;
     }
 
     @Override
@@ -36,7 +52,7 @@ public class Metadata {
         }
         Metadata metadata = (Metadata) o;
         return Objects.equals(name, metadata.name) &&
-                console == metadata.console;
+                console.equals(metadata.console);
     }
 
     @Override
@@ -51,43 +67,5 @@ public class Metadata {
                 "name='" + name + '\'' +
                 ", console=" + console +
                 '}';
-    }
-
-    /**
-     * Builder for Metadata objects.
-     */
-    public static class Factory {
-        private final Metadata metadata;
-
-        Factory() {
-            this.metadata = new Metadata();
-        }
-
-        public Factory setName(String name) {
-            metadata.name = name;
-            return this;
-        }
-
-        public Factory setConsole(Console console) {
-            metadata.console = console;
-            return this;
-        }
-
-        public Factory setConsole(FileExtension extension) {
-            return setConsole(extension.getConsole());
-        }
-
-        /**
-         * Finish building the MetaData object.
-         *
-         * @return Finished Metadata object.
-         * @throws IllegalStateException If object is incomplete, for example a field is missing.
-         */
-        public Metadata build() {
-            Verify.notNull(metadata.name, () -> new IllegalStateException("Name was not specified"));
-            Verify.notNull(metadata.console, () -> new IllegalStateException("Console was not specified"));
-
-            return metadata;
-        }
     }
 }

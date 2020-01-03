@@ -2,6 +2,7 @@ package com.djrapitops.rom.backend.processes;
 
 import com.djrapitops.rom.MainTestingVariables;
 import com.djrapitops.rom.game.Console;
+import com.djrapitops.rom.game.Consoles;
 import com.djrapitops.rom.game.Game;
 import com.djrapitops.rom.game.Metadata;
 import com.djrapitops.rom.util.file.FileTest;
@@ -11,8 +12,10 @@ import utils.fakeClasses.DummyBackend;
 import java.io.File;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ParseGameProcessTest extends FileTest {
 
@@ -25,7 +28,11 @@ public class ParseGameProcessTest extends FileTest {
         Metadata metadata = game.getMetadata();
 
         assertEquals("Ace of Aces", metadata.getName());
-        assertEquals(Console.ATARI_7800, metadata.getConsole());
+        Optional<Console> expected = Consoles.findByName("Atari 7800");
+        Optional<Console> result = metadata.getConsole();
+        assertTrue(expected.isPresent());
+        assertTrue(result.isPresent());
+        assertEquals(expected.get(), result.get());
     }
 
     @Test
@@ -40,7 +47,7 @@ public class ParseGameProcessTest extends FileTest {
 
         assertEquals("Pac-Man", metadata.getName());
         // TODO Change back to ATARI_2600 after metadata is fetched
-        assertEquals(Console.METADATA, metadata.getConsole());
+        assertEquals(Optional.empty(), metadata.getConsole());
     }
 
     @Test

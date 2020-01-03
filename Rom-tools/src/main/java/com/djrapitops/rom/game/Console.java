@@ -1,58 +1,51 @@
 package com.djrapitops.rom.game;
 
-import java.io.File;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Objects;
 
 /**
- * Enum that contains supported game systems.
+ * Represents a Console supported by ROM Tools.
  *
  * @author Rsl1122
  */
-public enum Console {
+public class Console {
 
-    ATARI_2600("Atari 2600"),
-    ATARI_5200("Atari 5200"),
-    ATARI_7800("Atari 7800"),
-    NES("Nintendo Entertainment System"),
-    SNES("Super Nintendo"),
-    GENESIS("Sega Genesis/Megadrive"),
-    GAME_GEAR("Sega Master System"),
-    N64("Nintendo 64"),
-    GAMEBOY("GameBoy"),
-    GAMEBOY_COLOR("GameBoy Color"),
-    GBA("GameBoy Advance"),
-    GAMECUBE("GameCube"),
-    NINTENDO_DS("Nintendo DS"),
-    WII("Nintendo Wii"),
-    NINTENDO_3DS("Nintendo 3DS"),
-    NEO_GEO("Neo Geo"),
-    PC_ENGINE("PC Engine"),
-    VIRTUAL_BOY("Virtual Boy"),
-    PSX("Playstation 1"),
-    PS2("Playstation 2"),
-    PSP("Playstation Portable"),
-    XBOX("Xbox"),
-    METADATA("Unknown"),
-    SEGA_CD("Sega CD"),
-    VECTREX("Vectrex");
+    private final String name;
+    private final Collection<String> fileExtensions;
 
-    private final String fullName;
-
-    Console(String fullName) {
-        this.fullName = fullName;
+    public Console(String name, String... fileExtensions) {
+        this.name = name;
+        this.fileExtensions = Arrays.asList(fileExtensions);
     }
 
-    public String getFullName() {
-        return fullName;
+    Collection<String> getFileExtensions() {
+        return fileExtensions;
     }
 
-    /**
-     * Resolves the Console from the file name.
-     *
-     * @param file File to resolve Console for.
-     * @return Console that this file might be for or METADATA if not determined.
-     */
-    public static Console resolveForFile(File file) {
-        FileExtension extension = FileExtension.getExtensionFor(file);
-        return extension.getConsole();
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Console console = (Console) o;
+        return name.equals(console.name) &&
+                fileExtensions.equals(console.fileExtensions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, fileExtensions);
+    }
+
+    @Override
+    public String toString() {
+        return "Console{" +
+                "name='" + name + '\'' +
+                ", fileExtensions=" + fileExtensions +
+                '}';
     }
 }

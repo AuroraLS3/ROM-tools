@@ -12,54 +12,50 @@ import java.io.File;
  *
  * @author Rsl1122
  */
-public enum FileExtension {
-    A26(".a26", Console.ATARI_2600),
-    A52(".a52", Console.ATARI_5200),
-    A78(".a78", Console.ATARI_7800),
-    NES(".nes", Console.NES),
-    SMC(".smc", Console.SNES),
-    SFC(".sfc", Console.SNES),
-    MD(".md", Console.GENESIS),
-    SMD(".smd", Console.GENESIS),
-    GEN(".gen", Console.GENESIS),
-    GG(".gg", Console.GAME_GEAR),
-    Z64(".z64", Console.N64),
-    V64(".v64", Console.N64),
-    N64(".n64", Console.N64),
-    GB(".gb", Console.GAMEBOY),
-    GBC(".gbc", Console.GAMEBOY_COLOR),
-    GBA(".gba", Console.GBA),
-    GCM(".gcm", Console.GAMECUBE),
-    GCZ(".gcz", Console.GAMECUBE),
-    NDS(".nds", Console.NINTENDO_DS),
-    WBFS(".wbsf", Console.WII),
-    WAD(".wad", Console.WII),
-    CIA(".cia", Console.NINTENDO_3DS),
-    DS3(".3ds", Console.NINTENDO_3DS),
-    NGP(".ngp", Console.NEO_GEO),
-    NGC(".ngc", Console.NEO_GEO),
-    PCE(".pce", Console.PC_ENGINE),
-    VB(".vb", Console.VIRTUAL_BOY),
-    ELF(".elf", Console.PS2),
-    PBP(".pbp", Console.PSP),
-    XEX(".xex", Console.XBOX),
-    DOL(".dol", Console.GAMECUBE),
-    VEC(".vec", Console.VECTREX),
+public class FileExtension {
+    public static final String A26 = "a26";
+    public static final String A52 = "a52";
+    public static final String A78 = "a78";
+    public static final String NES = "nes";
+    public static final String SMC = "smc";
+    public static final String SFC = "sfc";
+    public static final String MD = "md";
+    public static final String SMD = "smd";
+    public static final String GEN = "gen";
+    public static final String GG = "gg";
+    public static final String Z64 = "z64";
+    public static final String V64 = "v64";
+    public static final String N64 = "n64";
+    public static final String GB = "gb";
+    public static final String GBC = "gbc";
+    public static final String GBA = "gba";
+    public static final String GCM = "gcm";
+    public static final String GCZ = "gcz";
+    public static final String NDS = "nds";
+    public static final String WBFS = "wbsf";
+    public static final String WAD = "wad";
+    public static final String CIA = "cia";
+    public static final String DS3 = "3ds";
+    public static final String NGP = "ngp";
+    public static final String NGC = "ngc";
+    public static final String PCE = "pce";
+    public static final String VB = "vb";
+    public static final String ELF = "elf";
+    public static final String PBP = "pbp";
+    public static final String XEX = "xex";
+    public static final String DOL = "dol";
+    public static final String VEC = "vec";
     // SRL: GBA, WII
-    SRL(".srl", Console.METADATA),
+    public static final String SRL = "srl";
     // CUE: PSX, SegaCD
-    CUE(".cue", Console.METADATA),
+    public static final String CUE = "cue";
     // BIN: Atari 2600, Atari 7800, Sega Genesis, Nintendo DS, PSX, SegaCD
-    BIN(".bin", Console.METADATA),
+    public static final String BIN = "bin";
     // ISO: PSX2, PSP
-    ISO(".iso", Console.METADATA);
+    public static final String ISO = "iso";
 
-    private final String extension;
-    private final Console console;
-
-    FileExtension(String extension, Console console) {
-        this.extension = extension;
-        this.console = console;
+    private FileExtension() {
+        // Static variable class.
     }
 
     /**
@@ -67,19 +63,13 @@ public enum FileExtension {
      *
      * @param file File to get the FileExtension for.
      * @return FileExtension if found.
-     * @throws UnsupportedFileExtensionException if the extension is unsupported or file does not have a file format.
+     * @throws UnsupportedFileExtensionException if the file does not have a file format.
      */
-    public static FileExtension getExtensionFor(File file) {
+    public static String getFor(File file) {
         String fileName = file.getName();
         int beginIndex = getExtensionStartIndex(file, fileName);
 
-        String fileExtension = fileName.substring(beginIndex);
-        for (FileExtension ext : values()) {
-            if (ext.extension.equalsIgnoreCase(fileExtension)) {
-                return ext;
-            }
-        }
-        throw new UnsupportedFileExtensionException("Unsupported extension", file.getAbsolutePath(), fileExtension);
+        return fileName.substring(beginIndex + 1).toLowerCase();
     }
 
     private static int getExtensionStartIndex(File file, String fileName) {
@@ -88,13 +78,5 @@ public enum FileExtension {
             throw new UnsupportedFileExtensionException("File did not have a file format", file.getAbsolutePath(), "");
         }
         return beginIndex;
-    }
-
-    public String getExtension() {
-        return extension;
-    }
-
-    public Console getConsole() {
-        return console;
     }
 }

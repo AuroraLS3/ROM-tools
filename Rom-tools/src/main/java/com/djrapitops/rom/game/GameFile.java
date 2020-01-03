@@ -15,7 +15,7 @@ import java.util.logging.Level;
  */
 public class GameFile {
 
-    private final FileExtension extension;
+    private final String extension;
     private final String filePath;
     private final String binaryHash;
 
@@ -28,7 +28,7 @@ public class GameFile {
      * @param filePath   Absolute path of the file.
      * @param binaryHash MD5 hash of the file calculated earlier.
      */
-    public GameFile(FileExtension extension, String filePath, String binaryHash) {
+    public GameFile(String extension, String filePath, String binaryHash) {
         this.extension = extension;
         this.filePath = filePath;
         this.binaryHash = binaryHash;
@@ -46,7 +46,7 @@ public class GameFile {
         this.file = file;
 
         filePath = file.getAbsolutePath();
-        extension = FileExtension.getExtensionFor(file);
+        extension = FileExtension.getFor(file);
         binaryHash = new MD5CheckSum(file).toHash();
     }
 
@@ -96,7 +96,7 @@ public class GameFile {
         }
     }
 
-    public FileExtension getExtension() {
+    public String getExtension() {
         return extension;
     }
 
@@ -134,7 +134,7 @@ public class GameFile {
             return false;
         }
         GameFile gameFile = (GameFile) o;
-        return extension == gameFile.extension &&
+        return extension.equals(gameFile.extension) &&
                 Objects.equals(binaryHash, gameFile.binaryHash);
     }
 

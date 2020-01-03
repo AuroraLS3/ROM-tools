@@ -1,6 +1,7 @@
 package com.djrapitops.rom.frontend.state;
 
 import com.djrapitops.rom.game.Console;
+import com.djrapitops.rom.game.Consoles;
 import com.djrapitops.rom.game.Game;
 
 import java.util.*;
@@ -121,7 +122,7 @@ public class State {
 
         if (!displayedConsoles.isEmpty()) {
             visibleGames = visibleGames.stream()
-                    .filter(game -> displayedConsoles.contains(game.getMetadata().getConsole()))
+                    .filter(game -> game.getMetadata().getConsole().map(displayedConsoles::contains).orElse(true))
                     .collect(Collectors.toList());
         }
     }
@@ -133,14 +134,14 @@ public class State {
 
     public void deactivateConsoleFilter(Console console) {
         if (displayedConsoles.isEmpty()) {
-            displayedConsoles.addAll(Arrays.asList(Console.values()));
+            displayedConsoles.addAll(Consoles.getAll());
         }
         displayedConsoles.remove(console);
         updateVisibleGames();
     }
 
     public boolean hasFilteredConsoles() {
-        return displayedConsoles.isEmpty() || displayedConsoles.containsAll(Arrays.asList(Console.values()));
+        return displayedConsoles.isEmpty() || displayedConsoles.containsAll(Consoles.getAll());
     }
 
     public List<Updatable<State>> getUpdateOnChange() {

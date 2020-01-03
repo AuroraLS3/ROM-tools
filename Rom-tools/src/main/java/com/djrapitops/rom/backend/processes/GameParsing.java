@@ -126,15 +126,13 @@ public class GameParsing {
 
         GameFile firstFile = gameFiles.get(0);
         String cleanName = firstFile.getCleanName();
-        FileExtension extension = firstFile.getExtension();
-        Console extConsole = extension.getConsole();
-        Console console = extConsole.equals(Console.METADATA)
-                ? Console.resolveForFile(firstFile.getFile())
-                : extConsole;
-        Metadata metadata = Metadata.create()
-                .setConsole(console)
-                .setName(cleanName)
-                .build();
+        String extension = firstFile.getExtension();
+
+        List<Console> found = Consoles.findAllMatchingExtension(extension);
+
+        Metadata metadata = new Metadata();
+        metadata.setConsoles(found);
+        metadata.setName(cleanName);
 
         Game game = new Game();
         game.setMetadata(metadata);

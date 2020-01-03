@@ -4,7 +4,9 @@ import com.djrapitops.rom.frontend.javafx.Style;
 import com.djrapitops.rom.frontend.javafx.Variables;
 import com.djrapitops.rom.frontend.state.State;
 import com.djrapitops.rom.frontend.state.Updatable;
+import com.djrapitops.rom.game.Console;
 import com.djrapitops.rom.game.Game;
+import com.djrapitops.rom.game.Metadata;
 import com.jfoenix.controls.JFXCheckBox;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -65,7 +67,8 @@ public class GameComponent extends VBox implements Updatable<State> {
         VBox right = new VBox();
         ObservableList<Node> children = right.getChildren();
 
-        Text metadata = new Text(game.getMetadata().getConsole().getFullName());
+        Metadata meta = game.getMetadata();
+        Text metadata = new Text(meta.getConsole().map(Console::getName).orElse(meta.getPotentialConsoles().size() + " options"));
 
         children.add(metadata);
         return right;

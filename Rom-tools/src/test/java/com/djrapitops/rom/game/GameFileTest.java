@@ -33,17 +33,6 @@ public class GameFileTest {
     }
 
     @Test
-    public void throwsExceptionWhenUnsupportedException() throws IOException {
-        File wrongExtension = new File("wrongExtension.unsupported");
-
-        thrown.expect(UnsupportedFileExtensionException.class);
-        thrown.expectMessage("Unsupported extension");
-
-        // Throws
-        new GameFile(wrongExtension);
-    }
-
-    @Test
     public void throwsIOExceptionWhenCannotHash() throws IOException {
         // non-existing file will cause exception during MD5CheckSum
         File nonExistent = new File("nonExistent.gb");

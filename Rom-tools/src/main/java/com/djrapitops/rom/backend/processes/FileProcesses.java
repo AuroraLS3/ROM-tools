@@ -68,7 +68,12 @@ public class FileProcesses {
      */
     public static List<File> extract(File archive, File destinationFolder, Wrapper<String> password) {
         ArchiveExtractor.createExtractorFor(archive, destinationFolder, password).extract();
-        return Arrays.asList(Objects.requireNonNull(destinationFolder.listFiles()));
+        List<File> files = Arrays.asList(Objects.requireNonNull(destinationFolder.listFiles()));
+        for (File file : files) {
+            file.setWritable(true);
+            file.setReadable(true);
+        }
+        return files;
     }
 
     /**
@@ -141,9 +146,9 @@ public class FileProcesses {
 
     private static boolean performSubfolderOperation(List<Game> games, File chosenFolder,
                                                      MethodReference.ThrowingDual<File, File, IOException> method) {
-        Map<Console, List<File>> gameFiles = new EnumMap<>(Console.class);
+        Map<Console, List<File>> gameFiles = new HashMap<>();
         for (Game game : games) {
-            Console console = game.getMetadata().getConsole();
+            Console console = game.getMetadata().getConsole().orElse(new Console("Unknown"));
             List<File> files = gameFiles.getOrDefault(console, new ArrayList<>());
             game.getGameFiles().stream()
                     .map(GameFile::getAbsolutePath)
@@ -155,7 +160,8 @@ public class FileProcesses {
         boolean noErrors = true;
         for (Map.Entry<Console, List<File>> entry : gameFiles.entrySet()) {
             Console console = entry.getKey();
-            Settings setting = Settings.valueOf("FOLDER_" + console.name());
+            // TODO Change this to fix it if needed.
+            Settings setting = Settings.valueOf("FOLDER_" + console.getName().toUpperCase());
 
             String subfolderName = setting.asString();
             if (!setting.isValidValue(subfolderName)) {

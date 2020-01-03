@@ -5,7 +5,6 @@ import com.djrapitops.rom.backend.database.sql.ExecuteStatement;
 import com.djrapitops.rom.backend.database.sql.QueryAllStatement;
 import com.djrapitops.rom.backend.database.sql.QueryStatement;
 import com.djrapitops.rom.backend.database.sql.TableSQLParser;
-import com.djrapitops.rom.game.FileExtension;
 import com.djrapitops.rom.game.GameFile;
 
 import java.sql.PreparedStatement;
@@ -58,7 +57,7 @@ public class FileTable extends GameIDTable {
             public void prepare(PreparedStatement statement) throws SQLException {
                 for (GameFile gameFile : files) {
                     statement.setInt(1, gameId);
-                    statement.setString(2, gameFile.getExtension().name());
+                    statement.setString(2, gameFile.getExtension());
                     statement.setString(3, gameFile.getAbsolutePath());
                     statement.setString(4, gameFile.getHash());
                     statement.addBatch();
@@ -86,7 +85,7 @@ public class FileTable extends GameIDTable {
                     String checksum = set.getString(Col.CHECKSUM);
 
                     List<GameFile> paths = gameFileMap.getOrDefault(gameId, new ArrayList<>());
-                    paths.add(new GameFile(FileExtension.valueOf(extension), path, checksum));
+                    paths.add(new GameFile(extension, path, checksum));
                     gameFileMap.put(gameId, paths);
                 }
                 return gameFileMap;

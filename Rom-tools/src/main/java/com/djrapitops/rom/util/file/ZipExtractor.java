@@ -2,7 +2,7 @@ package com.djrapitops.rom.util.file;
 
 import com.djrapitops.rom.exceptions.ExtractionException;
 import com.djrapitops.rom.util.Wrapper;
-import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
 import java.io.File;
@@ -33,7 +33,7 @@ public class ZipExtractor extends ArchiveExtractor {
         try {
             ZipFile zipFile = new ZipFile(sourceFile);
             if (zipFile.isEncrypted()) {
-                zipFile.setPassword(password.get());
+                zipFile.setPassword(password.get().toCharArray());
             }
             zipFile.extractAll(destinationFolder.getAbsolutePath());
         } catch (ZipException e) {

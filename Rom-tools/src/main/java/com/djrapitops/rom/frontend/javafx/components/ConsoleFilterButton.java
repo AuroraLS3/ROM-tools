@@ -19,7 +19,7 @@ public class ConsoleFilterButton extends JFXButton implements Updatable<State> {
     private boolean active = true;
 
     public ConsoleFilterButton(Console console, State state) {
-        super(console.getFullName());
+        super(console.getName());
         this.console = console;
 
         setOnAction(event -> state.performStateChange(currentState -> {
