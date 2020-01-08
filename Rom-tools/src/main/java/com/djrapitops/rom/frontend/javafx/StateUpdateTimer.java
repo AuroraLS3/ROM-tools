@@ -1,11 +1,11 @@
 package com.djrapitops.rom.frontend.javafx;
 
 import com.djrapitops.rom.frontend.state.State;
-import com.djrapitops.rom.frontend.state.Updatable;
 import javafx.animation.AnimationTimer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Timer that prevents lag caused by large amounts of updates to the state.
@@ -29,9 +29,9 @@ class StateUpdateTimer extends AnimationTimer {
         State state = frontend.getState();
 
         // New List to prevent Concurrent Exception due to GamesView adding more games that are updatable.
-        List<Updatable<State>> elementsToUpdate = new ArrayList<>(state.getUpdateOnChange());
+        List<Consumer<State>> elementsToUpdate = new ArrayList<>(state.getUpdateOnChange());
 
-        elementsToUpdate.forEach(toUpdate -> toUpdate.update(state));
+        elementsToUpdate.forEach(toUpdate -> toUpdate.accept(state));
         lastUpdate = now;
     }
 }

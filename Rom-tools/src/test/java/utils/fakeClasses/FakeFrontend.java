@@ -2,7 +2,8 @@ package utils.fakeClasses;
 
 import com.djrapitops.rom.frontend.Frontend;
 import com.djrapitops.rom.frontend.state.State;
-import com.djrapitops.rom.frontend.state.StateOperation;
+
+import java.util.function.Consumer;
 
 public class FakeFrontend implements Frontend {
 
@@ -11,8 +12,8 @@ public class FakeFrontend implements Frontend {
     public FakeFrontend() {
         state = new State() {
             @Override
-            public void performStateChange(StateOperation operation) {
-                operation.operateOnState(state);
+            public void performStateChange(Consumer<State> operation) {
+                operation.accept(state);
             }
         };
     }

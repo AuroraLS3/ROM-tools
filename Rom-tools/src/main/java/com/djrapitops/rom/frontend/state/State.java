@@ -5,6 +5,7 @@ import com.djrapitops.rom.game.Consoles;
 import com.djrapitops.rom.game.Game;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
  */
 public class State {
 
-    private final List<Updatable<State>> updateOnChange;
+    private final List<Consumer<State>> updateOnChange;
 
     private List<Game> loadedGames;
     private Set<Game> selectedGames;
@@ -36,21 +37,17 @@ public class State {
         updateOnChange = new ArrayList<>();
     }
 
-    public void performStateChange(StateOperation operation) {
+    public void performStateChange(Consumer<State> operation) {
         State state = this;
-        operation.operateOnState(state);
+        operation.accept(state);
     }
 
-    public void addStateListener(Updatable<State> listener) {
+    public void addStateListener(Consumer<State> listener) {
         updateOnChange.add(listener);
     }
 
-    public <T extends Updatable<State>> void clearStateListenerInstances(Class<T> classOfInstance) {
-        for (Updatable<State> updatable : new ArrayList<>(updateOnChange)) {
-            if (updatable.getClass().equals(classOfInstance)) {
-                updateOnChange.remove(updatable);
-            }
-        }
+    public <T extends Consumer<State>> void clearStateListenerInstances(Class<T> classOfInstance) {
+        updateOnChange.removeIf(updatable -> updatable.getClass().equals(classOfInstance));
     }
 
     public List<Game> getLoadedGames() {
@@ -144,7 +141,7 @@ public class State {
         return displayedConsoles.isEmpty() || displayedConsoles.containsAll(Consoles.getAll());
     }
 
-    public List<Updatable<State>> getUpdateOnChange() {
+    public List<Consumer<State>> getUpdateOnChange() {
         return updateOnChange;
     }
 }

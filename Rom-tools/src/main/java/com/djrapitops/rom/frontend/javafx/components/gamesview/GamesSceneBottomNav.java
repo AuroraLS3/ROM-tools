@@ -5,7 +5,6 @@ import com.djrapitops.rom.frontend.javafx.Style;
 import com.djrapitops.rom.frontend.javafx.views.GamesView;
 import com.djrapitops.rom.frontend.javafx.views.Views;
 import com.djrapitops.rom.frontend.state.State;
-import com.djrapitops.rom.frontend.state.StateOperation;
 import com.djrapitops.rom.frontend.state.Updatable;
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.ObservableList;
@@ -17,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.util.HashSet;
+import java.util.function.Consumer;
 
 /**
  * Bottom navigation for GamesView.
@@ -85,7 +85,7 @@ public class GamesSceneBottomNav extends VBox implements Updatable<State> {
         return container;
     }
 
-    private void updateState(StateOperation operation) {
+    private void updateState(Consumer<State> operation) {
         frontend.getState().performStateChange(operation);
     }
 

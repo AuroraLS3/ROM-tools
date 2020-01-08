@@ -4,7 +4,7 @@ import com.djrapitops.rom.Main;
 import com.djrapitops.rom.backend.Backend;
 import com.djrapitops.rom.backend.Log;
 import com.djrapitops.rom.exceptions.ExceptionHandler;
-import com.djrapitops.rom.frontend.state.StateOperation;
+import com.djrapitops.rom.frontend.state.State;
 import com.djrapitops.rom.game.Game;
 
 import java.io.File;
@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 
 /**
@@ -176,7 +177,7 @@ public class MainProcesses {
                 .handle(ExceptionHandler.handle(Level.SEVERE));
     }
 
-    private static void updateState(StateOperation operation) {
+    private static void updateState(Consumer<State> operation) {
         Backend.getInstance().getFrontend().getState().performStateChange(operation);
     }
 

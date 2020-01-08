@@ -22,6 +22,7 @@ import javafx.scene.text.Text;
  *
  * @author Rsl1122
  */
+@Deprecated
 public class GameComponent extends VBox implements Updatable<State> {
 
     private final Game game;
